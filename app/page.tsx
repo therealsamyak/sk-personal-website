@@ -10,32 +10,37 @@ const Page = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex h-14 items-center justify-between px-4 md:px-6">
-          <div className="flex items-center">
+        <div className="relative mx-auto flex h-14 w-full items-center justify-between px-4 md:px-6">
+          {/* Left: Logo */}
+          <div className="flex flex-shrink-0 items-center">
             <Link className="mr-6 flex items-center space-x-2" href="/">
               <span className="font-bold">SK</span>
             </Link>
-            <nav className="hidden items-center space-x-6 font-medium text-sm md:flex">
-              <Link
-                href="#about"
-                className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
-              >
-                About
-              </Link>
-              <Link
-                href="#projects"
-                className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
-              >
-                Projects
-              </Link>
-              <Link
-                href="#contact"
-                className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
-              >
-                Contact
-              </Link>
-            </nav>
           </div>
+
+          {/* Center: Nav (absolute center of the page, hidden on small) */}
+          <nav className="-translate-x-1/2 absolute left-1/2 hidden transform items-center space-x-6 font-medium text-sm sm:flex">
+            <Link
+              href="#about"
+              className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              About
+            </Link>
+            <Link
+              href="#projects"
+              className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              Projects
+            </Link>
+            <Link
+              href="#contact"
+              className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              Contact
+            </Link>
+          </nav>
+
+          {/* Right: Controls */}
           <div className="flex items-center space-x-2">
             <ThemeToggle />
             <Button variant="outline">Resume</Button>
@@ -44,8 +49,8 @@ const Page = () => {
       </header>
 
       <main>
-        <section id="about" className="px-4 pt-24 pb-6 md:px-6 md:pt-48 md:pb-12">
-          <div className="container">
+        <section id="about" className="w-full">
+          <div className="mx-auto w-full max-w-7xl px-4 pt-24 pb-6 sm:px-6 md:pt-48 md:pb-12 lg:px-6 xl:px-4 2xl:px-2">
             <div className="flex flex-col items-center justify-center space-y-8 text-center">
               <div className="space-y-4">
                 <h1 className="font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
@@ -86,8 +91,8 @@ const Page = () => {
           </div>
         </section>
 
-        <section id="projects" className="px-4 py-12 md:px-6 md:py-24">
-          <div className="container">
+        <section id="projects" className="w-full py-12 md:py-24">
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-6 xl:px-4 2xl:px-2">
             <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
               Projects
             </h2>
@@ -138,8 +143,8 @@ const Page = () => {
           </div>
         </section>
 
-        <section className="px-4 py-12 md:px-6 md:py-24">
-          <div className="container">
+        <section className="w-full py-12 md:py-24">
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-6 xl:px-4 2xl:px-2">
             <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
               Tech Stack
             </h2>
@@ -147,8 +152,8 @@ const Page = () => {
           </div>
         </section>
 
-        <section id="contact" className="px-4 py-12 md:px-6 md:py-24">
-          <div className="container">
+        <section id="contact" className="w-full py-12 md:py-24">
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-6 xl:px-4 2xl:px-2">
             <div className="mx-auto max-w-2xl">
               <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
                 Get in Touch
@@ -160,7 +165,7 @@ const Page = () => {
       </main>
 
       <footer className="border-t">
-        <div className="flex items-center justify-center px-4 py-6 md:px-6">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-center px-4 py-6 sm:px-6 lg:px-6 xl:px-4 2xl:px-2">
           <p className="text-gray-500 text-xs dark:text-gray-400">
             © 2025 Samyak Kakatur All rights reserved.
           </p>
