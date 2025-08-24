@@ -7,14 +7,14 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { submitContactForm } from "../actions"
 
-export default function ContactForm() {
+const ContactForm = () => {
   const [pending, setPending] = useState(false)
   const [message, setMessage] = useState("")
   const nameId = useId()
   const emailId = useId()
   const messageId = useId()
 
-  async function handleSubmit(formData: FormData) {
+  const handleSubmit = async (formData: FormData) => {
     setPending(true)
     try {
       const response = await submitContactForm(formData)
@@ -55,3 +55,5 @@ export default function ContactForm() {
     </Card>
   )
 }
+
+export default ContactForm

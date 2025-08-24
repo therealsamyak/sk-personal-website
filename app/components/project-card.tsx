@@ -11,7 +11,7 @@ interface ProjectCardProps {
   tags: string[]
 }
 
-export default function ProjectCard({ title, description, image, link, tags }: ProjectCardProps) {
+const ProjectCard = ({ title, description, image, link, tags }: ProjectCardProps) => {
   return (
     <Card className="overflow-hidden">
       <div className="relative aspect-video">
@@ -49,3 +49,5 @@ export default function ProjectCard({ title, description, image, link, tags }: P
     </Card>
   )
 }
+
+export default ProjectCard
