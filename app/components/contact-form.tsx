@@ -1,22 +1,25 @@
 "use client"
 
+import { useId, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react"
 import { submitContactForm } from "../actions"
 
 export default function ContactForm() {
   const [pending, setPending] = useState(false)
   const [message, setMessage] = useState("")
+  const nameId = useId()
+  const emailId = useId()
+  const messageId = useId()
 
   async function handleSubmit(formData: FormData) {
     setPending(true)
     try {
       const response = await submitContactForm(formData)
       setMessage(response.message)
-    } catch (error) {
+    } catch (_error) {
       setMessage("Something went wrong. Please try again.")
     } finally {
       setPending(false)
@@ -27,22 +30,22 @@ export default function ContactForm() {
     <Card className="p-6">
       <form action={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="mb-2 block font-medium text-sm">
+          <label htmlFor={nameId} className="mb-2 block font-medium text-sm">
             Name
           </label>
-          <Input id="name" name="name" required />
+          <Input id={nameId} name="name" required />
         </div>
         <div>
-          <label htmlFor="email" className="mb-2 block font-medium text-sm">
+          <label htmlFor={emailId} className="mb-2 block font-medium text-sm">
             Email
           </label>
-          <Input id="email" name="email" type="email" required />
+          <Input id={emailId} name="email" type="email" required />
         </div>
         <div>
-          <label htmlFor="message" className="mb-2 block font-medium text-sm">
+          <label htmlFor={messageId} className="mb-2 block font-medium text-sm">
             Message
           </label>
-          <Textarea id="message" name="message" required />
+          <Textarea id={messageId} name="message" required />
         </div>
         <Button type="submit" className="w-full" disabled={pending}>
           {pending ? "Sending..." : "Send Message"}
