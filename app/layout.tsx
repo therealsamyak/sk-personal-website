@@ -10,6 +10,9 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "SK - Software Engineer",
   description: "Portfolio showcasing projects and skills",
+  icons: {
+    icon: "/pfp.jpeg",
+  },
 }
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

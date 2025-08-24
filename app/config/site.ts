@@ -18,7 +18,7 @@ export const personalInfo: PersonalInfo = {
   title: "Full Stack Developer",
   description:
     "Building digital experiences with modern technologies. Focused on creating elegant solutions to complex problems.",
-  profileImage: "/placeholder-user.jpg", // Optional: remove or set to undefined to hide profile image
+  profileImage: "/pfp.jpeg", // Optional: remove or set to undefined to hide profile image
   socialLinks: [
     {
       platform: "GitHub",
