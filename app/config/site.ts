@@ -17,7 +17,7 @@ export const personalInfo: PersonalInfo = {
   name: "Samyak Kakatur",
   title: "Full Stack Developer",
   description:
-    "Building digital experiences with modern technologies. Focused on creating elegant solutions to complex problems.",
+    "Passionate about Coding, Marketing, Business, and the economic state of the world currently.\n I have extensive experience in Python, C++, and Typescript, and enough vibe-coding experience to pick up any skill necessary to get work done.",
   profileImage: "/pfp.jpeg", // Optional: remove or set to undefined to hide profile image
   socialLinks: [
     {
