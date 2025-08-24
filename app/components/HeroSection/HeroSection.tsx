@@ -7,7 +7,7 @@ import { personalInfo } from "@/config/site"
 
 export const HeroSection = () => (
   <section id="about" className="w-full">
-    <div className="mx-auto w-full max-w-7xl px-4 pt-24 pb-6 sm:px-6 md:pt-48 md:pb-12 lg:px-6 xl:px-4 2xl:px-2">
+    <div className="mx-auto w-full max-w-7xl px-4 pt-24 pb-6 sm:px-6 md:pt-32 md:pb-12 lg:px-6 xl:px-4 2xl:px-2">
       <div className="flex flex-col items-center justify-center space-y-8 text-center">
         {personalInfo.profileImage && (
           <div className="relative h-32 w-32 overflow-hidden rounded-full md:h-48 md:w-48">
