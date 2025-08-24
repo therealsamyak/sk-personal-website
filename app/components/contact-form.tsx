@@ -75,10 +75,10 @@ const ContactForm = () => {
           <label htmlFor={nameId} className="mb-2 block font-medium text-sm">
             Name
           </label>
-          <Input 
-            id={nameId} 
-            name="name" 
-            required 
+          <Input
+            id={nameId}
+            name="name"
+            required
             className={fieldErrors.name ? "border-red-500 focus:ring-red-500" : ""}
           />
           {fieldErrors.name && (
@@ -95,11 +95,11 @@ const ContactForm = () => {
           <label htmlFor={emailId} className="mb-2 block font-medium text-sm">
             Email
           </label>
-          <Input 
-            id={emailId} 
-            name="email" 
-            type="email" 
-            required 
+          <Input
+            id={emailId}
+            name="email"
+            type="email"
+            required
             className={fieldErrors.email ? "border-red-500 focus:ring-red-500" : ""}
           />
           {fieldErrors.email && (
@@ -116,10 +116,10 @@ const ContactForm = () => {
           <label htmlFor={messageId} className="mb-2 block font-medium text-sm">
             Message
           </label>
-          <Textarea 
-            id={messageId} 
-            name="message" 
-            required 
+          <Textarea
+            id={messageId}
+            name="message"
+            required
             className={fieldErrors.message ? "border-red-500 focus:ring-red-500" : ""}
           />
           {fieldErrors.message && (
@@ -136,9 +136,13 @@ const ContactForm = () => {
           {pending ? "Sending..." : "Send Message"}
         </Button>
         {message && !fieldErrors.form && (
-          <p className={`mt-4 text-center text-sm ${
-            message.includes("Thanks") || message.includes("received") ? "text-green-600" : "text-red-600"
-          }`}>
+          <p
+            className={`mt-4 text-center text-sm ${
+              message.includes("Thanks") || message.includes("received")
+                ? "text-green-600"
+                : "text-red-600"
+            }`}
+          >
             {message}
           </p>
         )}
