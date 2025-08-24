@@ -10,6 +10,7 @@ export interface PersonalInfo {
   description: string
   email?: string
   profileImage?: string
+  resumeUrl?: string
   socialLinks: SocialLink[]
 }
 
@@ -19,6 +20,7 @@ export const personalInfo: PersonalInfo = {
   description:
     "Passionate about Coding, Marketing, Business, and the economic state of the world currently.\n I have extensive experience in Python, C++, and Typescript, and enough vibe-coding experience to pick up any skill necessary to get work done.",
   profileImage: "/pfp.jpeg", // Optional: remove or set to undefined to hide profile image
+  resumeUrl: "https://example.com/your-resume.pdf", // Optional: set your resume URL here
   socialLinks: [
     {
       platform: "GitHub",
