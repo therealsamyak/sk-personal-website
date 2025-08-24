@@ -16,13 +16,13 @@ export default function Page() {
               <span className="font-bold">John.dev</span>
             </Link>
             <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-              <Link href="#about" className="transition-colors hover:text-foreground/80">
+              <Link href="#about" className="transition-colors hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded-md">
                 About
               </Link>
-              <Link href="#projects" className="transition-colors hover:text-foreground/80">
+              <Link href="#projects" className="transition-colors hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded-md">
                 Projects
               </Link>
-              <Link href="#contact" className="transition-colors hover:text-foreground/80">
+              <Link href="#contact" className="transition-colors hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded-md">
                 Contact
               </Link>
             </nav>
@@ -151,16 +151,8 @@ export default function Page() {
       </main>
 
       <footer className="border-t">
-        <div className="flex items-center justify-between py-6 px-4 md:px-6">
+        <div className="flex items-center justify-center py-6 px-4 md:px-6">
           <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 John.dev. All rights reserved.</p>
-          <nav className="flex gap-4 sm:gap-6">
-            <Link className="text-xs hover:underline underline-offset-4" href="#">
-              Terms of Service
-            </Link>
-            <Link className="text-xs hover:underline underline-offset-4" href="#">
-              Privacy
-            </Link>
-          </nav>
         </div>
       </footer>
     </div>
