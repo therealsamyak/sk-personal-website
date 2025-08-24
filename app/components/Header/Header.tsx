@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { Button } from "@/components/ui/button"
-import { navigation } from "@/config/site"
+import { navigation, personalInfo } from "@/config/site"
 
 export const Header = () => (
   <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,7 +31,15 @@ export const Header = () => (
       {/* Right: Controls */}
       <div className="flex items-center space-x-2">
         <ThemeToggle />
-        <Button variant="outline">Resume</Button>
+        {personalInfo.resumeUrl && (
+          <Button
+            variant="outline"
+            onClick={() => window.open(personalInfo.resumeUrl, "_blank")}
+            className="cursor-pointer"
+          >
+            Resume
+          </Button>
+        )}
       </div>
     </div>
   </header>
