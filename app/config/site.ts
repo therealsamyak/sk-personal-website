@@ -8,7 +8,7 @@ export interface PersonalInfo {
   name: string
   title: string
   description: string
-  email: string
+  email?: string
   profileImage?: string
   socialLinks: SocialLink[]
 }
@@ -18,7 +18,6 @@ export const personalInfo: PersonalInfo = {
   title: "Full Stack Developer",
   description:
     "Building digital experiences with modern technologies. Focused on creating elegant solutions to complex problems.",
-  email: "hello@example.com",
   profileImage: "/placeholder-user.jpg", // Optional: remove or set to undefined to hide profile image
   socialLinks: [
     {
