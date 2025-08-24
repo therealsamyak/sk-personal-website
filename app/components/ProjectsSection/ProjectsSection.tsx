@@ -7,7 +7,7 @@ export const ProjectsSection = () => (
       <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
         Projects
       </h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-wrap justify-center gap-6">
         {projects.map((project, index) => (
           <ProjectCard key={`${project.title}-${index}`} {...project} />
         ))}

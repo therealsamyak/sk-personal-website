@@ -1,7 +1,7 @@
-import { siGithub, siX } from "simple-icons"
 import { Linkedin } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { siGithub, siX } from "simple-icons"
 import { Button } from "@/components/ui/button"
 import { personalInfo } from "@/config/site"
 
@@ -34,12 +34,14 @@ export const HeroSection = () => (
               <Button variant="outline" size="icon">
                 {social.icon === "siGithub" && (
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <title>GitHub</title>
                     <path d={siGithub.path} />
                   </svg>
                 )}
                 {social.icon === "siLinkedin" && <Linkedin className="h-4 w-4" />}
                 {social.icon === "siX" && (
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <title>X (Twitter)</title>
                     <path d={siX.path} />
                   </svg>
                 )}
