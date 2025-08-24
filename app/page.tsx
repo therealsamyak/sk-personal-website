@@ -6,7 +6,7 @@ import ContactForm from "./components/contact-form"
 import ProjectCard from "./components/project-card"
 import TechStack from "./components/tech-stack"
 
-export default function Page() {
+const Page = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -169,3 +169,5 @@ export default function Page() {
     </div>
   )
 }
+
+export default Page
