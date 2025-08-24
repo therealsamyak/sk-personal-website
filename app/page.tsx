@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button"
 import { Github, Linkedin, Mail, Twitter } from "lucide-react"
 import Link from "next/link"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { Button } from "@/components/ui/button"
 import ContactForm from "./components/contact-form"
 import ProjectCard from "./components/project-card"
 import TechStack from "./components/tech-stack"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function Page() {
   return (
@@ -162,7 +162,7 @@ export default function Page() {
       <footer className="border-t">
         <div className="flex items-center justify-center px-4 py-6 md:px-6">
           <p className="text-gray-500 text-xs dark:text-gray-400">
-            © 2024 John.dev. All rights reserved.
+            © 2025 Samyak Kakatur All rights reserved.
           </p>
         </div>
       </footer>
