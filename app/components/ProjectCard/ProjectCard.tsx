@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { siGithub } from "simple-icons"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import type { Project } from "@/config/projects"
 import { getColorClasses, getTechColor } from "@/config/tech-stack"
 
@@ -18,11 +17,11 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
         className="object-cover transition-transform hover:scale-105"
       />
     </div>
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-1 flex-col">
       <CardContent className="flex-1 p-4 pb-1">
-        <h3 className="mb-2 font-semibold text-xl text-center">{title}</h3>
+        <h3 className="mb-2 text-center font-semibold text-xl">{title}</h3>
         <p className="mb-4 text-muted-foreground text-sm">{description}</p>
-        <div className="flex flex-wrap justify-center gap-2 max-h-20 overflow-hidden">
+        <div className="flex max-h-20 flex-wrap justify-center gap-2 overflow-hidden">
           {tags.slice(0, 8).map((tag) => (
             <span
               key={tag}
@@ -33,19 +32,19 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
           ))}
         </div>
       </CardContent>
-      <div className="mx-4 border-t border-border"></div>
+      <div className="mx-4 border-border border-t" />
       <CardFooter className="flex justify-center p-4">
-      <Link
-        href={link}
-        target="_blank"
-        className="inline-flex items-center gap-2 text-sm hover:underline"
-      >
-        <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-          <title>GitHub</title>
-          <path d={siGithub.path} />
-        </svg>
-        View on GitHub
-      </Link>
+        <Link
+          href={link}
+          target="_blank"
+          className="inline-flex items-center gap-2 text-sm hover:underline"
+        >
+          <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <title>GitHub</title>
+            <path d={siGithub.path} />
+          </svg>
+          View on GitHub
+        </Link>
       </CardFooter>
     </div>
   </Card>
