@@ -19,7 +19,7 @@ const technologies = [
   },
 ]
 
-export default function TechStack() {
+const TechStack = () => {
   return (
     <div className="grid gap-6 md:grid-cols-2">
       {technologies.map((tech) => (
@@ -40,3 +40,5 @@ export default function TechStack() {
     </div>
   )
 }
+
+export default TechStack

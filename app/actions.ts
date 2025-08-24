@@ -1,17 +1,44 @@
 "use server"
 
-export async function submitContactForm(formData: FormData) {
-  // Simulate a delay
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+export const submitContactForm = async (formData: FormData) => {
+  const name = formData.get("name") as string
+  const email = formData.get("email") as string
+  const message = formData.get("message") as string
 
-  const name = formData.get("name")
-  const email = formData.get("email")
-  const message = formData.get("message")
+  if (!name || !email || !message) {
+    return {
+      message: "Please fill in all fields.",
+      success: false,
+    }
+  }
 
-  // Here you would typically send an email or save to a database
-  console.log("Form submission:", { name, email, message })
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, message }),
+    })
 
-  return {
-    message: "Thanks for your message! I'll get back to you soon.",
+    const result = await response.json()
+
+    if (response.ok) {
+      return {
+        message: result.message,
+        success: result.success,
+      }
+    }
+
+    return {
+      message: result.message || "Something went wrong. Please try again.",
+      success: false,
+    }
+  } catch (error) {
+    console.error("Contact form error:", error)
+    return {
+      message: "Something went wrong. Please try again or contact me directly.",
+      success: false,
+    }
   }
 }
