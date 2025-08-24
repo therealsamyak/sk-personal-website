@@ -69,7 +69,7 @@ export const ContactForm = () => {
   }
 
   return (
-    <Card className="border border-black bg-gray-300 p-6 dark:border-border dark:bg-card">
+    <Card className="p-6">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor={nameId} className="mb-2 block font-medium text-sm">
