@@ -1,7 +1,7 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Github } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 
 interface ProjectCardProps {
   title: string

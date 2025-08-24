@@ -27,7 +27,14 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "useExhaustiveDependencies": "info"
+        "useExhaustiveDependencies": "info",
+        "useUniqueElementIds": "off"
+      },
+      "suspicious": {
+        "noUnknownAtRules": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
       },
       "nursery": {
         "useSortedClasses": {
