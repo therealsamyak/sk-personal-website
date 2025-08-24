@@ -23,18 +23,18 @@ export const personalInfo: PersonalInfo = {
   socialLinks: [
     {
       platform: "GitHub",
-      url: "https://github.com",
-      icon: "Github",
+      url: "https://github.com/therealsamyak",
+      icon: "siGithub",
     },
     {
       platform: "LinkedIn",
-      url: "https://linkedin.com",
-      icon: "Linkedin",
+      url: "https://linkedin.com/in/samyakkakatur",
+      icon: "siLinkedin",
     },
     {
       platform: "Twitter",
-      url: "https://twitter.com",
-      icon: "Twitter",
+      url: "https://x.com/samheart564",
+      icon: "siX",
     },
   ],
 }

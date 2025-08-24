@@ -1,4 +1,4 @@
-import { Github } from "lucide-react"
+import { siGithub } from "simple-icons"
 import Image from "next/image"
 import Link from "next/link"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -36,7 +36,9 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
         target="_blank"
         className="inline-flex items-center gap-2 text-sm hover:underline"
       >
-        <Github className="h-4 w-4" />
+        <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d={siGithub.path} />
+        </svg>
         View on GitHub
       </Link>
     </CardFooter>
