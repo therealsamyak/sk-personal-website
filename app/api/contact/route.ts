@@ -73,7 +73,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactRe
           message: "Content-Type must be application/json",
           success: false,
         },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactRe
           message: "Invalid JSON format",
           success: false,
         },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -98,12 +98,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactRe
           success: false,
           errors: validation.errors,
         },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
     const { name, email, message } = body as ContactRequestBody
-    
+
     const sanitizedData = {
       name: sanitizeInput(name),
       email: sanitizeInput(email),
@@ -118,28 +118,29 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactRe
           message: "Thanks for your message! I'll get back to you soon.",
           success: true,
         },
-        { 
+        {
           status: 200,
           headers: {
             "Cache-Control": "no-store",
             "Content-Security-Policy": "default-src 'none'",
-          }
-        }
+          },
+        },
       )
     }
 
     console.error("Email sending failed:", emailResult.error)
     return NextResponse.json(
       {
-        message: "Your message was received but there was an issue with email delivery. I'll still get back to you soon.",
+        message:
+          "Your message was received but there was an issue with email delivery. I'll still get back to you soon.",
         success: true,
       },
-      { 
+      {
         status: 200,
         headers: {
           "Cache-Control": "no-store",
-        }
-      }
+        },
+      },
     )
   } catch (error) {
     console.error("Contact API error:", error)
@@ -148,12 +149,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactRe
         message: "An unexpected error occurred. Please try again later.",
         success: false,
       },
-      { 
+      {
         status: 500,
         headers: {
           "Cache-Control": "no-store",
-        }
-      }
+        },
+      },
     )
   }
 }
