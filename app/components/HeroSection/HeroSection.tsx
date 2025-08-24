@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, Twitter } from "lucide-react"
+import { siGithub, siX } from "simple-icons"
+import { Linkedin } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -21,7 +22,7 @@ export const HeroSection = () => (
         )}
         <div className="space-y-4">
           <h1 className="font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-            {personalInfo.title}
+            {personalInfo.name}
           </h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
             {personalInfo.description}
@@ -31,19 +32,21 @@ export const HeroSection = () => (
           {personalInfo.socialLinks.map((social) => (
             <Link key={social.platform} href={social.url} target="_blank">
               <Button variant="outline" size="icon">
-                {social.icon === "Github" && <Github className="h-4 w-4" />}
-                {social.icon === "Linkedin" && <Linkedin className="h-4 w-4" />}
-                {social.icon === "Twitter" && <Twitter className="h-4 w-4" />}
+                {social.icon === "siGithub" && (
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d={siGithub.path} />
+                  </svg>
+                )}
+                {social.icon === "siLinkedin" && <Linkedin className="h-4 w-4" />}
+                {social.icon === "siX" && (
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d={siX.path} />
+                  </svg>
+                )}
                 <span className="sr-only">{social.platform}</span>
               </Button>
             </Link>
           ))}
-          <Link href={`mailto:${personalInfo.email}`}>
-            <Button variant="outline" size="icon">
-              <Mail className="h-4 w-4" />
-              <span className="sr-only">Email</span>
-            </Button>
-          </Link>
         </div>
       </div>
     </div>
