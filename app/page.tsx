@@ -13,40 +13,47 @@ export default function Page() {
         <div className="flex h-14 items-center justify-between px-4 md:px-6">
           <div className="flex items-center">
             <Link className="mr-6 flex items-center space-x-2" href="/">
-              <span className="font-bold">John.dev</span>
+              <span className="font-bold">SK</span>
             </Link>
-            <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-              <Link href="#about" className="transition-colors hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded-md">
+            <nav className="hidden items-center space-x-6 font-medium text-sm md:flex">
+              <Link
+                href="#about"
+                className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
                 About
               </Link>
-              <Link href="#projects" className="transition-colors hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded-md">
+              <Link
+                href="#projects"
+                className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
                 Projects
               </Link>
-              <Link href="#contact" className="transition-colors hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded-md">
+              <Link
+                href="#contact"
+                className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
                 Contact
               </Link>
             </nav>
           </div>
           <div className="flex items-center space-x-2">
             <ThemeToggle />
-            <Button variant="outline">
-              Resume
-            </Button>
+            <Button variant="outline">Resume</Button>
           </div>
         </div>
       </header>
 
       <main>
-        <section id="about" className="pt-24 pb-6 md:pt-48 md:pb-12 px-4 md:px-6">
+        <section id="about" className="px-4 pt-24 pb-6 md:px-6 md:pt-48 md:pb-12">
           <div className="container">
             <div className="flex flex-col items-center justify-center space-y-8 text-center">
               <div className="space-y-4">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                <h1 className="font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
                   Full Stack Developer
                 </h1>
                 <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Building digital experiences with modern technologies. Focused on creating elegant solutions to
-                  complex problems.
+                  Building digital experiences with modern technologies. Focused on creating elegant
+                  solutions to complex problems.
                 </p>
               </div>
               <div className="flex items-center justify-center gap-4">
@@ -79,9 +86,11 @@ export default function Page() {
           </div>
         </section>
 
-        <section id="projects" className="py-12 md:py-24 px-4 md:px-6">
+        <section id="projects" className="px-4 py-12 md:px-6 md:py-24">
           <div className="container">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center">Projects</h2>
+            <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
+              Projects
+            </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               <ProjectCard
                 title="E-commerce Platform"
@@ -129,19 +138,19 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="py-12 md:py-24 px-4 md:px-6">
+        <section className="px-4 py-12 md:px-6 md:py-24">
           <div className="container">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center">
+            <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
               Tech Stack
             </h2>
             <TechStack />
           </div>
         </section>
 
-        <section id="contact" className="py-12 md:py-24 px-4 md:px-6">
+        <section id="contact" className="px-4 py-12 md:px-6 md:py-24">
           <div className="container">
             <div className="mx-auto max-w-2xl">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center">
+              <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
                 Get in Touch
               </h2>
               <ContactForm />
@@ -151,8 +160,10 @@ export default function Page() {
       </main>
 
       <footer className="border-t">
-        <div className="flex items-center justify-center py-6 px-4 md:px-6">
-          <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 John.dev. All rights reserved.</p>
+        <div className="flex items-center justify-center px-4 py-6 md:px-6">
+          <p className="text-gray-500 text-xs dark:text-gray-400">
+            © 2024 John.dev. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
