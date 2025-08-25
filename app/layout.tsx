@@ -14,6 +14,24 @@ export const metadata: Metadata = {
   icons: {
     icon: "/pfp.jpeg",
   },
+  openGraph: {
+    title: "SK - Software Engineer",
+    description: "Portfolio showcasing projects and skills",
+    images: [
+      {
+        url: "/pfp.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "SK - Software Engineer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SK - Software Engineer",
+    description: "Portfolio showcasing projects and skills",
+    images: ["/pfp.jpeg"],
+  },
 }
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
