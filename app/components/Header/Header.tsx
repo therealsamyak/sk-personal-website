@@ -1,46 +1,163 @@
 "use client"
 
-import Link from "next/link"
+import { Linkedin, Menu, X } from "lucide-react"
+import Image from "next/image"
+import { usePathname } from "next/navigation"
+import { Link } from "next-view-transitions"
+import { useState } from "react"
+import { siGithub, siX } from "simple-icons"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { Button } from "@/components/ui/button"
 import { navigation, personalInfo } from "@/config/site"
 
-export const Header = () => (
-  <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    <div className="relative mx-auto flex h-14 w-full items-center justify-between px-4 md:px-6">
-      {/* Left: Logo */}
-      <div className="flex flex-shrink-0 items-center">
-        <Link className="mr-6 flex items-center space-x-2" href="/">
-          <span className="font-bold">SK</span>
-        </Link>
-      </div>
+export const Header = () => {
+  const pathname = usePathname()
+  const isSubPage = pathname !== "/"
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-      {/* Center: Nav (absolute center of the page, hidden on small) */}
-      <nav className="-translate-x-1/2 absolute left-1/2 hidden transform items-center space-x-6 font-medium text-sm sm:flex">
-        {navigation.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            className="rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            {item.name}
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="relative mx-auto flex h-14 w-full max-w-full items-center justify-between px-4 md:px-6">
+        {/* Left: Logo/Profile */}
+        <div className="flex flex-shrink-0 items-center">
+          <Link className="mr-2 sm:mr-3 flex items-center space-x-1.5 sm:space-x-2 min-w-0" href="/">
+            {/* Desktop: Show PFP on sub-pages, Mobile: Always show PFP on sub-pages */}
+            {isSubPage && personalInfo.profileImage && (
+              <div 
+                className="relative h-8 w-8 overflow-hidden rounded-full flex-shrink-0"
+                style={{ viewTransitionName: "profile-image" }}
+              >
+                <Image
+                  src={personalInfo.profileImage}
+                  alt={personalInfo.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+            {isSubPage && (
+              <span 
+                className="font-bold whitespace-nowrap text-sm sm:text-base"
+                style={{ viewTransitionName: "profile-name" }}
+              >
+                {personalInfo.name}
+              </span>
+            )}
           </Link>
-        ))}
-      </nav>
 
-      {/* Right: Controls */}
-      <div className="flex items-center space-x-2">
-        <ThemeToggle />
-        {personalInfo.resumeUrl && (
+          {/* Desktop: Social links on sub-pages, Mobile: Hidden */}
+          {isSubPage && (
+            <div 
+              className="ml-2 hidden items-center gap-2 lg:flex flex-shrink-0"
+              style={{ viewTransitionName: "social-links" }}
+            >
+              {personalInfo.socialLinks.map((social) => (
+                <Link
+                  key={social.platform}
+                  href={social.url}
+                  target="_blank"
+                  className="opacity-70 transition-opacity hover:opacity-100"
+                >
+                  <Button variant="ghost" size="icon" className="h-7 w-7">
+                    {social.icon === "siGithub" && (
+                      <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                        <title>GitHub</title>
+                        <path d={siGithub.path} />
+                      </svg>
+                    )}
+                    {social.icon === "siLinkedin" && <Linkedin className="h-3 w-3" />}
+                    {social.icon === "siX" && (
+                      <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                        <title>X (Twitter)</title>
+                        <path d={siX.path} />
+                      </svg>
+                    )}
+                    <span className="sr-only">{social.platform}</span>
+                  </Button>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Center: Nav (absolute center of the page, hidden on small) */}
+        <nav className="-translate-x-1/2 absolute left-1/2 hidden transform items-center space-x-6 font-medium text-sm sm:flex">
+          {navigation.map((item) => {
+            const isActive = pathname === item.href
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground ${
+                  isActive ? "bg-accent text-accent-foreground" : ""
+                }`}
+              >
+                {item.name}
+              </Link>
+            )
+          })}
+        </nav>
+
+        {/* Right: Controls */}
+        <div className="flex items-center space-x-2">
+          {/* Mobile Menu Button - Only show on small screens */}
           <Button
-            variant="outline"
-            onClick={() => window.open(personalInfo.resumeUrl, "_blank")}
-            className="cursor-pointer"
+            variant="ghost"
+            size="icon"
+            className="sm:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            Resume
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <span className="sr-only">Toggle menu</span>
           </Button>
-        )}
+          
+          <ThemeToggle />
+          {personalInfo.resumeUrl && (
+            <Button
+              variant="outline"
+              onClick={() => window.open(personalInfo.resumeUrl, "_blank")}
+              className="cursor-pointer hidden sm:inline-flex"
+            >
+              Resume
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
-  </header>
-)
+      
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="sm:hidden border-t bg-background">
+          <div className="px-4 py-3 space-y-3">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                    isActive ? "bg-accent text-accent-foreground" : ""
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              )
+            })}
+            {personalInfo.resumeUrl && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  window.open(personalInfo.resumeUrl, "_blank")
+                  setMobileMenuOpen(false)
+                }}
+                className="w-full cursor-pointer"
+              >
+                Resume
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
+    </header>
+  )
+}
