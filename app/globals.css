@@ -207,7 +207,54 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scrollbar-gutter: stable;
+  }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+}
+
+/* View Transitions - Prevent Layout Shift */
+@layer utilities {
+  /* Ensure consistent sizing for transitioning elements */
+  [style*="view-transition-name: profile-image"] {
+    flex-shrink: 0;
+    contain: layout size;
+  }
+  
+  [style*="view-transition-name: profile-name"] {
+    contain: layout;
+  }
+  
+  [style*="view-transition-name: social-links"] {
+    contain: layout;
+  }
+
+  /* Smooth view transitions */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Custom transitions for profile elements */
+  ::view-transition-old(profile-image),
+  ::view-transition-new(profile-image) {
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  ::view-transition-old(profile-name),
+  ::view-transition-new(profile-name) {
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  ::view-transition-old(social-links),
+  ::view-transition-new(social-links) {
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }

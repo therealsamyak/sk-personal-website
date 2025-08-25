@@ -41,7 +41,7 @@ export const personalInfo: PersonalInfo = {
 }
 
 export const navigation = [
-  { name: "About", href: "#about" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
+  { name: "About", href: "/" },
+  { name: "Projects", href: "/projects" },
+  { name: "Contact", href: "/contact" },
 ]
