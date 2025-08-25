@@ -18,7 +18,7 @@ A modern, responsive personal portfolio website built with Next.js 15, TypeScrip
 All components follow a strict folder-based structure:
 ```
 app/components/ComponentName/
-├── component.tsx    # Main component implementation
+├── ComponentName.tsx    # Main component implementation
 └── index.tsx        # Re-export using `export * from "./component"`
 ```
 
@@ -26,38 +26,22 @@ app/components/ComponentName/
 - **Export Pattern**: Named exports only (`export const ComponentName = () => { ... }`)
 - **Import Pattern**: Named imports (`import { ComponentName } from "@/components/ComponentName"`)
 - **Function Style**: Arrow functions exclusively
-- **Folder Structure**: Each component gets its own folder with `component.tsx` and `index.tsx`
+- **Folder Structure**: Each component gets its own folder with `ComponentName.tsx` and `index.tsx`
 
 ### Current Component Structure
 ```
 app/
 ├── components/
 │   ├── Header/
-│   │   ├── component.tsx
+│   │   ├── Header.tsx
 │   │   └── index.tsx
 │   ├── HeroSection/
-│   │   ├── component.tsx
+│   │   ├── HeroSection.tsx
 │   │   └── index.tsx
-│   ├── ProjectsSection/
-│   │   ├── component.tsx
-│   │   └── index.tsx
-│   ├── ProjectCard/
-│   │   ├── component.tsx
-│   │   └── index.tsx
-│   ├── TechStackSection/
-│   │   ├── component.tsx
-│   │   └── index.tsx
-│   ├── TechStack/
-│   │   ├── component.tsx
-│   │   └── index.tsx
-│   ├── ContactSection/
-│   │   ├── component.tsx
-│   │   └── index.tsx
-│   ├── ContactForm/
-│   │   ├── component.tsx
-│   │   └── index.tsx
+│   ├── etc.../
+│   │
 │   ├── Footer/
-│   │   ├── component.tsx
+│   │   ├── Footer.tsx
 │   │   └── index.tsx
 │   ├── theme-provider.tsx
 │   ├── theme-toggle.tsx
@@ -127,8 +111,8 @@ Technology skills organized by category:
 ## File Organization Rules
 
 ### Component Files
-- `component.tsx`: Contains the actual component implementation
-- `index.tsx`: Contains `export * from "./component"` only
+- `ComponentName.tsx`: Contains the actual component implementation
+- `index.tsx`: Contains `export * from "./ComponentName"` only
 - No default exports anywhere
 
 ### Config Files
@@ -146,8 +130,8 @@ Technology skills organized by category:
 
 ### Adding New Components
 1. Create folder: `app/components/NewComponent/`
-2. Create `component.tsx` with named export
-3. Create `index.tsx` with `export * from "./component"`
+2. Create `NewComponent.tsx` with named export
+3. Create `index.tsx` with `export * from "./NewComponent"`
 4. Import using named import: `import { NewComponent }`
 
 ### Modifying Content
