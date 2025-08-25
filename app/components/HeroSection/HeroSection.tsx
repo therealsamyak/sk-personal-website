@@ -10,8 +10,8 @@ export const HeroSection = () => (
     <div className="mx-auto w-full max-w-7xl px-4 pt-24 pb-6 sm:px-6 md:pt-32 md:pb-12 lg:px-6 xl:px-4 2xl:px-2">
       <div className="flex flex-col items-center justify-center space-y-8 text-center">
         {personalInfo.profileImage && (
-          <div 
-            className="relative h-32 w-32 overflow-hidden rounded-full md:h-48 md:w-48 flex-shrink-0"
+          <div
+            className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-full md:h-48 md:w-48"
             style={{ viewTransitionName: "profile-image" }}
           >
             <Image
@@ -24,8 +24,8 @@ export const HeroSection = () => (
           </div>
         )}
         <div className="space-y-4">
-          <h1 
-            className="font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-center"
+          <h1
+            className="text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none"
             style={{ viewTransitionName: "profile-name" }}
           >
             {personalInfo.name}
@@ -34,8 +34,8 @@ export const HeroSection = () => (
             {personalInfo.description}
           </p>
         </div>
-        <div 
-          className="flex items-center justify-center gap-4 flex-shrink-0"
+        <div
+          className="flex flex-shrink-0 items-center justify-center gap-4"
           style={{ viewTransitionName: "social-links" }}
         >
           {personalInfo.socialLinks.map((social) => (
