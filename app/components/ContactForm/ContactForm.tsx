@@ -294,13 +294,15 @@ export const ContactForm = () => {
             </div>
           )}
         </div>
-        <div className="flex justify-center">
-          {isClient && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <div id={turnstileId} />}
-          {isClient && !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
-            <div className="text-red-600 text-sm">Turnstile site key not configured</div>
-          )}
+        <div>
+          <div className="flex justify-center">
+            {isClient && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && <div id={turnstileId} />}
+            {isClient && !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+              <div className="text-red-600 text-sm">Turnstile site key not configured</div>
+            )}
+          </div>
           {fieldErrors.turnstile && (
-            <div className="mt-1 space-y-1">
+            <div className="mt-2 space-y-1 text-center">
               {fieldErrors.turnstile.map((error) => (
                 <p key={error} className="text-red-600 text-xs">
                   {error}
