@@ -1,72 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { sendContactEmails } from "@/lib/email"
-
-interface ContactRequestBody {
-  name: string
-  email: string
-  message: string
-}
+import { sanitizeContactData } from "./sanitize"
+import { validateTurnstileToken } from "./turnstile"
+import { validateContactForm } from "./validation"
 
 interface ContactResponse {
   message: string
   success: boolean
   errors?: Record<string, string[]>
+  turnstileToken?: string
 }
 
-interface ValidationResult {
-  isValid: boolean
-  errors: Record<string, string[]>
-}
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-function validateContactForm(body: unknown): ValidationResult {
-  const errors: Record<string, string[]> = {}
-
-  if (!body || typeof body !== "object") {
-    errors.form = ["Invalid request format"]
-    return { isValid: false, errors }
-  }
-
-  const { name, email, message } = body as Partial<ContactRequestBody>
-
-  if (!name || typeof name !== "string" || name.trim().length === 0) {
-    errors.name = ["Name is required"]
-  } else if (name.trim().length < 2) {
-    errors.name = ["Name must be at least 2 characters long"]
-  } else if (name.trim().length > 100) {
-    errors.name = ["Name must be less than 100 characters"]
-  }
-
-  if (!email || typeof email !== "string" || email.trim().length === 0) {
-    errors.email = ["Email is required"]
-  } else if (!EMAIL_REGEX.test(email.trim())) {
-    errors.email = ["Please enter a valid email address"]
-  } else if (email.trim().length > 320) {
-    errors.email = ["Email address is too long"]
-  }
-
-  if (!message || typeof message !== "string" || message.trim().length === 0) {
-    errors.message = ["Message is required"]
-  } else if (message.trim().length < 10) {
-    errors.message = ["Message must be at least 10 characters long"]
-  } else if (message.trim().length > 2000) {
-    errors.message = ["Message must be less than 2000 characters"]
-  }
-
-  return {
-    isValid: Object.keys(errors).length === 0,
-    errors,
-  }
-}
-
-function sanitizeInput(input: string): string {
-  // biome-ignore lint/suspicious/noControlCharactersInRegex: Intentional control character removal for security
-  return input.trim().replace(/[\x00-\x1F\x7F]/g, "")
-}
-
-export async function POST(request: NextRequest): Promise<NextResponse<ContactResponse>> {
+export const POST = async (request: NextRequest): Promise<NextResponse<ContactResponse>> => {
   try {
+    // Validate content type
     const contentType = request.headers.get("content-type")
     if (!contentType || !contentType.includes("application/json")) {
       return NextResponse.json(
@@ -78,6 +25,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactRe
       )
     }
 
+    // Parse JSON body
     let body: unknown
     try {
       body = await request.json()
@@ -91,8 +39,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactRe
       )
     }
 
+    // Validate form data
     const validation = validateContactForm(body)
-    if (!validation.isValid) {
+    if (!validation.success) {
       return NextResponse.json(
         {
           message: "Please fix the errors and try again",
@@ -103,14 +52,25 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactRe
       )
     }
 
-    const { name, email, message } = body as ContactRequestBody
+    const { name, email, message, turnstileToken } = validation.data
 
-    const sanitizedData = {
-      name: sanitizeInput(name),
-      email: sanitizeInput(email),
-      message: sanitizeInput(message),
+    // Validate Turnstile token
+    const turnstileValidation = await validateTurnstileToken(turnstileToken)
+    if (!turnstileValidation.success) {
+      return NextResponse.json(
+        {
+          message: turnstileValidation.error || "Verification failed. Please try again.",
+          success: false,
+          errors: { form: [turnstileValidation.error || "Verification failed"] },
+        },
+        { status: 400 },
+      )
     }
 
+    // Sanitize input data
+    const sanitizedData = sanitizeContactData({ name, email, message })
+
+    // Send emails
     const emailResult = await sendContactEmails(sanitizedData)
 
     if (emailResult.success) {

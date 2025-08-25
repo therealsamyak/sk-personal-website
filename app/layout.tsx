@@ -19,6 +19,13 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          async
+          defer
+        />
+      </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
         <ViewTransitions>
           <ThemeProvider
