@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 
 const ContactPage = () => (
-  <div className="min-h-screen bg-background flex flex-col">
+  <div className="flex min-h-screen flex-col bg-background">
     <Header />
     <main className="flex-1">
       <ContactSection />

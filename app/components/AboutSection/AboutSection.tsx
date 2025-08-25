@@ -10,10 +10,10 @@ export const AboutSection = () => (
     <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
       About Me
     </h2>
-    <div className="flex flex-col items-center justify-center space-y-6 text-center mb-12">
+    <div className="mb-12 flex flex-col items-center justify-center space-y-6 text-center">
       {personalInfo.profileImage && (
-        <div 
-          className="relative h-24 w-24 overflow-hidden rounded-full md:h-32 md:w-32 flex-shrink-0"
+        <div
+          className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-full md:h-32 md:w-32"
           style={{ viewTransitionName: "profile-image" }}
         >
           <Image
@@ -26,8 +26,8 @@ export const AboutSection = () => (
         </div>
       )}
       <div className="space-y-3">
-        <h3 
-          className="font-semibold text-xl tracking-tight sm:text-2xl text-center"
+        <h3
+          className="text-center font-semibold text-xl tracking-tight sm:text-2xl"
           style={{ viewTransitionName: "profile-name" }}
         >
           {personalInfo.name}
@@ -36,8 +36,8 @@ export const AboutSection = () => (
           {personalInfo.description}
         </p>
       </div>
-      <div 
-        className="flex items-center justify-center gap-3 flex-shrink-0"
+      <div
+        className="flex flex-shrink-0 items-center justify-center gap-3"
         style={{ viewTransitionName: "social-links" }}
       >
         {personalInfo.socialLinks.map((social) => (

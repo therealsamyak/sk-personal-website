@@ -28,7 +28,8 @@
       "recommended": true,
       "correctness": {
         "useExhaustiveDependencies": "info",
-        "useUniqueElementIds": "off"
+        "useUniqueElementIds": "off",
+        "noUnknownTypeSelector": "off"
       },
       "suspicious": {
         "noUnknownAtRules": "off"

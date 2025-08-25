@@ -223,11 +223,11 @@ body {
     flex-shrink: 0;
     contain: layout size;
   }
-  
+
   [style*="view-transition-name: profile-name"] {
     contain: layout;
   }
-  
+
   [style*="view-transition-name: social-links"] {
     contain: layout;
   }
