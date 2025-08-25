@@ -20,11 +20,14 @@ export const Header = () => {
       <div className="relative mx-auto flex h-14 w-full max-w-full items-center justify-between px-4 md:px-6">
         {/* Left: Logo/Profile */}
         <div className="flex flex-shrink-0 items-center">
-          <Link className="mr-2 sm:mr-3 flex items-center space-x-1.5 sm:space-x-2 min-w-0" href="/">
+          <Link
+            className="mr-2 flex min-w-0 items-center space-x-1.5 sm:mr-3 sm:space-x-2"
+            href="/"
+          >
             {/* Desktop: Show PFP on sub-pages, Mobile: Always show PFP on sub-pages */}
             {isSubPage && personalInfo.profileImage && (
-              <div 
-                className="relative h-8 w-8 overflow-hidden rounded-full flex-shrink-0"
+              <div
+                className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-full"
                 style={{ viewTransitionName: "profile-image" }}
               >
                 <Image
@@ -36,8 +39,8 @@ export const Header = () => {
               </div>
             )}
             {isSubPage && (
-              <span 
-                className="font-bold whitespace-nowrap text-sm sm:text-base"
+              <span
+                className="whitespace-nowrap font-bold text-sm sm:text-base"
                 style={{ viewTransitionName: "profile-name" }}
               >
                 {personalInfo.name}
@@ -47,8 +50,8 @@ export const Header = () => {
 
           {/* Desktop: Social links on sub-pages, Mobile: Hidden */}
           {isSubPage && (
-            <div 
-              className="ml-2 hidden items-center gap-2 lg:flex flex-shrink-0"
+            <div
+              className="ml-2 hidden flex-shrink-0 items-center gap-2 lg:flex"
               style={{ viewTransitionName: "social-links" }}
             >
               {personalInfo.socialLinks.map((social) => (
@@ -110,31 +113,31 @@ export const Header = () => {
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             <span className="sr-only">Toggle menu</span>
           </Button>
-          
+
           <ThemeToggle />
           {personalInfo.resumeUrl && (
             <Button
               variant="outline"
               onClick={() => window.open(personalInfo.resumeUrl, "_blank")}
-              className="cursor-pointer hidden sm:inline-flex"
+              className="hidden cursor-pointer sm:inline-flex"
             >
               Resume
             </Button>
           )}
         </div>
       </div>
-      
+
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="sm:hidden border-t bg-background">
-          <div className="px-4 py-3 space-y-3">
+        <div className="border-t bg-background sm:hidden">
+          <div className="space-y-3 px-4 py-3">
             {navigation.map((item) => {
               const isActive = pathname === item.href
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                  className={`block rounded-md px-3 py-2 font-medium text-base transition-colors hover:bg-accent hover:text-accent-foreground ${
                     isActive ? "bg-accent text-accent-foreground" : ""
                   }`}
                   onClick={() => setMobileMenuOpen(false)}

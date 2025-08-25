@@ -3,7 +3,7 @@ import { Header } from "@/components/Header"
 import { ProjectsSection } from "@/components/ProjectsSection"
 
 const ProjectsPage = () => (
-  <div className="min-h-screen bg-background flex flex-col">
+  <div className="flex min-h-screen flex-col bg-background">
     <Header />
     <main className="flex-1">
       <ProjectsSection />
