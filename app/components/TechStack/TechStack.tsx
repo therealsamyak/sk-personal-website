@@ -4,7 +4,7 @@ import { getColorClasses, technologies } from "@/config/tech-stack"
 export const TechStack = () => (
   <div className="flex flex-wrap justify-center gap-6">
     {technologies.map((tech) => (
-      <Card key={tech.category} className="w-full p-6 sm:w-80 lg:w-96">
+      <Card key={tech.category} className="w-full p-6 sm:w-80 lg:w-96 h-52">
         <h3 className="mb-4 text-center font-semibold text-lg">{tech.category}</h3>
         <div className="flex flex-wrap justify-center gap-2">
           {tech.skills.map((skill) => (
