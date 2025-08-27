@@ -8,7 +8,7 @@ import { getColorClasses, getTechColor } from "@/config/tech-stack"
 interface ProjectCardProps extends Project {}
 
 export const ProjectCard = ({ title, description, image, link, tags }: ProjectCardProps) => (
-  <Card className="flex h-[30rem] w-full flex-col overflow-hidden sm:w-80 lg:w-96">
+  <Card className="flex h-[32rem] w-full flex-col overflow-hidden sm:w-80 lg:w-96">
     <div className="relative aspect-video">
       <Image
         src={image || "/placeholder.svg"}
@@ -20,8 +20,8 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
     <div className="flex flex-1 flex-col">
       <CardContent className="flex-1 p-4 pb-1">
         <h3 className="mb-2 text-center font-semibold text-xl">{title}</h3>
-        <p className="mb-4 text-muted-foreground text-sm">{description}</p>
-        <div className="flex max-h-20 flex-wrap justify-center gap-2 overflow-hidden">
+        <p className="mb-3 text-muted-foreground text-sm">{description}</p>
+        <div className="flex flex-wrap justify-center gap-2 max-h-[6rem]">
           {tags.slice(0, 8).map((tag) => (
             <span
               key={tag}

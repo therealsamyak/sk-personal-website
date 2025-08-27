@@ -13,7 +13,7 @@ export const AboutSection = () => (
     <div className="mb-12 flex flex-col items-center justify-center space-y-6 text-center">
       {personalInfo.profileImage && (
         <div
-          className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-full md:h-32 md:w-32"
+          className="relative h-64 w-64 flex-shrink-0 overflow-hidden rounded-full"
           style={{ viewTransitionName: "profile-image" }}
         >
           <Image
@@ -22,19 +22,22 @@ export const AboutSection = () => (
             fill
             className="object-cover"
             priority
+            quality={95}
+            sizes="256px"
           />
         </div>
       )}
-      <div className="space-y-3">
+      <div className="space-y-4 px-4">
         <h3
           className="text-center font-semibold text-xl tracking-tight sm:text-2xl"
           style={{ viewTransitionName: "profile-name" }}
         >
           {personalInfo.name}
         </h3>
-        <p className="mx-auto max-w-[600px] text-gray-500 text-sm md:text-base dark:text-gray-400">
+        <p className="mx-auto max-w-[700px] text-gray-500 text-sm md:text-base dark:text-gray-400">
           {personalInfo.description}
         </p>
+
       </div>
       <div
         className="flex flex-shrink-0 items-center justify-center gap-3"
@@ -62,6 +65,7 @@ export const AboutSection = () => (
           </Link>
         ))}
       </div>
+
     </div>
   </div>
 )

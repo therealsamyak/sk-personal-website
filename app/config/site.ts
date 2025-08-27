@@ -16,10 +16,11 @@ export interface PersonalInfo {
 
 export const personalInfo: PersonalInfo = {
   name: "Samyak Kakatur",
-  title: "Full Stack Developer",
+  title: "Software Engineer & IoT Specialist",
   description:
-    "Passionate about Coding, Marketing, Business, and the economic state of the world currently.\n I have extensive experience in Python, C++, and Typescript, and enough vibe-coding experience to pick up any skill necessary to get work done.",
-  profileImage: "/pfp.jpeg", // Optional: remove or set to undefined to hide profile image
+    "Computer Science student at UCLA pursuing Master's in IoT Systems. Experienced in full-stack development, embedded systems, and AI/ML. Passionate about building innovative solutions from web applications to edge computing systems.",
+  email: "therealsamyak@gmail.com",
+  profileImage: "/pfp.jpeg",
   resumeUrl: "https://example.com/your-resume.pdf", // Optional: set your resume URL here
   socialLinks: [
     {
@@ -34,7 +35,7 @@ export const personalInfo: PersonalInfo = {
     },
     {
       platform: "Twitter",
-      url: "https://x.com/samheart564",
+      url: "https://x.com/skakatur_dev",
       icon: "siX",
     },
   ],
