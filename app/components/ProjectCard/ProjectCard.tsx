@@ -22,7 +22,7 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
         <h3 className="mb-2 text-center font-semibold text-xl">{title}</h3>
         <p className="mb-3 text-muted-foreground text-sm">{description}</p>
         <div className="flex flex-wrap justify-center gap-2 max-h-[6rem]">
-          {tags.slice(0, 8).map((tag) => (
+          {tags.slice(0, 12).map((tag) => (
             <span
               key={tag}
               className={`inline-flex items-center rounded-md px-2 py-1 font-medium text-sm ring-1 ring-inset ${getColorClasses(getTechColor(tag))}`}
