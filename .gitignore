@@ -93,4 +93,4 @@ temp/
 *.sw?
 
 # Claude Code
-.claude
+.claude/settings*
