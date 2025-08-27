@@ -126,6 +126,20 @@ export const ContactForm = () => {
     validateField(field, value)
   }
 
+  const isFormValid = () => {
+    try {
+      clientContactFormSchema.parse({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        turnstileToken: turnstileToken || "",
+      })
+      return true
+    } catch {
+      return false
+    }
+  }
+
   // Cleanup effect for widget removal
   useEffect(() => {
     return () => {
@@ -311,7 +325,7 @@ export const ContactForm = () => {
             </div>
           )}
         </div>
-        <Button type="submit" className="w-full" disabled={pending || !turnstileToken}>
+        <Button type="submit" className="w-full" disabled={pending || !isFormValid()}>
           {pending ? "Sending..." : "Send Message"}
         </Button>
         {message && !fieldErrors.form && (
