@@ -1,4 +1,5 @@
 import { AboutSection } from "@/components/AboutSection"
+import { ExperienceSection } from "@/components/ExperienceSection"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { TechStack } from "@/components/TechStack"
@@ -12,6 +13,7 @@ const AboutPage = () => (
           <AboutSection />
         </div>
         <TechStack />
+        <ExperienceSection />
       </div>
     </main>
     <Footer />

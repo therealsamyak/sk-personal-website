@@ -64,13 +64,17 @@ export const ContactForm = () => {
   useEffect(() => {
     setIsClient(true)
 
+    let timeoutId: NodeJS.Timeout | null = null
+    let isRendering = false
+
     // Check if Turnstile script has loaded and render widget
     const checkTurnstile = () => {
       if (window.turnstile && process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
         // Wait for the widget element to be in the DOM
         const widget = document.getElementById(turnstileId)
 
-        if (widget && !turnstileWidgetId) {
+        if (widget && !turnstileWidgetId && !isRendering && !widget.hasChildNodes()) {
+          isRendering = true
           try {
             const widgetId = window.turnstile.render(widget, {
               sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
@@ -97,15 +101,25 @@ export const ContactForm = () => {
             setTurnstileWidgetId(widgetId)
           } catch (error) {
             console.error("Failed to render Turnstile widget:", error)
+          } finally {
+            isRendering = false
           }
         }
-      } else if (!window.turnstile) {
-        setTimeout(checkTurnstile, 500)
+      } else if (!window.turnstile && !timeoutId) {
+        timeoutId = setTimeout(() => {
+          timeoutId = null
+          checkTurnstile()
+        }, 500)
       }
     }
 
     // Add a small delay to ensure DOM is ready
-    setTimeout(checkTurnstile, 100)
+    const initialTimeout = setTimeout(checkTurnstile, 100)
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      clearTimeout(initialTimeout)
+    }
   }, [turnstileId, turnstileWidgetId])
 
   const validateField = (field: keyof typeof formData, value: string) => {
