@@ -9,7 +9,6 @@ export interface ValidationResult {
   success: boolean
   data?: ContactRequestBody
   errors?: Record<string, string[]>
-  turnstileToken?: string
 }
 
 const isValidEmail = (email: string): boolean => {
