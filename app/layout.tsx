@@ -17,9 +17,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SK - Software Engineer",
     description: "Portfolio showcasing projects and skills",
+    url: "https://skakatur.dev",
     images: [
       {
-        url: "/pfp.jpeg",
+        url: "https://skakatur.dev/pfp.jpeg",
         width: 1200,
         height: 630,
         alt: "SK - Software Engineer",
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SK - Software Engineer",
     description: "Portfolio showcasing projects and skills",
-    images: ["/pfp.jpeg"],
+    images: ["https://skakatur.dev/pfp.jpeg"],
   },
 }
 
