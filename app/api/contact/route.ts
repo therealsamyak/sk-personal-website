@@ -7,7 +7,7 @@ import { validateContactForm } from "./validation"
 interface ContactResponse {
   message: string
   success: boolean
-  errors?: Record<string, string[]>
+  errors?: Record<string, string[]> | null
   turnstileToken?: string
 }
 
@@ -41,7 +41,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse<ContactRe
 
     // Validate form data
     const validation = validateContactForm(body)
-    if (!validation.success) {
+    if (!validation.success || !validation.data) {
       return NextResponse.json(
         {
           message: "Please fix the errors and try again",
