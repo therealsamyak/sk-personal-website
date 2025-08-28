@@ -7,7 +7,7 @@ export const ContactSection = () => (
         <h2 className="mb-4 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
           Get in Touch
         </h2>
-        <p className="mb-8 text-center text-muted-foreground text-lg">
+        <p className="mb-8 text-center text-lg text-muted-foreground">
           Let's discuss exciting projects, job opportunities, or just connect!
         </p>
         <ContactForm />
