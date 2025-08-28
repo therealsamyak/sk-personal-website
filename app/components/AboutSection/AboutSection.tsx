@@ -37,7 +37,6 @@ export const AboutSection = () => (
         <p className="mx-auto max-w-[700px] text-gray-500 text-sm md:text-base dark:text-gray-400">
           {personalInfo.description}
         </p>
-
       </div>
       <div
         className="flex flex-shrink-0 items-center justify-center gap-3"
@@ -65,7 +64,6 @@ export const AboutSection = () => (
           </Link>
         ))}
       </div>
-
     </div>
   </div>
 )
