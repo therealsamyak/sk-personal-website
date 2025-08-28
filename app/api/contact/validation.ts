@@ -7,8 +7,8 @@ export interface ContactRequestBody {
 
 export interface ValidationResult {
   success: boolean
-  data?: ContactRequestBody
-  errors?: Record<string, string[]>
+  data: ContactRequestBody | null
+  errors?: Record<string, string[]> | null
 }
 
 const isValidEmail = (email: string): boolean => {
@@ -22,6 +22,7 @@ export const validateContactForm = (body: unknown): ValidationResult => {
   if (!body || typeof body !== "object") {
     return {
       success: false,
+      data: null,
       errors: { form: ["Invalid request format"] },
     }
   }
@@ -77,7 +78,7 @@ export const validateContactForm = (body: unknown): ValidationResult => {
   }
 
   if (Object.keys(errors).length > 0) {
-    return { success: false, errors }
+    return { success: false, data: null, errors }
   }
 
   return {
@@ -88,5 +89,6 @@ export const validateContactForm = (body: unknown): ValidationResult => {
       message: (data.message as string).trim(),
       turnstileToken: (data.turnstileToken as string).trim(),
     },
+    errors: null,
   }
 }
