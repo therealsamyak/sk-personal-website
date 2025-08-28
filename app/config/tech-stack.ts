@@ -7,7 +7,16 @@ export interface TechCategory {
 export const technologies: TechCategory[] = [
   {
     category: "Frontend",
-    skills: ["React", "Next.js", "TanStack Router", "Svelte", "Astro", "Vite", "TailwindCSS", "shadcn/ui"],
+    skills: [
+      "React",
+      "Next.js",
+      "TanStack Router",
+      "Svelte",
+      "Astro",
+      "Vite",
+      "TailwindCSS",
+      "shadcn/ui",
+    ],
     color: "green",
   },
   {
@@ -27,7 +36,7 @@ export const technologies: TechCategory[] = [
   },
   {
     category: "Languages",
-    skills: ["Python", "C++", "CUDA", "Rust", "TypeScript"],
+    skills: ["Python", "C++", "CUDA", "Rust", "TypeScript", "Shell"],
     color: "blue",
   },
   {
@@ -42,7 +51,7 @@ export const technologies: TechCategory[] = [
   },
   {
     category: "Developer & AI Tools",
-    skills: ["Claude Code", "Cursor", "Git", "Bun", "Stagehand", "Jest", "Google Test"],
+    skills: ["Claude Code", "Cursor", "Git", "Bun", "Astral", "Stagehand", "Jest", "Google Test"],
     color: "cyan",
   },
 ]

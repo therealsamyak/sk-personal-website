@@ -18,10 +18,11 @@ export const personalInfo: PersonalInfo = {
   name: "Samyak Kakatur",
   title: "Software Engineer & IoT Specialist",
   description:
-    "Computer Science student at UCLA pursuing Master's in IoT Systems. Experienced in full-stack development, embedded systems, and AI/ML. Passionate about building innovative solutions from web applications to edge computing systems.",
+    "Full-Stack & Embedded Software Engineer. Masters of Engineering - IoT Systems @ UCLA. Passionate about software and business. ",
   email: "therealsamyak@gmail.com",
   profileImage: "/pfp.jpeg",
-  resumeUrl: "https://example.com/your-resume.pdf", // Optional: set your resume URL here
+  resumeUrl:
+    "https://1drv.ms/b/c/c23dc39496b5c117/EeizFMoT2nxPrreTp6eybycB-to7okCv1yDw4zXnpVFTZQ?e=lWRPmM", // Optional: set your resume URL here
   socialLinks: [
     {
       platform: "GitHub",
