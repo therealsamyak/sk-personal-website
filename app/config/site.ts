@@ -22,7 +22,7 @@ export const personalInfo: PersonalInfo = {
   email: "therealsamyak@gmail.com",
   profileImage: "/pfp.jpeg",
   resumeUrl:
-    "https://1drv.ms/b/c/c23dc39496b5c117/EeizFMoT2nxPrreTp6eybycB-to7okCv1yDw4zXnpVFTZQ?e=lWRPmM", // Optional: set your resume URL here
+    "https://1drv.ms/b/c/c23dc39496b5c117/ES6K1VrUmuJHomTu_MGzvnQBU1H6JPDESeEQbvQFBmEVjw?e=h02gHt", // Optional: set your resume URL here
   socialLinks: [
     {
       platform: "GitHub",
