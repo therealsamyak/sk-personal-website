@@ -11,7 +11,7 @@ export const projects: Project[] = [
     title: "Vehicle Net",
     description:
       "Decentralized vehicle condition reporting system with cryptographically signed reports and smart contract integration.",
-    image: "/placeholder.svg",
+    image: "/vehicle-net.png",
     link: "https://github.com/poke-key/vehicle-net",
     tags: [
       "Rust",
@@ -28,7 +28,7 @@ export const projects: Project[] = [
     title: "Personal Portfolio Website",
     description:
       "Modern, responsive portfolio built with Next.js 15, TypeScript, and TailwindCSS with dark/light theme toggle.",
-    image: "/placeholder.svg",
+    image: "/personal-website.png",
     link: "https://github.com/therealsamyak/sk-personal-website",
     tags: ["TypeScript", "Next.js", "React", "TailwindCSS", "shadcn/ui", "Cloudflare"],
   },
@@ -44,7 +44,7 @@ export const projects: Project[] = [
     title: "Poll Spree",
     description:
       "Real-time voting platform with user authentication and live result updates using Convex backend.",
-    image: "/placeholder.svg",
+    image: "/pollspree.png",
     link: "https://github.com/therealsamyak/poll-spree",
     tags: [
       "TypeScript",
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     title: "BikeTitans",
     description:
       "IoT bike rack monitoring system with ESP32-CAM and YOLOv5 image recognition for automated analysis.",
-    image: "/placeholder.svg",
+    image: "/bike-titans.png",
     link: "https://github.com/jyroball/BikeTitans/",
     tags: [
       "C++",
