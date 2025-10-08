@@ -36,7 +36,7 @@ export const projects: Project[] = [
     title: "Azur Lane ECGC",
     description:
       "Mobile-friendly gaming guide with automated Python data scraping, achieving 5000+ monthly clicks.",
-    image: "/placeholder.svg",
+    image: "/azurlaneecgc.png",
     link: "https://github.com/samheart564/ecgc-dev",
     tags: ["Python", "TypeScript", "Astro", "React", "TailwindCSS", "Bun", "Astral", "Cloudflare"],
   },
