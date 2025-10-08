@@ -80,7 +80,7 @@ export const projects: Project[] = [
     title: "Edge Security System",
     description:
       "Real-time face recognition security system with ESP32-CAM streaming and Docker deployment on Jetson Nano.",
-    image: "/placeholder.svg",
+    image: "/edge-security-system.png",
     link: "https://github.com/therealsamyak/edge-security-system",
     tags: [
       "C++",
@@ -98,7 +98,7 @@ export const projects: Project[] = [
     title: "CUDA Ray-Tracer",
     description:
       "Real-time 3D ray tracer with GPU-accelerated intersections and interactive SDL2 renderer.",
-    image: "/placeholder.svg",
+    image: "/ray-tracer.png",
     link: "https://github.com/therealsamyak/basic-ray-tracer",
     tags: ["C++", "CUDA", "SDL"],
   },
@@ -106,7 +106,7 @@ export const projects: Project[] = [
     title: "Casino Game",
     description:
       "Collaborative C++ casino application with encrypted login system and AI opponent using Scrum methodology.",
-    image: "/placeholder.svg",
+    image: "/casino-game.png",
     link: "https://github.com/therealsamyak/CasinoGame",
     tags: ["C++", "Google Test"],
   },
