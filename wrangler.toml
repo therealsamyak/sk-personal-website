@@ -1,6 +1,6 @@
 main = ".open-next/worker.js"
 name = "skakatur-dev"
-compatibility_date = "2025-08-23"
+compatibility_date = "2025-10-10"
 compatibility_flags = ["nodejs_compat"]
 
 [assets]
