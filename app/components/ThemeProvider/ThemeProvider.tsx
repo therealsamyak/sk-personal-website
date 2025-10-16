@@ -2,7 +2,93 @@
 
 import type { ThemeProviderProps } from "next-themes"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { createContext, useContext, useEffect, useState } from "react"
+
+type Coords = { x: number; y: number }
+
+type ThemeProviderState = {
+  toggleTheme: (coords?: Coords) => void
+}
+
+const initialState: ThemeProviderState = {
+  toggleTheme: () => null,
+}
+
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export const ThemeProvider = ({ children, ...props }: ThemeProviderProps) => {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+  }
+
+  return (
+    <NextThemesProvider {...props}>
+      <ThemeProviderInner>{children}</ThemeProviderInner>
+    </NextThemesProvider>
+  )
+}
+
+const ThemeProviderInner = ({ children }: { children: React.ReactNode }) => {
+  const handleThemeToggle = (coords?: Coords) => {
+    const root = document.documentElement
+
+    if (coords) {
+      root.style.setProperty("--x", `${coords.x}px`)
+      root.style.setProperty("--y", `${coords.y}px`)
+    }
+
+    if (!document.startViewTransition) {
+      // Fallback for browsers that don't support view transitions
+      const currentTheme = document.documentElement.classList.contains("dark") ? "dark" : "light"
+      const newTheme = currentTheme === "light" ? "dark" : "light"
+
+      if (newTheme === "dark") {
+        document.documentElement.classList.add("dark")
+      } else {
+        document.documentElement.classList.remove("dark")
+      }
+      return
+    }
+
+    // Set a custom view-transition-name for theme transitions
+    root.style.viewTransitionName = "theme-switch"
+
+    document
+      .startViewTransition(() => {
+        const currentTheme = document.documentElement.classList.contains("dark") ? "dark" : "light"
+        const newTheme = currentTheme === "light" ? "dark" : "light"
+
+        if (newTheme === "dark") {
+          document.documentElement.classList.add("dark")
+        } else {
+          document.documentElement.classList.remove("dark")
+        }
+      })
+      .finished.then(() => {
+        // Reset the view-transition-name after the transition completes
+        root.style.viewTransitionName = ""
+      })
+  }
+
+  const value: ThemeProviderState = {
+    toggleTheme: handleThemeToggle,
+  }
+
+  return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>
+}
+
+export const useThemeToggle = () => {
+  const context = useContext(ThemeProviderContext)
+
+  if (context === undefined) {
+    throw new Error("useThemeToggle must be used within a ThemeProvider")
+  }
+
+  return context
 }

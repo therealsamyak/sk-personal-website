@@ -1,14 +1,23 @@
 "use client"
 
 import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+import { useThemeToggle } from "../ThemeProvider"
 
 export const ThemeToggle = () => {
-  const { setTheme, theme } = useTheme()
+  const { toggleTheme } = useThemeToggle()
+
+  const handleToggle = (event: React.MouseEvent) => {
+    const rect = (event.target as HTMLElement).getBoundingClientRect()
+    const coords = {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    }
+    toggleTheme(coords)
+  }
 
   return (
     <button
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      onClick={handleToggle}
       className="relative flex h-9 w-16 items-center rounded-full border border-input bg-slate-200 p-1 transition-all duration-300 hover:shadow-md dark:bg-slate-800"
       aria-label="Toggle theme"
       type="button"
