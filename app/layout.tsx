@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://skakatur.dev/pfp.jpeg",
-        width: 1200,
-        height: 630,
+        width: 748,
+        height: 748,
         alt: "SK - Software Engineer",
       },
     ],
@@ -31,7 +31,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SK - Software Engineer",
     description: "Portfolio showcasing projects and skills",
-    images: ["https://skakatur.dev/pfp.jpeg"],
+    images: [
+      {
+        url: "https://skakatur.dev/pfp.jpeg",
+        width: 748,
+        height: 748,
+        alt: "SK - Software Engineer",
+      },
+    ],
   },
 }
 
