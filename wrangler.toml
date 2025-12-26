@@ -16,3 +16,7 @@ enabled = true
 pattern = "skakatur.dev"
 zone_name = "skakatur.dev"
 custom_domain = true
+
+[vars]
+NEXT_PUBLIC_BASE_URL = "https://skakatur.dev"
+NEXT_PUBLIC_TURNSTILE_SITE_KEY = "0x4AAAAAABunVtq2F8mV8IF1"
