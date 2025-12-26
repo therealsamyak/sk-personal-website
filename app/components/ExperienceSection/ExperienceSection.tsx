@@ -15,7 +15,7 @@ export const ExperienceSection = () => (
                 title="UCLA Logo - Original by Tiffany & Co., SVG by Casecrer. Public Domain via Wikimedia Commons"
                 width={80}
                 height={80}
-                className="flex-shrink-0 rounded bg-white object-contain"
+                className="shrink-0 rounded bg-white object-contain"
               />
               <div className="flex-1 space-y-2 text-right">
                 <h5 className="font-medium">University of California, Los Angeles</h5>
@@ -34,7 +34,7 @@ export const ExperienceSection = () => (
                 title="UCR Seal - From UC Riverside Identity Standards Manual. Fair use via Wikipedia"
                 width={80}
                 height={80}
-                className="flex-shrink-0 rounded bg-white object-contain"
+                className="shrink-0 rounded bg-white object-contain"
               />
               <div className="flex-1 space-y-2 text-right">
                 <h5 className="font-medium">University of California, Riverside</h5>
