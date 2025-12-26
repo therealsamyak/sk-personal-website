@@ -8,11 +8,11 @@
     "check": "biome check --write .",
     "start": "next start",
     "preview": "bun run cf-build && bun run cf-preview",
-    "deploy": "bun run --bun cf-build && bun run --bun cf-deploy",
+    "deploy": "bun run cf-build && bun run cf-deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "cf-build": "npx @opennextjs/cloudflare build",
-    "cf-preview": "npx @opennextjs/cloudflare preview",
-    "cf-deploy": "npx @opennextjs/cloudflare deploy -- --keep-vars"
+    "cf-build": "opennextjs-cloudflare build",
+    "cf-preview": "opennextjs-cloudflare preview",
+    "cf-deploy": "opennextjs-cloudflare deploy -- --keep-vars"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
