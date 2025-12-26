@@ -41,7 +41,7 @@ export const technologies: TechCategory[] = [
   },
   {
     category: "AI/ML & Computer Vision",
-    skills: ["OpenCV", "YOLOv5", "LM Studio", "Ollama"],
+    skills: ["OpenCV", "YOLO", "LM Studio", "Ollama"],
     color: "purple",
   },
   {
@@ -51,7 +51,20 @@ export const technologies: TechCategory[] = [
   },
   {
     category: "Developer & AI Tools",
-    skills: ["Claude Code", "Cursor", "Git", "Bun", "Astral", "Stagehand", "Jest", "Google Test"],
+    skills: [
+      "Claude Code",
+      "OpenCode",
+      "Cursor",
+      "Windsurf",
+      "Z.ai",
+      "Greptile",
+      "Git",
+      "Bun",
+      "Astral",
+      "Stagehand",
+      "Jest",
+      "Google Test",
+    ],
     color: "cyan",
   },
 ]

@@ -25,20 +25,20 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Personal Portfolio Website",
+    title: "Carbon-Aware Optimal Policy",
     description:
-      "Modern, responsive portfolio built with Next.js 15, TypeScript, and TailwindCSS with dark/light theme toggle.",
-    image: "/personal-website.png",
-    link: "https://github.com/therealsamyak/sk-personal-website",
-    tags: ["TypeScript", "Next.js", "React", "TailwindCSS", "shadcn/ui", "Cloudflare"],
+      "Data-driven planning via imitation learning of an MDP solver, optimizing for clean energy usage.",
+    image: "/carbon-aware-optimal-policy.png",
+    link: "https://therealsamyak.github.io/carbon-aware-optimal-policy/report.html",
+    tags: ["YOLO", "Python", "Astral"],
   },
   {
     title: "Azur Lane ECGC",
     description:
       "Mobile-friendly gaming guide with automated Python data scraping, achieving 5000+ monthly clicks.",
     image: "/azurlaneecgc.png",
-    link: "https://github.com/samheart564/ecgc-dev",
-    tags: ["Python", "TypeScript", "Astro", "React", "TailwindCSS", "Bun", "Astral", "Cloudflare"],
+    link: "https://github.com/azur-lane-ecgc/ecgc-dev",
+    tags: ["TypeScript", "Astro", "React", "TailwindCSS", "Bun", "Cloudflare"],
   },
   {
     title: "Poll Spree",
@@ -61,7 +61,7 @@ export const projects: Project[] = [
   {
     title: "BikeTitans",
     description:
-      "IoT bike rack monitoring system with ESP32-CAM and YOLOv5 image recognition for automated analysis.",
+      "IoT bike rack monitoring system with ESP32-CAM and YOLO image recognition for automated analysis.",
     image: "/bike-titans.png",
     link: "https://github.com/jyroball/BikeTitans/",
     tags: [
@@ -71,7 +71,7 @@ export const projects: Project[] = [
       "TailwindCSS",
       "Astral",
       "OpenCV",
-      "YOLOv5",
+      "YOLO",
       "ESP32",
       "PlatformIO",
     ],
@@ -109,5 +109,13 @@ export const projects: Project[] = [
     image: "/casino-game.png",
     link: "https://github.com/therealsamyak/CasinoGame",
     tags: ["C++", "Google Test"],
+  },
+  {
+    title: "Personal Portfolio Website",
+    description:
+      "Modern, responsive portfolio built with Next.js 15, TypeScript, and TailwindCSS with dark/light theme toggle.",
+    image: "/personal-website.png",
+    link: "https://github.com/therealsamyak/sk-personal-website",
+    tags: ["TypeScript", "Next.js", "React", "TailwindCSS", "shadcn/ui", "Cloudflare"],
   },
 ]

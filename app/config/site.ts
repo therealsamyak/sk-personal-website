@@ -35,7 +35,7 @@ export const personalInfo: PersonalInfo = {
       icon: "siLinkedin",
     },
     {
-      platform: "Twitter",
+      platform: "X (Twitter)",
       url: "https://x.com/skakatur_dev",
       icon: "siX",
     },
