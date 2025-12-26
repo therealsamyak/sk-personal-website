@@ -2,6 +2,8 @@ main = ".open-next/worker.js"
 name = "skakatur-dev"
 compatibility_date = "2025-10-10"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
 
 [assets]
 directory = ".open-next/assets"
@@ -9,3 +11,8 @@ binding = "ASSETS"
 
 [observability.logs]
 enabled = true
+
+[[routes]]
+pattern = "skakatur.dev"
+zone_name = "skakatur.dev"
+custom_domain = true
