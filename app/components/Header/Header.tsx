@@ -19,7 +19,7 @@ export const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="relative mx-auto flex h-14 w-full max-w-full items-center justify-between px-4 md:px-6">
         {/* Left: Logo/Profile */}
-        <div className="flex flex-shrink-0 items-center">
+        <div className="flex shrink-0 items-center">
           <Link
             className="mr-2 flex min-w-0 items-center space-x-1.5 sm:mr-3 sm:space-x-2"
             href="/"
@@ -27,7 +27,7 @@ export const Header = () => {
             {/* Desktop: Show PFP on sub-pages, Mobile: Always show PFP on sub-pages */}
             {isSubPage && personalInfo.profileImage && (
               <div
-                className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-full"
+                className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full"
                 style={{ viewTransitionName: "profile-image" }}
               >
                 <Image
@@ -51,7 +51,7 @@ export const Header = () => {
           {/* Desktop: Social links on sub-pages, Mobile: Hidden */}
           {isSubPage && (
             <div
-              className="ml-2 hidden flex-shrink-0 items-center gap-2 lg:flex"
+              className="ml-2 hidden shrink-0 items-center gap-2 lg:flex"
               style={{ viewTransitionName: "social-links" }}
             >
               {personalInfo.socialLinks.map((social) => (
