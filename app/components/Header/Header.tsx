@@ -16,7 +16,7 @@ export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="relative mx-auto flex h-14 w-full max-w-full items-center justify-between px-4 md:px-6">
         {/* Left: Logo/Profile */}
         <div className="flex flex-shrink-0 items-center">
@@ -84,7 +84,7 @@ export const Header = () => {
         </div>
 
         {/* Center: Nav (absolute center of the page, hidden on small) */}
-        <nav className="-translate-x-1/2 absolute left-1/2 hidden transform items-center space-x-6 font-medium text-sm sm:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 transform items-center space-x-6 font-medium text-sm sm:flex">
           {navigation.map((item) => {
             const isActive = pathname === item.href
             return (

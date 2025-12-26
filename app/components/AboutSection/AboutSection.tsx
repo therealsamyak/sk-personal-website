@@ -13,7 +13,7 @@ export const AboutSection = () => (
     <div className="mb-12 flex flex-col items-center justify-center space-y-6 text-center">
       {personalInfo.profileImage && (
         <div
-          className="relative h-64 w-64 flex-shrink-0 overflow-hidden rounded-full"
+          className="relative h-64 w-64 shrink-0 overflow-hidden rounded-full"
           style={{ viewTransitionName: "profile-image" }}
         >
           <Image
@@ -39,7 +39,7 @@ export const AboutSection = () => (
         </p>
       </div>
       <div
-        className="flex flex-shrink-0 items-center justify-center gap-3"
+        className="flex shrink-0 items-center justify-center gap-3"
         style={{ viewTransitionName: "social-links" }}
       >
         {personalInfo.socialLinks.map((social) => (
