@@ -1,4 +1,4 @@
 pre-commit:
   commands:
-    lint:
-      run: bun lint {staged_files}
+    check:
+      run: bun check {staged_files}

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { siGithub } from "simple-icons"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Dialog, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import type { Project } from "@/config/projects"
 import { getColorClasses, getTechColor } from "@/config/tech-stack"
 
@@ -30,10 +30,11 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
         </DialogTrigger>
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80" />
-          <p className="-translate-x-1/2 fixed top-4 left-1/2 z-50 transform rounded-md bg-black/60 px-3 py-1 font-bold text-base text-white backdrop-blur-sm">
+          <p className="fixed top-4 left-1/2 z-50 -translate-x-1/2 transform rounded-md bg-black/60 px-3 py-1 font-bold text-base text-white backdrop-blur-sm">
             Click outside to close
           </p>
           <DialogPrimitive.Content className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] fixed top-[50%] left-[50%] z-50 w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] duration-200 data-[state=closed]:animate-out data-[state=open]:animate-in">
+            <DialogTitle>{title}</DialogTitle>
             <div className="relative aspect-video w-full rounded-lg border-4 border-border">
               <Image
                 src={image || "/placeholder.svg"}
