@@ -13,7 +13,8 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "cf-build": "opennextjs-cloudflare build",
     "cf-preview": "opennextjs-cloudflare preview",
-    "cf-deploy": "opennextjs-cloudflare deploy -- --keep-vars"
+    "cf-deploy": "opennextjs-cloudflare deploy -- --keep-vars",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
