@@ -3,7 +3,7 @@ export interface TurnstileVerifyResult {
   error?: string
 }
 
-export async function verifyTurnstileToken(token: string): Promise<TurnstileVerifyResult> {
+export const verifyTurnstileToken = async (token: string): Promise<TurnstileVerifyResult> => {
   const secretKey = process.env.TURNSTILE_SECRET_KEY
 
   if (!secretKey) {
