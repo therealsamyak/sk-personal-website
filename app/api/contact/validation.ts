@@ -2,7 +2,6 @@ export interface ContactRequestBody {
   name: string
   email: string
   message: string
-  turnstileToken: string
 }
 
 export interface ValidationResult {
@@ -65,18 +64,6 @@ export const validateContactForm = (body: unknown): ValidationResult => {
     }
   }
 
-  // Validate turnstile token
-  if (!data.turnstileToken || typeof data.turnstileToken !== "string") {
-    errors.turnstileToken = ["Verification challenge is required"]
-  } else {
-    const token = data.turnstileToken.trim()
-    if (token.length === 0) {
-      errors.turnstileToken = ["Verification challenge is required"]
-    } else if (token.length > 2048) {
-      errors.turnstileToken = ["Invalid verification token"]
-    }
-  }
-
   if (Object.keys(errors).length > 0) {
     return { success: false, data: null, errors }
   }
@@ -87,7 +74,6 @@ export const validateContactForm = (body: unknown): ValidationResult => {
       name: (data.name as string).trim(),
       email: (data.email as string).trim(),
       message: (data.message as string).trim(),
-      turnstileToken: (data.turnstileToken as string).trim(),
     },
     errors: null,
   }

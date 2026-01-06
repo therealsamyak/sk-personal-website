@@ -1,5 +1,5 @@
-import { projects } from "../../config/projects"
-import { ProjectCard } from "../ProjectCard"
+import { ProjectCard } from "@/components/ProjectCard"
+import { projects } from "@/config/projects"
 
 export const ProjectsSection = () => (
   <section className="w-full pt-6 pb-12 md:pt-8 md:pb-24">
