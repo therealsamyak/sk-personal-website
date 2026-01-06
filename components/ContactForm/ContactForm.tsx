@@ -74,7 +74,7 @@ export const ContactForm = () => {
         }
       }
     } catch (_error) {
-      setMessage("Server fail. Try again later")
+      setMessage("Server fail. Refresh the page and try again later.")
     } finally {
       setPending(false)
     }
