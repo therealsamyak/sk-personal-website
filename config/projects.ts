@@ -8,23 +8,6 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: "Vehicle Net",
-    description:
-      "Decentralized vehicle condition reporting system with cryptographically signed reports and smart contract integration.",
-    image: "/vehicle-net.png",
-    link: "https://github.com/poke-key/vehicle-net",
-    tags: [
-      "Rust",
-      "TypeScript",
-      "Next.js",
-      "TailwindCSS",
-      "shadcn/ui",
-      "Solidity",
-      "Wagmi",
-      "Vercel",
-    ],
-  },
-  {
     title: "Carbon-Aware Optimal Policy",
     description:
       "Data-driven planning via imitation learning of an MDP solver, optimizing for clean energy usage.",
@@ -55,6 +38,23 @@ export const projects: Project[] = [
       "shadcn/ui",
       "Clerk",
       "Convex",
+      "Vercel",
+    ],
+  },
+  {
+    title: "Vehicle Net",
+    description:
+      "Decentralized vehicle condition reporting system with cryptographically signed reports and smart contract integration.",
+    image: "/vehicle-net.png",
+    link: "https://github.com/poke-key/vehicle-net",
+    tags: [
+      "Rust",
+      "TypeScript",
+      "Next.js",
+      "TailwindCSS",
+      "shadcn/ui",
+      "Solidity",
+      "Wagmi",
       "Vercel",
     ],
   },
