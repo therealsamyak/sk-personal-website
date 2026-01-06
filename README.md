@@ -7,7 +7,7 @@ A modern, responsive personal portfolio built with Next.js 16, TypeScript, Tailw
 - 🌙 Dark/Light theme toggle with system preference detection
 - 📱 Fully responsive design optimized for all devices
 - 🎨 Modern UI built with shadcn/ui and Radix primitives
-- 📧 Contact form with Turnstile CAPTCHA and Resend email integration
+- 📧 Contact form with Resend email integration
 - 🚀 Deployed on Cloudflare Pages via OpenNext
 - ⚡ Built with Bun for fast development and tooling
 - ✨ Type-safe with strict TypeScript and Zod validation
@@ -58,10 +58,6 @@ RESEND_API_KEY=your_resend_api_key_here
 
 # Optional: Override default recipient email
 CONTACT_EMAIL=your_email@example.com
-
-# Required for Turnstile CAPTCHA
-TURNSTILE_SECRET_KEY=your_turnstile_secret_key
-NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_turnstile_site_key
 ```
 
 ### Development
@@ -174,7 +170,6 @@ bun run cf-deploy
 Set these in Cloudflare Pages dashboard or Wrangler:
 - `RESEND_API_KEY` - Your Resend API key
 - `CONTACT_EMAIL` - Email address to receive form submissions
-- `TURNSTILE_SECRET_KEY` - Turnstile secret key for CAPTCHA
 
 ## Code Style
 

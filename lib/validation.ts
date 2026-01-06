@@ -18,11 +18,6 @@ export const clientContactFormSchema = z.object({
     .min(10, "Message must be at least 10 characters long")
     .max(2000, "Message must be less than 2000 characters")
     .trim(),
-  turnstileToken: z
-    .string()
-    .min(1, "Verification challenge is required")
-    .max(2048, "Invalid verification token")
-    .trim(),
 })
 
 export type ClientContactFormData = z.infer<typeof clientContactFormSchema>

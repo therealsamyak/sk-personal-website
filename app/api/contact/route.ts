@@ -1,14 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { sendContactEmails } from "../../../lib/email"
+import { sendContactEmails } from "@/lib/email"
 import { sanitizeContactData } from "./sanitize"
-import { validateTurnstileToken } from "./turnstile"
 import { validateContactForm } from "./validation"
 
 interface ContactResponse {
   message: string
   success: boolean
   errors?: Record<string, string[]> | null
-  turnstileToken?: string
 }
 
 export const POST = async (request: NextRequest): Promise<NextResponse<ContactResponse>> => {
@@ -52,20 +50,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse<ContactRe
       )
     }
 
-    const { name, email, message, turnstileToken } = validation.data
-
-    // Validate Turnstile token
-    const turnstileValidation = await validateTurnstileToken(turnstileToken)
-    if (!turnstileValidation.success) {
-      return NextResponse.json(
-        {
-          message: turnstileValidation.error || "Verification failed. Please try again.",
-          success: false,
-          errors: { form: [turnstileValidation.error || "Verification failed"] },
-        },
-        { status: 400 },
-      )
-    }
+    const { name, email, message } = validation.data
 
     // Sanitize input data
     const sanitizedData = sanitizeContactData({ name, email, message })
