@@ -1,10 +1,10 @@
 "use client"
 
 import { Moon, Sun } from "lucide-react"
-import { useThemeToggle } from "@/components/ThemeProvider"
+import { useTheme } from "next-themes"
 
 export const ThemeToggle = () => {
-  const { toggleTheme } = useThemeToggle()
+  const { setTheme, theme } = useTheme()
 
   const handleToggle = (event: React.MouseEvent) => {
     const rect = (event.target as HTMLElement).getBoundingClientRect()
@@ -12,7 +12,45 @@ export const ThemeToggle = () => {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
     }
-    toggleTheme(coords)
+    const root = document.documentElement
+
+    if (coords) {
+      root.style.setProperty("--x", `${coords.x}px`)
+      root.style.setProperty("--y", `${coords.y}px`)
+    }
+
+    if (!document.startViewTransition) {
+      const newTheme = theme === "light" ? "dark" : "light"
+      setTheme(newTheme)
+      return
+    }
+
+    const profileTransitionNames = ["profile-image", "profile-name", "social-links"]
+    const savedStyles: Array<{ element: HTMLElement; name: string }> = []
+
+    profileTransitionNames.forEach((name) => {
+      const elements = document.querySelectorAll(`[style*="view-transition-name: ${name}"]`)
+      elements.forEach((element) => {
+        const htmlElement = element as HTMLElement
+        savedStyles.push({ element: htmlElement, name })
+        htmlElement.style.viewTransitionName = ""
+      })
+    })
+
+    root.style.viewTransitionName = "theme-switch"
+
+    document
+      .startViewTransition(() => {
+        const newTheme = theme === "light" ? "dark" : "light"
+        setTheme(newTheme)
+      })
+      .finished.then(() => {
+        savedStyles.forEach(({ element, name }) => {
+          element.style.viewTransitionName = name
+        })
+
+        root.style.viewTransitionName = ""
+      })
   }
 
   return (
