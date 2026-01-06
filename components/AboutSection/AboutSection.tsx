@@ -2,8 +2,8 @@ import { Linkedin } from "lucide-react"
 import Image from "next/image"
 import { Link } from "next-view-transitions"
 import { siGithub, siX } from "simple-icons"
-import { Button } from "../ui/button"
 import { personalInfo } from "../../config/site"
+import { Button } from "../ui/button"
 
 export const AboutSection = () => (
   <div>
