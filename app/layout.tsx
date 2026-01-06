@@ -22,13 +22,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SK - Software Engineer",
-  description: "Samyak Kakatur's Portfolio - Software Engineer specializing in modern web development, React, TypeScript, and cloud technologies. Explore projects, technical skills, and professional experience.",
+  description: "Portfolio showcasing projects and skills",
   icons: {
     icon: "/pfp.jpeg",
   },
   openGraph: {
     title: "SK - Software Engineer",
-    description: "Samyak Kakatur's Portfolio - Software Engineer specializing in modern web development, React, TypeScript, and cloud technologies. Explore projects, technical skills, and professional experience.",
+    description: "Portfolio showcasing projects and skills",
     url: "https://skakatur.dev",
     images: [
       {
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "SK - Software Engineer",
-    description: "Samyak Kakatur's Portfolio - Software Engineer specializing in modern web development, React, TypeScript, and cloud technologies. Explore projects, technical skills, and professional experience.",
+    description: "Portfolio showcasing projects and skills",
     images: [
       {
         url: "https://skakatur.dev/pfp.jpeg",

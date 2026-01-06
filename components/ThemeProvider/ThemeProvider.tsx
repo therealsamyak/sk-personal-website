@@ -56,7 +56,18 @@ const ThemeProviderInner = ({ children }: { children: React.ReactNode }) => {
       return
     }
 
-    // Set a custom view-transition-name for theme transitions
+    const profileTransitionNames = ["profile-image", "profile-name", "social-links"]
+    const savedStyles: Array<{ element: HTMLElement; name: string }> = []
+
+    profileTransitionNames.forEach((name) => {
+      const elements = document.querySelectorAll(`[style*="view-transition-name: ${name}"]`)
+      elements.forEach((element) => {
+        const htmlElement = element as HTMLElement
+        savedStyles.push({ element: htmlElement, name })
+        htmlElement.style.viewTransitionName = ""
+      })
+    })
+
     root.style.viewTransitionName = "theme-switch"
 
     document
@@ -71,7 +82,10 @@ const ThemeProviderInner = ({ children }: { children: React.ReactNode }) => {
         }
       })
       .finished.then(() => {
-        // Reset the view-transition-name after the transition completes
+        savedStyles.forEach(({ element, name }) => {
+          element.style.viewTransitionName = name
+        })
+
         root.style.viewTransitionName = ""
       })
   }
