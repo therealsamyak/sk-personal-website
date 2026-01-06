@@ -6,7 +6,7 @@ import { useTheme } from "next-themes"
 export const ThemeToggle = () => {
   const { setTheme, theme } = useTheme()
 
-  const handleToggle = (event: React.MouseEvent) => {
+  const setRippleCoordinates = (event: React.MouseEvent) => {
     const rect = (event.target as HTMLElement).getBoundingClientRect()
     const coords = {
       x: rect.left + rect.width / 2,
@@ -18,10 +18,18 @@ export const ThemeToggle = () => {
       root.style.setProperty("--x", `${coords.x}px`)
       root.style.setProperty("--y", `${coords.y}px`)
     }
+  }
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light"
+    setTheme(newTheme)
+  }
+
+  const handleViewTransition = (callback: () => void) => {
+    const root = document.documentElement
 
     if (!document.startViewTransition) {
-      const newTheme = theme === "light" ? "dark" : "light"
-      setTheme(newTheme)
+      callback()
       return
     }
 
@@ -39,23 +47,21 @@ export const ThemeToggle = () => {
 
     root.style.viewTransitionName = "theme-switch"
 
-    document
-      .startViewTransition(() => {
-        const newTheme = theme === "light" ? "dark" : "light"
-        setTheme(newTheme)
+    document.startViewTransition(callback).finished.then(() => {
+      savedStyles.forEach(({ element, name }) => {
+        element.style.viewTransitionName = name
       })
-      .finished.then(() => {
-        savedStyles.forEach(({ element, name }) => {
-          element.style.viewTransitionName = name
-        })
 
-        root.style.viewTransitionName = ""
-      })
+      root.style.viewTransitionName = ""
+    })
   }
 
   return (
     <button
-      onClick={handleToggle}
+      onClick={(event) => {
+        setRippleCoordinates(event)
+        handleViewTransition(toggleTheme)
+      }}
       className="relative flex h-9 w-16 items-center rounded-full border border-input bg-slate-200 p-1 transition-all duration-300 hover:shadow-md dark:bg-slate-800"
       aria-label="Toggle theme"
       type="button"
