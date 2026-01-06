@@ -1,171 +1,62 @@
 # Agent Guidelines for sk-personal-website
 
-## Build Commands
+## Red flags in a React codebase
 
-```bash
-bun run build          # Production build
-bun run dev            # Dev server (localhost:3000)
-bun run check          # Run Biome linter with auto-fix
-bun run start          # Start production server
-```
+🚩 functions like <button onClick={handleClick}
+or handleSubmit
 
-**No test suite configured** - manual testing required.
+- handleClick / handleSubmit doesn't explain what it does
+- you lose colocation
+- need new names for each callback
 
-## Code Style Guidelines
+Inline callbacks can call multiple functions with good names
 
-### Imports & Aliases
-- **Path aliases**: Use `@/` prefix for all internal imports
-  - `@/components/*` → `app/components/*`
-  - `@/lib/*` → `app/lib/*`
-  - `@/hooks/*` → `app/hooks/*`
-  - `@/ui/*` → `app/components/ui/*`
-- **"use client"** at top of client components (line 1)
-- **Named exports** preferred over default
-- **Order**: Third-party → internal → types
-  ```typescript
-  import { useState } from "react"
-  import { Button } from "@/components/ui/button"
-  import type { Project } from "@/config/projects"
-  ```
+onClick={() => {
+analytics.event('this-button')
+openModal()
 
-### Formatting (Biome)
-- **Indentation**: 2 spaces (no tabs)
-- **Line width**: 100 characters
-- **Quotes**: Double quotes (`"string"`)
-- **Semicolons**: As needed (Biome adds/removes automatically)
-- **Auto-organize imports**: Enabled (runs on `bun run check`)
+🚩 useMemo
 
-### TypeScript & Types
-- **Strict mode**: Enabled - never suppress with `@ts-ignore` or `as any`
-- **Interfaces**: Use for object shapes, exported types
-  ```typescript
-  export interface ContactFormData { name: string; email: string }
-  export type ClientContactFormData = z.infer<typeof clientContactFormSchema>
-  ```
-- **Zod schemas**: Use for runtime validation
-  ```typescript
-  export const clientContactFormSchema = z.object({ ... })
-  export type ClientContactFormData = z.infer<typeof clientContactFormSchema>
-  ```
-- **Type inference**: Preferred over explicit typing when obvious
-- **Props**: Extend Radix/HTML element props where applicable
-  ```typescript
-  export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> { ... }
-  ```
+React devs are terrified of renders and often overuseMemo
 
-### Naming Conventions
-- **Components**: PascalCase (`ContactForm.tsx`, `export const ContactForm`)
-- **Functions/hooks**: camelCase (`useMobile`, `sendContactEmails`)
-- **Files/folders**: kebab-case (`about-section/`, `contact-form.tsx`)
-- **Constants**: camelCase (`personalInfo`, `navigation`)
-- **Type prefixes**: `ClientContactFormData`, `ValidationResult`
-- **Schema suffixes**: `clientContactFormSchema`, `serverContactFormSchema`
+- memoize things that you pass as props to components that may have expensive children
+- it's ok for leaf components to over-render
 
-### Component Patterns
-- **Structure**: Co-located with `index.tsx` barrel export
-  ```
-  components/ContactForm/
-    ContactForm.tsx  # Main component
-    index.tsx        # Export: { ContactForm }
-  ```
-- **Props**: Define interfaces explicitly
-- **UI components**: Use shadcn/ui + Radix primitives
-  ```typescript
-  import { Button } from "@/components/ui/button"
-  import { Dialog } from "@/components/ui/dialog"
-  ```
-- **Styling**: Tailwind + `cn()` utility for conditional classes
-  ```typescript
-  import { cn } from "@/lib/utils"
-  <div className={cn("base-classes", isActive && "active-classes")} />
-  ```
-- **Forward refs**: Use for composables (Button, Input, etc.)
-  ```typescript
-  const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({...}, ref) => {...})
-  Button.displayName = "Button"
-  ```
-- **Client vs Server**: Use `"use client"` for hooks, state, interactivity
+useMemo does not fix bugs, it just makes them happen less often
 
-### Error Handling
-- **API responses**: Consistent structure
-  ```typescript
-  interface ApiResponse {
-    success: boolean
-    message: string
-    errors?: Record<string, string[]> | null
-  }
-  ```
-- **Try/catch**: Always return typed error objects
-  ```typescript
-  try {
-    const result = await apiCall()
-    return { success: true, data: result }
-  } catch (error) {
-    console.error("Operation failed:", error)
-    return { success: false, error: error instanceof Error ? error.message : "Unknown error" }
-  }
-  ```
-- **Environment validation**: Check before using env vars
-  ```typescript
-  if (!process.env.API_KEY) {
-    throw new Error("API_KEY environment variable is not set")
-  }
-  ```
-- **Validation**: Zod schemas for both client and server
-  ```typescript
-  // Client
-  clientContactFormSchema.parse(data)
-  // Server
-  const validation = validateContactForm(body)
-  if (!validation.success) { return NextResponse.json({ errors: validation.errors }, { status: 400 }) }
-  ```
+React Compiler will automatically handle memoization when enabled, making manual useMemo less necessary.
 
-### Utility & API Patterns
-- **Tailwind helper**: Always use `cn()` for conditional classes
-  ```typescript
-  import { cn } from "@/lib/utils"
-  ```
-- **API routes**: Use `NextResponse` with proper status codes
-  ```typescript
-  import { NextRequest, NextResponse } from "next/server"
-  export const POST = async (request: NextRequest): Promise<NextResponse<ApiResponse>> => { ... }
-  ```
-- **Content-Type**: Validate before parsing JSON
-  ```typescript
-  const contentType = request.headers.get("content-type")
-  if (!contentType?.includes("application/json")) {
-    return NextResponse.json({ message: "Invalid content-type" }, { status: 400 })
-  }
-  ```
-- **Sanitization**: Strip control characters before processing
-  ```typescript
-  export const sanitizeInput = (input: string): string =>
-    input.trim().replace(/[\x00-\x1F\x7F]/g, "")
-  ```
-- **Email service**: Dual emails (user confirmation + admin notification) via Resend
+🚩 <div onClick
 
-### File Organization
-```
-app/
-├── components/          # React components
-│   ├── ui/             # shadcn/ui base components (don't modify lightly)
-│   ├── FeatureName/    # Feature components with index.tsx
-├── config/             # Static data (site.ts, projects.ts, tech-stack.ts)
-├── hooks/              # Custom React hooks
-├── lib/                # Utilities (utils.ts, email.ts, validation.ts)
-├── api/                # API routes (app/api/*/route.ts)
-└── pages/              # Next.js pages (page.tsx)
-```
+divs are not interactive elements and adding onClick requires implementing keyboard control, screen reader announcement, etc
 
-### Git & Hooks
-- **Pre-commit**: Runs `bun run` on staged files (lefthook)
-- **Never commit**: `node_modules`, `.env`, build artifacts
+This is almost never the right move, and anyone capable of doing it right (the new tweet button) isn't going to be swayed by this prompt anyways
 
-### Tech Stack Notes
-- **Framework**: Next.js 16 (App Router)
-- **Styling**: Tailwind CSS 4
-- **UI**: Radix UI + shadcn/ui
-- **Validation**: Zod
-- **Email**: Resend
-- **Deployment**: Cloudflare via @opennextjs/cloudflare
-- **Package manager**: Bun (use `bun run`, `bun install`)
+🚩 preventDefault
+
+This is javascript and only runs once javascript loads. if you click a link / submit a form before that, preventDefault will not run. It's a necessary tool for progressive enhancement, but this flag should make you look closer for unexpected behavior
+
+🚩 fetch inside useEffect
+
+React code requires fetch to be in useEffect, but most things should use TanstackQuery or other provider instead.
+
+- the effect runs more often than you think
+- attempts to hook into the fetch lifecycle are usually buggy
+
+🚩 unecessary useEffects
+
+[https://react.dev/learn/you-might-not-need-an-effect] Read this article. You might not need an effect, so don't use it if you don't need it.
+
+🚩 a "hooks" directory
+
+A context provider and its useContext hook belog together, not split up into components and hooks directories
+Sorting your codebase by what each function looks like means small changes will span many directories.
+
+<!--
+Ignored rules:
+
+🚩 css files
+
+One CSS file for global styling (ex. when using shadcn/ui) is fine. If you need more CSS files, that's the red flag.
+
+-->

@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["app/**", "components/**", "hooks/**", "lib/**", "styles/**", "!**/*.lock"]
+    "includes": ["src/**", "!**/*.lock"]
   },
   "formatter": {
     "enabled": true,
@@ -32,7 +32,8 @@
         "noUnknownTypeSelector": "off"
       },
       "suspicious": {
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": "off",
+        "noControlCharactersInRegex": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
@@ -57,6 +58,9 @@
         "useNumberNamespace": "error",
         "noInferrableTypes": "error",
         "noUselessElse": "error"
+      },
+      "a11y": {
+        "noLabelWithoutControl": "off"
       }
     }
   },
