@@ -50,22 +50,14 @@ export const technologies: TechCategory[] = [
     color: "yellow",
   },
   {
-    category: "Developer & AI Tools",
-    skills: [
-      "Claude Code",
-      "OpenCode",
-      "Cursor",
-      "Windsurf",
-      "Z.ai",
-      "Greptile",
-      "Git",
-      "Bun",
-      "Astral",
-      "Stagehand",
-      "Jest",
-      "Google Test",
-    ],
+    category: "AI Workflow",
+    skills: ["Claude Code", "OpenCode", "Gemini", "Codex", "Windsurf", "Z.ai", "Greptile"],
     color: "cyan",
+  },
+  {
+    category: "Tools",
+    skills: ["Git", "Bun", "Astral", "Stagehand", "Jest", "Google Test"],
+    color: "fuchsia",
   },
 ]
 
@@ -96,8 +88,8 @@ export const getColorClasses = (color: string): string => {
       return "bg-yellow-100 text-yellow-800 ring-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-300 dark:ring-yellow-800"
     case "indigo":
       return "bg-indigo-100 text-indigo-800 ring-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-300 dark:ring-indigo-800"
-    case "slate":
-      return "bg-slate-100 text-slate-800 ring-slate-200 dark:bg-slate-900/20 dark:text-slate-300 dark:ring-slate-800"
+    case "fuchsia":
+      return "bg-fuchsia-100 text-fuchsia-800 ring-fuchsia-200 dark:bg-fuchsia-900/20 dark:text-fuchsia-300 dark:ring-fuchsia-800"
     default:
       return "bg-gray-100 text-gray-800 ring-gray-200 dark:bg-gray-900/20 dark:text-gray-300 dark:ring-gray-800"
   }
