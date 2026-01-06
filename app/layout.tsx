@@ -1,10 +1,12 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, JetBrains_Mono } from "next/font/google"
 import { ViewTransitions } from "next-view-transitions"
-import { ThemeProvider } from "@/components/ThemeProvider"
-import { cn } from "@/lib/utils"
+import { ThemeProvider } from "../components/ThemeProvider"
+import { cn } from "../lib/utils"
 import "./globals.css"
-import type React from "react" // Import React
+import type React from "react"
+
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-sans" })
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={jetbrainsMono.variable}>
       <head>
         <script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
