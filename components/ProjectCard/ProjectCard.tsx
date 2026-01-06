@@ -16,7 +16,7 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <Card className="flex h-[32rem] w-full flex-col overflow-hidden sm:w-80 lg:w-96">
+    <Card className="flex h-136 w-96 flex-col overflow-hidden sm:w-80 lg:w-96">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <div className="relative aspect-video cursor-pointer">
@@ -49,7 +49,7 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
       <div className="flex flex-1 flex-col">
         <CardContent className="flex-1 p-4 pb-1">
           <h3 className="mb-2 text-center font-semibold text-xl">{title}</h3>
-          <p className="mb-3 text-muted-foreground text-sm">{description}</p>
+          <p className="mb-3 text-center text-muted-foreground text-sm">{description}</p>
           <div className="flex max-h-[6rem] flex-wrap justify-center gap-2">
             {tags.slice(0, 12).map((tag) => (
               <span
