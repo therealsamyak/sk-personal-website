@@ -1,7 +1,7 @@
 export interface SocialLink {
   platform: string
   url: string
-  icon: string
+  icon?: string
 }
 
 export interface PersonalInfo {
@@ -11,6 +11,7 @@ export interface PersonalInfo {
   email?: string
   profileImage?: string
   resumeUrl?: string
+  icon?: string
   socialLinks: SocialLink[]
 }
 
@@ -43,7 +44,7 @@ export const personalInfo: PersonalInfo = {
 }
 
 export const navigation = [
-  { name: "About", href: "/" },
+  { name: "Home", href: "/" },
   { name: "Projects", href: "/projects" },
   { name: "Contact", href: "/contact" },
 ]

@@ -117,7 +117,7 @@ export const Header = () => {
           <ThemeToggle />
           {personalInfo.resumeUrl && (
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => window.open(personalInfo.resumeUrl, "_blank")}
               className="hidden cursor-pointer sm:inline-flex"
             >
@@ -148,7 +148,7 @@ export const Header = () => {
             })}
             {personalInfo.resumeUrl && (
               <Button
-                variant="outline"
+                variant="default"
                 onClick={() => {
                   window.open(personalInfo.resumeUrl, "_blank")
                   setMobileMenuOpen(false)

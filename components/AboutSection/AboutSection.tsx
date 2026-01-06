@@ -7,9 +7,6 @@ import { personalInfo } from "../../config/site"
 
 export const AboutSection = () => (
   <div>
-    <h2 className="mb-12 text-center font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
-      About Me
-    </h2>
     <div className="mb-12 flex flex-col items-center justify-center space-y-6 text-center">
       {personalInfo.profileImage && (
         <div
@@ -29,7 +26,7 @@ export const AboutSection = () => (
       )}
       <div className="space-y-4 px-4">
         <h3
-          className="text-center font-semibold text-xl tracking-tight sm:text-2xl"
+          className="text-center font-semibold text-2xl tracking-tight sm:text-4xl"
           style={{ viewTransitionName: "profile-name" }}
         >
           {personalInfo.name}
@@ -44,7 +41,7 @@ export const AboutSection = () => (
       >
         {personalInfo.socialLinks.map((social) => (
           <Link key={social.platform} href={social.url} target="_blank">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="lg">
               {social.icon === "siGithub" && (
                 <svg className="h-3 w-3 sm:mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <title>GitHub</title>

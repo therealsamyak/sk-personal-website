@@ -113,7 +113,7 @@ export const projects: Project[] = [
   {
     title: "Personal Portfolio Website",
     description:
-      "Modern, responsive portfolio built with Next.js 15, TypeScript, and TailwindCSS with dark/light theme toggle.",
+      "Modern, responsive portfolio built with Next.js, TypeScript, and TailwindCSS with dark/light theme toggle.",
     image: "/personal-website.png",
     link: "https://github.com/therealsamyak/sk-personal-website",
     tags: ["TypeScript", "Next.js", "React", "TailwindCSS", "shadcn/ui", "Cloudflare"],
