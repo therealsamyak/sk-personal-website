@@ -1,4 +1,4 @@
-import { TechStack } from "../TechStack"
+import { TechStack } from "@/components/TechStack"
 
 export const TechStackSection = () => (
   <section className="w-full py-12 md:py-24">

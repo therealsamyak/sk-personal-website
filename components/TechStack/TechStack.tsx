@@ -1,5 +1,5 @@
-import { getColorClasses, technologies } from "../../config/tech-stack"
-import { Card } from "../ui/card"
+import { getColorClasses, technologies } from "@/config/tech-stack"
+import { Card } from "@/ui/card"
 
 export const TechStack = () => (
   <div className="flex flex-wrap justify-center gap-6">

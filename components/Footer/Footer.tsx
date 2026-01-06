@@ -1,4 +1,4 @@
-import { personalInfo } from "../../config/site"
+import { personalInfo } from "@/config/site"
 
 export const Footer = () => (
   <footer className="h-16 flex-shrink-0 border-t">

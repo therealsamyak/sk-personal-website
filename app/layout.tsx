@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import { ViewTransitions } from "next-view-transitions"
-import { ThemeProvider } from "../components/ThemeProvider"
-import { cn } from "../lib/utils"
+import { ThemeProvider } from "@/components/ThemeProvider"
+import { cn } from "@/lib/utils"
 import "./globals.css"
 import type React from "react"
 
@@ -55,13 +55,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" suppressHydrationWarning className={jetbrainsMono.variable}>
-      <head>
-        <script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-          async
-          defer
-        />
-      </head>
+      <head />
       <body
         className={cn(
           "min-h-screen min-w-[300px] bg-background font-sans antialiased",

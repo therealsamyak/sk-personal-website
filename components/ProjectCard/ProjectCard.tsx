@@ -5,10 +5,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { siGithub } from "simple-icons"
-import type { Project } from "../../config/projects"
-import { getColorClasses, getTechColor } from "../../config/tech-stack"
-import { Card, CardContent, CardFooter } from "../ui/card"
-import { Dialog, DialogTitle, DialogTrigger } from "../ui/dialog"
+import type { Project } from "@/config/projects"
+import { getColorClasses, getTechColor } from "@/config/tech-stack"
+import { Card, CardContent, CardFooter } from "@/ui/card"
+import { Dialog, DialogTitle, DialogTrigger } from "@/ui/dialog"
 
 interface ProjectCardProps extends Project {}
 

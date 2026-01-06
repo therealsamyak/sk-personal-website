@@ -1,6 +1,6 @@
-import { AboutSection } from "../AboutSection"
-import { TechStack } from "../TechStack"
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable"
+import { AboutSection } from "@/components/AboutSection"
+import { TechStack } from "@/components/TechStack"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/ui/resizable"
 
 export const ResizableSection = () => (
   <section className="h-full w-full p-6">

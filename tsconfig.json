@@ -37,6 +37,9 @@
       ],
       "@/ui/*": [
         "./components/ui/*"
+      ],
+      "@/config/*": [
+        "./config/*"
       ]
     }
   },
