@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation"
 import { Link } from "next-view-transitions"
 import { useState } from "react"
 import { siGithub, siX } from "simple-icons"
+import { navigation, personalInfo } from "../../config/site"
 import { ThemeToggle } from "../ThemeToggle"
 import { Button } from "../ui/button"
-import { navigation, personalInfo } from "../../config/site"
 
 export const Header = () => {
   const pathname = usePathname()

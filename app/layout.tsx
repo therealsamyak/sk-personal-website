@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import { ViewTransitions } from "next-view-transitions"
 import { ThemeProvider } from "../components/ThemeProvider"
 import { cn } from "../lib/utils"
@@ -11,14 +11,12 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-san
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-});
+})
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-
+})
 
 export const metadata: Metadata = {
   title: "SK - Software Engineer",
@@ -64,7 +62,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           defer
         />
       </head>
-      <body className={cn("min-h-screen min-w-[300px] bg-background font-sans antialiased", `${geistSans.variable} ${geistMono.variable}`)}>
+      <body
+        className={cn(
+          "min-h-screen min-w-[300px] bg-background font-sans antialiased",
+          `${geistSans.variable} ${geistMono.variable}`,
+        )}
+      >
         <ViewTransitions>
           <ThemeProvider
             attribute="class"
