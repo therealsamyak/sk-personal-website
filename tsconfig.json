@@ -24,19 +24,19 @@
     ],
     "paths": {
       "@/*": [
-        "./app/*"
+        "./"
       ],
       "@/components/*": [
-        "./app/components/*"
+        "./components/*"
       ],
       "@/lib/*": [
-        "./app/lib/*"
+        "./lib/*"
       ],
       "@/hooks/*": [
-        "./app/hooks/*"
+        "./hooks/*"
       ],
       "@/ui/*": [
-        "./app/components/ui/*"
+        "./components/ui/*"
       ]
     }
   },

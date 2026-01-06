@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { sendContactEmails } from "@/lib/email"
+import { sendContactEmails } from "../../../lib/email"
 import { sanitizeContactData } from "./sanitize"
 import { validateTurnstileToken } from "./turnstile"
 import { validateContactForm } from "./validation"
