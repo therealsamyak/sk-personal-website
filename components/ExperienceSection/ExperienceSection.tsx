@@ -59,10 +59,16 @@ export const ExperienceSection = () => (
               <p className="text-gray-500 text-sm">July - Sept. 2025 | July - Sept. 2024</p>
             </div>
             <ul className="mt-3 flex-1 list-inside list-disc space-y-1 text-gray-600 text-sm dark:text-gray-400">
-              <li>Created a NextJS Audit automation app, speeding up audits by 40%.</li>
-              <li>Utilized AWS services to deploy various production and POC applications.</li>
+              <li>
+                Created a containerized audit automation app in NextJS, speeding up Audit timeline
+                from ~1 week -&gt; ~48 hours.
+              </li>
+              <li>
+                Utilized AWS ECS, RDS, SDM, Amplify to deploy production applications and container
+                services.
+              </li>
+              <li>Overhauled authentication framework with WorkOS AuthKit.</li>
               <li>Triaged and fixed multiple high-priority bugs in record-time.</li>
-              <li>Deleted hundreds of files</li>
             </ul>
           </div>
         </div>
