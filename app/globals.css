@@ -95,6 +95,7 @@
   --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
   --sidebar-border: oklch(0.928 0.006 264.531);
   --sidebar-ring: oklch(0.707 0.022 261.325);
+  --button-shadow: color-mix(in oklch, var(--primary), black 25%);
 }
 
 .dark {
@@ -189,6 +190,15 @@ body {
     animation-duration: 0.4s;
     animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
+
+  /* Reduced motion support for duolingo buttons */
+  @media (prefers-reduced-motion: reduce) {
+    .duolingo-button {
+      transition: none;
+      animation: none;
+      transform: none;
+    }
+  }
 }
 
 /* Theme Switch Animation */
@@ -218,6 +228,17 @@ body {
     /* Use CSS variables for the origin, defaulting to center if not set */
     clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
     opacity: 1;
+  }
+}
+
+@keyframes duolingoButtonPress {
+  0% {
+    transform: translateY(-4px);
+    box-shadow: 0px 4px var(--button-shadow);
+  }
+  100% {
+    transform: translateY(0px);
+    box-shadow: 0px 0px var(--button-shadow);
   }
 }
 

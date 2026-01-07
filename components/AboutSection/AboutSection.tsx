@@ -41,7 +41,11 @@ export const AboutSection = () => (
       >
         {personalInfo.socialLinks.map((social) => (
           <Link key={social.platform} href={social.url} target="_blank">
-            <Button variant="outline" size="lg">
+            <Button
+              variant="outline"
+              size="lg"
+              className="duolingo-button -translate-y-[4px] transform-gpu shadow-[0px_4px_var(--button-shadow)] transition-all duration-100 ease-out hover:bg-primary/90 active:translate-y-0 active:animate-duolingoButtonPress active:shadow-[0px_0px_var(--button-shadow)]"
+            >
               {social.icon === "siGithub" && (
                 <svg className="h-3 w-3 sm:mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <title>GitHub</title>
