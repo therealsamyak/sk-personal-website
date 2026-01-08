@@ -50,7 +50,7 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
         <CardContent className="flex-1 p-4 pb-1">
           <h3 className="mb-2 text-center font-semibold text-xl">{title}</h3>
           <p className="mb-3 text-center text-muted-foreground text-sm">{description}</p>
-          <div className="flex max-h-[6rem] flex-wrap justify-center gap-2">
+          <div className="flex max-h-24 flex-wrap justify-center gap-2">
             {tags.slice(0, 12).map((tag) => (
               <span
                 key={tag}
