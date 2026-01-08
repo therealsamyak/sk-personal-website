@@ -35,7 +35,19 @@ Deployed to Cloudflare Workers via OpenNext.
 bun run deploy
 ```
 
-Set `RESEND_API_KEY` and `CONTACT_EMAIL` in Cloudflare.
+Set these environment variables in Cloudflare:
+
+**Secret (encrypted):**
+
+- `FROM_EMAIL` - Sender email for contact form
+- `NOTIFICATION_EMAIL` - Your email to receive form submissions
+- `RESEND_API_KEY` - Your Resend API key
+- `TURNSTILE_SECRET_KEY` - Turnstile secret for spam protection
+
+**Plaintext:**
+
+- `NEXT_PUBLIC_BASE_URL` - Your production URL (e.g., https://yourdomain.dev)
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY` - Turnstile site key for spam protection
 
 ## License
 
