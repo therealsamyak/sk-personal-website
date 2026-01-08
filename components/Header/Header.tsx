@@ -20,10 +20,7 @@ export const Header = () => {
       <div className="relative mx-auto flex h-14 w-full max-w-full items-center justify-between px-4 md:px-6">
         {/* Left: Logo/Profile */}
         <div className="flex shrink-0 items-center">
-          <Link
-            className="mr-2 flex min-w-0 items-center space-x-1.5 sm:mr-3 sm:space-x-2"
-            href="/"
-          >
+          <Link className="mr-2 flex min-w-0 items-center gap-1.5 sm:mr-3 sm:gap-2" href="/">
             {/* Desktop: Show PFP on sub-pages, Mobile: Always show PFP on sub-pages */}
             {isSubPage && personalInfo.profileImage && (
               <div
@@ -84,7 +81,7 @@ export const Header = () => {
         </div>
 
         {/* Center: Nav (absolute center of the page, hidden on small) */}
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 transform items-center space-x-6 font-medium text-sm sm:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 font-medium text-sm sm:flex">
           {navigation.map((item) => {
             const isActive = pathname === item.href
             return (
@@ -102,7 +99,7 @@ export const Header = () => {
         </nav>
 
         {/* Right: Controls */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           {/* Mobile Menu Button - Only show on small screens */}
           <Button
             variant="ghost"
@@ -130,7 +127,7 @@ export const Header = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="border-t bg-background sm:hidden">
-          <div className="space-y-3 px-4 py-3">
+          <div className="flex flex-col gap-3 px-4 py-3">
             {navigation.map((item) => {
               const isActive = pathname === item.href
               return (
