@@ -7,7 +7,7 @@ import { Button } from "@/ui/button"
 
 export const AboutSection = () => (
   <div>
-    <div className="mb-12 flex flex-col items-center justify-center space-y-6 text-center">
+    <div className="mb-12 flex flex-col items-center justify-center gap-6 text-center">
       {personalInfo.profileImage && (
         <div
           className="relative h-64 w-64 shrink-0 overflow-hidden rounded-full"
@@ -24,9 +24,9 @@ export const AboutSection = () => (
           />
         </div>
       )}
-      <div className="space-y-4 px-4">
+      <div className="flex flex-col gap-4 px-4">
         <h3
-          className="text-center font-semibold text-2xl tracking-tight sm:text-4xl"
+          className="text-center font-semibold text-3xl tracking-tight sm:text-5xl"
           style={{ viewTransitionName: "profile-name" }}
         >
           {personalInfo.name}
