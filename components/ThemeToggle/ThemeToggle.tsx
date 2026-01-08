@@ -67,7 +67,7 @@ export const ThemeToggle = () => {
       type="button"
     >
       {/* Switch knob */}
-      <div className="flex h-7 w-7 transform items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out dark:translate-x-7 dark:bg-slate-900">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out dark:translate-x-7 dark:bg-slate-900">
         <Sun className="h-4 w-4 text-amber-500 transition-all duration-300 dark:scale-0 dark:opacity-0" />
         <Moon className="absolute h-4 w-4 scale-0 text-blue-300 opacity-0 transition-all duration-300 dark:scale-100 dark:opacity-100" />
       </div>
