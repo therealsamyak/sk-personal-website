@@ -1,5 +1,12 @@
 export const sanitizeInput = (input: string): string => {
-  return input.trim().replace(/[\x00-\x1F\x7F]/g, "")
+  const trimmed = input.trim()
+  return trimmed
+    .split("")
+    .filter((char) => {
+      const code = char.charCodeAt(0)
+      return code > 31 && code !== 127
+    })
+    .join("")
 }
 
 export const sanitizeContactData = (data: { name: string; email: string; message: string }) => ({

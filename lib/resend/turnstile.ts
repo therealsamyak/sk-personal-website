@@ -33,7 +33,7 @@ export const verifyTurnstileToken = async (token: string): Promise<TurnstileVeri
       success: false,
       error: "Bot detected. Refresh page and try again.",
     }
-  } catch (_error) {
+  } catch {
     return {
       success: false,
       error: "Bot detected. Refresh page and try again.",

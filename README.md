@@ -36,22 +36,26 @@ A modern, responsive personal portfolio built with Next.js 16, TypeScript, Tailw
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/therealsamyak/sk-personal-website.git
 cd sk-personal-website
 ```
 
 2. Install dependencies:
+
 ```bash
 bun install
 ```
 
 3. Copy the example environment file and configure:
+
 ```bash
 cp .env.example .env
 ```
 
 Update `.env` with your values:
+
 ```env
 # Required for email functionality
 RESEND_API_KEY=your_resend_api_key_here
@@ -115,6 +119,7 @@ sk-personal-website/
 ### Personal Information
 
 Edit `app/config/site.ts` to update:
+
 - Name, title, and description
 - Email address
 - Profile image
@@ -124,6 +129,7 @@ Edit `app/config/site.ts` to update:
 ### Projects
 
 Edit `app/config/projects.ts` to add or modify projects:
+
 - Title and description
 - Project image (stored in `public/`)
 - Project link
@@ -132,6 +138,7 @@ Edit `app/config/projects.ts` to add or modify projects:
 ### Tech Stack
 
 Edit `app/config/tech-stack.ts` to update your skills:
+
 - Organized by category (Frontend, Backend, Hardware, etc.)
 - Each skill has an associated color for styling
 
@@ -154,11 +161,13 @@ bun run cf-typegen   # Generate Cloudflare environment types
 This project uses [@opennextjs/cloudflare](https://github.com/opennextjs/opennextjs-cloudflare) for deployment to Cloudflare Pages.
 
 1. Build the project:
+
 ```bash
 bun run cf-build
 ```
 
 2. Deploy to Cloudflare:
+
 ```bash
 bun run cf-deploy
 ```
@@ -168,6 +177,7 @@ bun run cf-deploy
 ### Environment Variables
 
 Set these in Cloudflare Pages dashboard or Wrangler:
+
 - `RESEND_API_KEY` - Your Resend API key
 - `CONTACT_EMAIL` - Email address to receive form submissions
 

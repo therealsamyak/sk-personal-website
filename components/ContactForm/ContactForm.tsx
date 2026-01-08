@@ -73,7 +73,7 @@ export const ContactForm = () => {
           turnstile.reset(widgetElement)
         }
       }
-    } catch (_error) {
+    } catch {
       setMessage("Server fail. Refresh the page and try again later.")
     } finally {
       setPending(false)

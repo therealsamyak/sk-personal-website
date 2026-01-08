@@ -7,7 +7,10 @@ import { cn } from "@/lib/utils"
 import "./globals.css"
 import type React from "react"
 
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-sans" })
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

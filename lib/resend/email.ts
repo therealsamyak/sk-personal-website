@@ -20,7 +20,6 @@ export const sendContactEmails = async (formData: ContactFormData) => {
   }
 
   try {
-    // Generate timestamp in UTC-7 (America/Los_Angeles)
     const timestamp = new Date().toLocaleString("en-US", {
       timeZone: "America/Los_Angeles",
       year: "numeric",
@@ -31,7 +30,6 @@ export const sendContactEmails = async (formData: ContactFormData) => {
       hour12: true,
     })
 
-    // Send confirmation email to person who submitted the form
     const confirmationEmail = await resend.emails.send({
       from: process.env.FROM_EMAIL,
       to: [email],
@@ -72,7 +70,6 @@ export const sendContactEmails = async (formData: ContactFormData) => {
       `,
     })
 
-    // Send notification email to you
     const notificationEmail = await resend.emails.send({
       from: process.env.FROM_EMAIL,
       to: [process.env.NOTIFICATION_EMAIL],
