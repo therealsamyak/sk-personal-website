@@ -22,8 +22,7 @@ export const personalInfo: PersonalInfo = {
     "Full-Stack & Embedded Software Engineer. Masters of Engineering - IoT Systems @ UCLA. Passionate about software and business. ",
   email: "therealsamyak@gmail.com",
   profileImage: "/pfp.jpeg",
-  resumeUrl:
-    "https://1drv.ms/b/c/c23dc39496b5c117/ES6K1VrUmuJHomTu_MGzvnQBU1H6JPDESeEQbvQFBmEVjw?e=h02gHt", // Optional: set your resume URL here
+  resumeUrl: "https://tinyurl.com/samyak-kakatur-resume", // Optional: set your resume URL here
   socialLinks: [
     {
       platform: "GitHub",
