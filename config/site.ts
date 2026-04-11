@@ -1,10 +1,10 @@
-export interface SocialLink {
+interface SocialLink {
   platform: string
   url: string
   icon?: string
 }
 
-export interface PersonalInfo {
+interface PersonalInfo {
   name: string
   title: string
   description: string
