@@ -201,6 +201,19 @@ body {
   }
 }
 
+/* Reduced motion support for scanner animation and error shake */
+@media (prefers-reduced-motion: reduce) {
+  .scanner-overlay,
+  .scanner-line,
+  .scan-clip {
+    animation: none !important;
+  }
+
+  .form-error-shake {
+    animation: none !important;
+  }
+}
+
 /* Theme Switch Animation */
 ::view-transition-old(theme-switch),
 ::view-transition-new(theme-switch) {
@@ -240,6 +253,80 @@ body {
     transform: translateY(0px);
     box-shadow: 0px 0px var(--button-shadow);
   }
+}
+
+@keyframes scannerSweep {
+  from {
+    transform: translateY(-64px);
+  }
+  to {
+    transform: translateY(800px);
+  }
+}
+
+@keyframes scanReveal {
+  from {
+    clip-path: inset(0);
+  }
+  to {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+@keyframes errorShake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.scanner-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.scanner-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    oklch(from var(--primary) l c h / 0.05) 25%,
+    oklch(from var(--primary) l c h / 0.13) 49%,
+    var(--primary) 49.3%,
+    var(--primary) 50.7%,
+    oklch(from var(--primary) l c h / 0.13) 51%,
+    oklch(from var(--primary) l c h / 0.05) 75%,
+    transparent
+  );
+  filter: url(#scannerGlow);
+  animation: scannerSweep 2s ease-in-out forwards;
+}
+
+.scan-clip {
+  animation: scanReveal 2s ease-in-out forwards;
+}
+
+.form-error-shake {
+  animation: errorShake 0.4s ease-in-out;
 }
 
 ::view-transition-new(theme-switch) {
