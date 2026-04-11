@@ -1,4 +1,4 @@
-export interface TurnstileVerifyResult {
+interface TurnstileVerifyResult {
   success: boolean
   error?: string
 }
