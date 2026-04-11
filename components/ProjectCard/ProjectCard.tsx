@@ -10,9 +10,18 @@ import { getColorClasses, getTechColor } from "@/config/tech-stack"
 import { Card, CardContent, CardFooter } from "@/ui/card"
 import { Dialog, DialogTitle, DialogTrigger } from "@/ui/dialog"
 
-interface ProjectCardProps extends Project {}
+interface ProjectCardProps extends Project {
+  loading?: "lazy" | "eager"
+}
 
-export const ProjectCard = ({ title, description, image, link, tags }: ProjectCardProps) => {
+export const ProjectCard = ({
+  title,
+  description,
+  image,
+  link,
+  tags,
+  loading,
+}: ProjectCardProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -24,6 +33,7 @@ export const ProjectCard = ({ title, description, image, link, tags }: ProjectCa
               src={image || "/placeholder.svg"}
               alt={title}
               fill
+              loading={loading}
               className="object-cover transition-transform hover:scale-105"
             />
           </div>
