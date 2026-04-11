@@ -97,3 +97,6 @@ temp/
 .serena*
 .wrangler*
 .sisyphus*
+
+# opensrc - source code for packages
+opensrc/

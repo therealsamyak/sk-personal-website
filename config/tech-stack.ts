@@ -1,4 +1,4 @@
-export interface TechCategory {
+interface TechCategory {
   category: string
   skills: string[]
   color: string

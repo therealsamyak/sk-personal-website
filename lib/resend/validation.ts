@@ -19,5 +19,3 @@ export const clientContactFormSchema = z.object({
     .max(2000, "Message must be less than 2000 characters")
     .trim(),
 })
-
-export type ClientContactFormData = z.infer<typeof clientContactFormSchema>

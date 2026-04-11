@@ -1,4 +1,4 @@
-export const sanitizeInput = (input: string): string => {
+const sanitizeInput = (input: string): string => {
   const trimmed = input.trim()
   return trimmed
     .split("")
