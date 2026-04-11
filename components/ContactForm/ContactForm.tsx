@@ -1,7 +1,8 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
+import { CircleCheck } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import type { z } from "zod"
 import { submitContactForm } from "@/lib/resend/actions"
@@ -14,18 +15,19 @@ import { Textarea } from "@/ui/textarea"
 
 declare global {
   interface Window {
-    onTurnstileSuccess?: () => void
-    onTurnstileError?: () => void
     turnstile?: {
-      reset: (element: Element) => void
+      render: (element: Element | string, options: Record<string, unknown>) => string
+      reset: (widgetIdOrElement: string | Element) => void
+      remove: (widgetIdOrElement: string | Element) => void
     }
   }
 }
 
 export const ContactForm = () => {
-  const [pending, setPending] = useState(false)
-  const [message, setMessage] = useState("")
+  const [state, setState] = useState<"idle" | "submitting" | "success" | "error">("idle")
   const [turnstileVerified, setTurnstileVerified] = useState(false)
+  const turnstileRef = useRef<HTMLDivElement>(null)
+  const widgetIdRef = useRef<string | null>(null)
 
   const form = useForm<z.infer<typeof clientContactFormSchema>>({
     resolver: zodResolver(clientContactFormSchema),
@@ -34,18 +36,44 @@ export const ContactForm = () => {
   })
 
   useEffect(() => {
-    ;(window as Window).onTurnstileSuccess = () => setTurnstileVerified(true)
-    ;(window as Window).onTurnstileError = () => setTurnstileVerified(false)
+    const container = turnstileRef.current
+    if (!container) return
+
+    const renderWidget = () => {
+      if (!container || !window.turnstile?.render) return
+      if (container.querySelector("iframe, input")) return
+      widgetIdRef.current = window.turnstile.render(container, {
+        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!,
+        theme: "auto",
+        callback: () => setTurnstileVerified(true),
+        "error-callback": () => setTurnstileVerified(false),
+      })
+    }
+
+    if (window.turnstile?.render) {
+      renderWidget()
+    } else {
+      const script = document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')
+      if (script) {
+        script.addEventListener("load", renderWidget)
+        return () => script.removeEventListener("load", renderWidget)
+      }
+    }
 
     return () => {
-      delete (window as Window).onTurnstileSuccess
-      delete (window as Window).onTurnstileError
+      if (widgetIdRef.current && window.turnstile?.remove) {
+        try {
+          window.turnstile.remove(widgetIdRef.current)
+        } catch {
+          /* widget may already be removed */
+        }
+        widgetIdRef.current = null
+      }
     }
   }, [])
 
   const onSubmit = async (data: z.infer<typeof clientContactFormSchema>) => {
-    setPending(true)
-    setMessage("")
+    setState("submitting")
 
     try {
       const formData = new FormData()
@@ -53,7 +81,7 @@ export const ContactForm = () => {
       formData.append("email", data.email)
       formData.append("message", data.message)
 
-      const turnstileInput = document.querySelector<HTMLInputElement>(
+      const turnstileInput = turnstileRef.current?.querySelector<HTMLInputElement>(
         'input[name="cf-turnstile-response"]',
       )
 
@@ -62,89 +90,143 @@ export const ContactForm = () => {
       }
 
       await submitContactForm(formData)
-
-      setMessage("Thanks for your message! I'll get back to you soon.")
-      form.reset()
-      setTurnstileVerified(false)
-      const turnstile = (window as Window).turnstile
-      if (turnstile) {
-        const widgetElement = document.querySelector(".cf-turnstile")
-        if (widgetElement) {
-          turnstile.reset(widgetElement)
-        }
-      }
     } catch {
-      setMessage("Server fail. Refresh the page and try again later.")
-    } finally {
-      setPending(false)
+      setState("error")
+    }
+  }
+
+  const handleScanComplete = () => {
+    if (state !== "submitting") return
+    setState("success")
+    form.reset()
+    setTurnstileVerified(false)
+    if (window.turnstile) {
+      if (widgetIdRef.current) {
+        try {
+          window.turnstile.remove(widgetIdRef.current)
+        } catch {
+          /* widget may already be removed */
+        }
+        widgetIdRef.current = null
+      }
+      const container = turnstileRef.current
+      if (container && window.turnstile.render) {
+        widgetIdRef.current = window.turnstile.render(container, {
+          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!,
+          theme: "auto",
+          callback: () => setTurnstileVerified(true),
+          "error-callback": () => setTurnstileVerified(false),
+        })
+      }
     }
   }
 
   return (
-    <Card className="p-6">
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <Controller
-          name="name"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="name">Name</FieldLabel>
-              <Input {...field} id="name" aria-invalid={fieldState.invalid} />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-        <Controller
-          name="email"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input {...field} id="email" type="email" aria-invalid={fieldState.invalid} />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-        <Controller
-          name="message"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="message">Message</FieldLabel>
-              <Textarea {...field} id="message" aria-invalid={fieldState.invalid} />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-        {/* turnstile */}
-        <div className="flex justify-center">
-          <div
-            className="cf-turnstile"
-            data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-            data-theme="auto"
-            data-callback="onTurnstileSuccess"
-            data-error-callback="onTurnstileError"
-          />
-        </div>
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={pending || !form.formState.isValid || !turnstileVerified}
-        >
-          {pending ? "Sending..." : "Send Message"}
-        </Button>
-        {message && (
-          <p
-            className={`mt-2 text-center text-sm ${
-              message.includes("Thanks") || message.includes("received")
-                ? "text-green-600"
-                : "text-red-600"
-            }`}
-          >
-            {message}
-          </p>
+    <>
+      <svg
+        style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}
+        aria-hidden="true"
+      >
+        <defs>
+          <filter id="scannerGlow" colorInterpolationFilters="linearRGB">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur16" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur8" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur4" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur2" />
+            <feMerge>
+              <feMergeNode in="blur16" />
+              <feMergeNode in="blur8" />
+              <feMergeNode in="blur4" />
+              <feMergeNode in="blur2" />
+            </feMerge>
+            <feBlend in="SourceGraphic" mode="screen" />
+          </filter>
+        </defs>
+      </svg>
+      <Card
+        className={`p-6 relative overflow-hidden ${state === "error" ? "form-error-shake" : ""}`}
+      >
+        {state === "success" ? (
+          <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
+            <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
+            <p className="text-center text-green-600 dark:text-green-400">
+              Thanks for your message! I&apos;ll get back to you soon.
+            </p>
+          </div>
+        ) : (
+          <div style={{ display: state === "submitting" ? "grid" : undefined }}>
+            {state === "submitting" && (
+              <div className="[grid-area:1/1] flex min-h-[300px] flex-col items-center justify-center gap-4">
+                <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
+                <p className="text-center text-green-600 dark:text-green-400">
+                  Thanks for your message! I&apos;ll get back to you soon.
+                </p>
+              </div>
+            )}
+            <div
+              className={state === "submitting" ? "[grid-area:1/1] scan-clip" : ""}
+              onAnimationEnd={state === "submitting" ? handleScanComplete : undefined}
+            >
+              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+                <Controller
+                  name="name"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="name">Name</FieldLabel>
+                      <Input {...field} id="name" aria-invalid={fieldState.invalid} />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="email"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="email">Email</FieldLabel>
+                      <Input {...field} id="email" type="email" aria-invalid={fieldState.invalid} />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="message"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="message">Message</FieldLabel>
+                      <Textarea {...field} id="message" aria-invalid={fieldState.invalid} />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
+                />
+                {/* turnstile */}
+                <div className="flex justify-center">
+                  <div ref={turnstileRef} id="turnstile-container" />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={state !== "idle" || !form.formState.isValid || !turnstileVerified}
+                >
+                  {state === "submitting" ? "Sending..." : "Send Message"}
+                </Button>
+                {state === "error" && (
+                  <p className="mt-2 text-center text-sm text-red-600 dark:text-red-400">
+                    Server fail. Refresh the page and try again later.
+                  </p>
+                )}
+              </form>
+            </div>
+          </div>
         )}
-      </form>
-    </Card>
+        {state === "submitting" && (
+          <div className="scanner-overlay">
+            <div className="scanner-line" />
+          </div>
+        )}
+      </Card>
+    </>
   )
 }
