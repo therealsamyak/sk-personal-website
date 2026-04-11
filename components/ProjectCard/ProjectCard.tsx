@@ -1,6 +1,6 @@
 "use client"
 
-import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { Dialog as DialogPrimitive } from "radix-ui"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
