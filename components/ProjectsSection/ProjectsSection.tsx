@@ -9,7 +9,11 @@ export const ProjectsSection = () => (
       </h2>
       <div className="flex flex-wrap justify-center gap-6">
         {projects.map((project, index) => (
-          <ProjectCard key={`${project.title}-${index}`} {...project} />
+          <ProjectCard
+            key={`${project.title}-${index}`}
+            {...project}
+            loading={index === 0 ? "eager" : "lazy"}
+          />
         ))}
       </div>
     </div>
