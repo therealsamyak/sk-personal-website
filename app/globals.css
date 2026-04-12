@@ -205,8 +205,17 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .scanner-overlay,
   .scanner-line,
-  .scan-clip {
+  .form-scan-clip,
+  .loading-appear {
     animation: none !important;
+  }
+
+  .form-scan-clip {
+    animation: formScanClip 2s ease-in-out forwards;
+  }
+
+  .loading-appear {
+    animation: loadingAppear 2s ease-in-out forwards;
   }
 
   .form-error-shake {
@@ -255,21 +264,34 @@ body {
   }
 }
 
-@keyframes scannerSweep {
-  from {
-    transform: translateY(-64px);
-  }
-  to {
-    transform: translateY(800px);
-  }
-}
-
-@keyframes scanReveal {
+@keyframes formScanClip {
   from {
     clip-path: inset(0);
   }
   to {
     clip-path: inset(100% 0 0 0);
+  }
+}
+
+@keyframes loadingAppear {
+  0%,
+  49% {
+    opacity: 0;
+  }
+  56% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes scannerSweep {
+  from {
+    top: -64px;
+  }
+  to {
+    top: 100%;
   }
 }
 
@@ -305,6 +327,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
+  top: -64px;
   height: 64px;
   background: linear-gradient(
     to bottom,
@@ -319,10 +342,6 @@ body {
   );
   filter: url(#scannerGlow);
   animation: scannerSweep 2s ease-in-out forwards;
-}
-
-.scan-clip {
-  animation: scanReveal 2s ease-in-out forwards;
 }
 
 .form-error-shake {
