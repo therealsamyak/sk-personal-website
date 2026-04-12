@@ -1,7 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CircleCheck } from "lucide-react"
+import { CircleCheck, CircleX } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import type { z } from "zod"
@@ -26,8 +26,14 @@ declare global {
 export const ContactForm = () => {
   const [state, setState] = useState<"idle" | "submitting" | "success" | "error">("idle")
   const [turnstileVerified, setTurnstileVerified] = useState(false)
+  const [dotCount, setDotCount] = useState(0)
   const turnstileRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
+  const formAreaRef = useRef<HTMLDivElement>(null)
+  const successViewRef = useRef<HTMLDivElement>(null)
+  const errorViewRef = useRef<HTMLDivElement>(null)
+
+  const dots = ".".repeat(dotCount + 1)
 
   const form = useForm<z.infer<typeof clientContactFormSchema>>({
     resolver: zodResolver(clientContactFormSchema),
@@ -91,6 +97,12 @@ export const ContactForm = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (state !== "submitting") return
+    const id = setInterval(() => setDotCount((d) => (d + 1) % 3), 400)
+    return () => clearInterval(id)
+  }, [state])
+
   const onSubmit = async (data: z.infer<typeof clientContactFormSchema>) => {
     setState("submitting")
 
@@ -110,12 +122,23 @@ export const ContactForm = () => {
 
       await submitContactForm(formData)
     } catch {
+      // Instant DOM swap — bypass React re-render delay
+      if (formAreaRef.current) formAreaRef.current.style.display = "none"
+      if (errorViewRef.current) errorViewRef.current.style.display = "flex"
       setState("error")
     }
   }
 
+  const stateRef = useRef(state)
+  stateRef.current = state
+
   const handleScanComplete = () => {
-    if (state !== "submitting") return
+    if (stateRef.current !== "submitting") return
+
+    // Instant DOM swap — bypass React re-render delay
+    if (formAreaRef.current) formAreaRef.current.style.display = "none"
+    if (successViewRef.current) successViewRef.current.style.display = "flex"
+
     setState("success")
     form.reset()
     setTurnstileVerified(false)
@@ -167,29 +190,52 @@ export const ContactForm = () => {
           </filter>
         </defs>
       </svg>
-      <Card
-        className={`p-6 relative overflow-hidden ${state === "error" ? "form-error-shake" : ""}`}
-      >
-        {state === "success" ? (
-          <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
-            <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
-            <p className="text-center text-green-600 dark:text-green-400">
-              Thanks for your message! I&apos;ll get back to you soon.
-            </p>
-          </div>
-        ) : (
+      <Card className="p-6 relative overflow-hidden">
+        <div
+          ref={successViewRef}
+          className="flex min-h-[300px] flex-col items-center justify-center gap-4"
+          style={{ display: state === "success" ? "flex" : "none" }}
+        >
+          <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
+          <p className="text-center text-green-600 dark:text-green-400">
+            Thanks for your message! I&apos;ll get back to you soon.
+          </p>
+        </div>
+
+        <div
+          ref={errorViewRef}
+          className="flex min-h-[300px] flex-col items-center justify-center gap-4"
+          style={{ display: state === "error" ? "flex" : "none" }}
+        >
+          <CircleX className="size-12 text-red-600 dark:text-red-400" />
+          <p className="text-center text-red-600 dark:text-red-400">
+            Something went wrong. Refresh the page and try again.
+          </p>
+        </div>
+
+        <div
+          ref={formAreaRef}
+          style={{ display: state === "success" || state === "error" ? "none" : undefined }}
+        >
           <div style={{ display: state === "submitting" ? "grid" : undefined }}>
             {state === "submitting" && (
-              <div className="[grid-area:1/1] flex min-h-[300px] flex-col items-center justify-center gap-4">
-                <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
-                <p className="text-center text-green-600 dark:text-green-400">
-                  Thanks for your message! I&apos;ll get back to you soon.
-                </p>
+              <div
+                className="[grid-area:1/1] flex min-h-[300px] items-center justify-center"
+                style={{ animation: "loadingAppear 2s ease-in-out forwards" }}
+              >
+                <p className="text-muted-foreground text-sm">Loading{dots}</p>
               </div>
             )}
             <div
-              className={state === "submitting" ? "[grid-area:1/1] scan-clip" : ""}
-              onAnimationEnd={state === "submitting" ? handleScanComplete : undefined}
+              className={state === "submitting" ? "[grid-area:1/1]" : ""}
+              style={
+                state === "submitting"
+                  ? {
+                      animation: "formScanClip 2s ease-in-out forwards",
+                      backgroundColor: "var(--card)",
+                    }
+                  : undefined
+              }
             >
               <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
                 <Controller
@@ -236,18 +282,13 @@ export const ContactForm = () => {
                 >
                   {state === "submitting" ? "Sending..." : "Send Message"}
                 </Button>
-                {state === "error" && (
-                  <p className="mt-2 text-center text-sm text-red-600 dark:text-red-400">
-                    Server fail. Refresh the page and try again later.
-                  </p>
-                )}
               </form>
             </div>
           </div>
-        )}
+        </div>
         {state === "submitting" && (
           <div className="scanner-overlay">
-            <div className="scanner-line" />
+            <div className="scanner-line" onAnimationEnd={handleScanComplete} />
           </div>
         )}
       </Card>
