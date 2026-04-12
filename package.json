@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@opennextjs/cloudflare": "^1.19.0",
+    "@opennextjs/cloudflare": "^1.19.1",
     "@tabler/icons-react": "^3.41.1",
     "@tailwindcss/postcss": "^4.2.2",
     "class-variance-authority": "^0.7.1",
