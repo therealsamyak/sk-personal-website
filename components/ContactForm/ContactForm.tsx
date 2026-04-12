@@ -39,10 +39,16 @@ export const ContactForm = () => {
     const container = turnstileRef.current
     if (!container) return
 
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+    let aborted = false
+
     const renderWidget = () => {
-      if (!container || !window.turnstile?.render) return
-      if (container.querySelector("iframe, input")) return
-      widgetIdRef.current = window.turnstile.render(container, {
+      if (aborted) return
+      const el = turnstileRef.current
+      if (!el || !window.turnstile?.render) return
+      if (!document.body.contains(el)) return
+      if (el.querySelector("iframe, input")) return
+      widgetIdRef.current = window.turnstile.render(el, {
         sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!,
         theme: "auto",
         callback: () => setTurnstileVerified(true),
@@ -50,17 +56,30 @@ export const ContactForm = () => {
       })
     }
 
+    const scheduleRender = () => {
+      // Delay to let ViewTransitions settle before rendering into the container
+      requestAnimationFrame(() => {
+        timeoutId = setTimeout(renderWidget, 50)
+      })
+    }
+
     if (window.turnstile?.render) {
-      renderWidget()
+      scheduleRender()
     } else {
       const script = document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')
       if (script) {
-        script.addEventListener("load", renderWidget)
-        return () => script.removeEventListener("load", renderWidget)
+        script.addEventListener("load", scheduleRender)
+        return () => {
+          script.removeEventListener("load", scheduleRender)
+          aborted = true
+          if (timeoutId) clearTimeout(timeoutId)
+        }
       }
     }
 
     return () => {
+      aborted = true
+      if (timeoutId) clearTimeout(timeoutId)
       if (widgetIdRef.current && window.turnstile?.remove) {
         try {
           window.turnstile.remove(widgetIdRef.current)
@@ -124,7 +143,12 @@ export const ContactForm = () => {
   return (
     <>
       <svg
-        style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}
+        style={{
+          position: "absolute",
+          width: 0,
+          height: 0,
+          overflow: "hidden",
+        }}
         aria-hidden="true"
       >
         <defs>
