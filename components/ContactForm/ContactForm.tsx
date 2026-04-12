@@ -41,6 +41,9 @@ export const ContactForm = () => {
     mode: "onBlur",
   })
 
+  const watchedValues = form.watch()
+  const isFormValid = clientContactFormSchema.safeParse(watchedValues).success
+
   useEffect(() => {
     const container = turnstileRef.current
     if (!container) return
@@ -278,7 +281,7 @@ export const ContactForm = () => {
                 <Button
                   type="submit"
                   className="w-full"
-                  disabled={state !== "idle" || !form.formState.isValid || !turnstileVerified}
+                  disabled={state !== "idle" || !isFormValid || !turnstileVerified}
                 >
                   {state === "submitting" ? "Sending..." : "Send Message"}
                 </Button>
