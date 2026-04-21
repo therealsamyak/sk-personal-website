@@ -5,11 +5,8 @@ export const ContactSection = () => (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-6 xl:px-4 2xl:px-2">
       <div className="mx-auto mb-8 max-w-4xl text-center">
         <h2 className="mb-4 font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl">
-          Get in Touch
+          Get in Touch!
         </h2>
-        <p className="text-lg text-muted-foreground">
-          Let's discuss exciting projects, job opportunities, or just connect!
-        </p>
       </div>
       <div className="mx-auto max-w-2xl">
         <ContactForm />
