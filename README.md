@@ -19,20 +19,15 @@ bun run dev
 
 ## Make It Yours
 
-Edit these config files to personalize:
-
-- `config/site.ts` - Name, bio, email, social links
-- `config/projects.ts` - Your projects
-- `config/tech-stack.ts` - Your skills and tech
-
-Replace images in `public/` with your own.
+Ask your favorite AI agent to help you customize the content!
 
 ## Deployment
 
 Deployed to Cloudflare Workers via OpenNext.
 
 ```bash
-bun run deploy
+bun run cf-build
+bun run cf-deploy
 ```
 
 Set these environment variables in Cloudflare:
@@ -48,10 +43,6 @@ Set these environment variables in Cloudflare:
 
 - `NEXT_PUBLIC_BASE_URL` - Your production URL (e.g., https://yourdomain.dev)
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` - Turnstile site key for spam protection
-
-## License
-
-MIT - Use this template however you want.
 
 ## Created by
 
