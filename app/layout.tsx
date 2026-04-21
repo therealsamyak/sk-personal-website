@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import Script from "next/script"
 import { ViewTransitions } from "next-view-transitions"
 import { ThemeProvider } from "@/components/ThemeProvider"
+import { PrefetchLinks } from "@/components/PrefetchLinks"
 import { cn } from "@/lib/utils"
 import "./globals.css"
 import type React from "react"
@@ -72,6 +73,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         )}
       >
         <ViewTransitions>
+          <PrefetchLinks />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
