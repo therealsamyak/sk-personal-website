@@ -5,6 +5,8 @@ import { siGithub, siX } from "simple-icons"
 import { personalInfo } from "@/config/site"
 import { Button } from "@/ui/button"
 
+import { Description } from "./Description"
+
 export const AboutSection = () => (
   <div>
     <div className="mb-12 flex flex-col items-center justify-center gap-6 text-center">
@@ -31,9 +33,7 @@ export const AboutSection = () => (
         >
           {personalInfo.name}
         </h3>
-        <p className="mx-auto max-w-[700px] text-gray-500 text-sm md:text-base dark:text-gray-400">
-          {personalInfo.description}
-        </p>
+        <Description />
       </div>
       <div
         className="flex shrink-0 items-center justify-center gap-3"
