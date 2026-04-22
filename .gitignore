@@ -96,8 +96,13 @@ temp/
 # Claude Code
 .claude/settings*
 .serena*
-.wrangler*
 .sisyphus*
+
+# Turborepo
+.turbo/
+
+# Cloudflare
+.wrangler*
 
 # opensrc - source code for packages
 opensrc/
