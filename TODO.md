@@ -1,66 +1,85 @@
 # Blog Deployment
 
-## 1. Cloudflare Resources
+## 0. Prerequisites
 
-### Create D1 Database
+Ensure you have Node.js and pnpm installed. Wrangler is included as a devDependency in the blog app.
 
 ```
-wrangler d1 create sk-blog
+pnpm install
+```
+
+Authenticate with Cloudflare:
+
+```
+npx wrangler login
+```
+
+## 1. Create D1 Database
+
+```
+npx wrangler d1 create sk-blog
 ```
 
 Copy the `database_id` from the output. Open `apps/blog/wrangler.jsonc` and replace `"local"` on line 13 with that ID.
 
-### Create R2 Bucket
+## 2. Create R2 Bucket
 
 ```
-wrangler r2 bucket create sk-blog-media
+npx wrangler r2 bucket create sk-blog-media
 ```
 
-### Generate Auth Secrets
+## 3. Generate and Set Auth Secrets
 
 ```
 npx emdash auth secret
 ```
 
-Run this twice. You need two different secrets — one for auth, one for preview.
-
-### Set Secrets
+Run this twice. You need two different secrets.
 
 ```
 cd apps/blog
-
-wrangler secret put EMDASH_AUTH_SECRET
+npx wrangler secret put EMDASH_AUTH_SECRET
 ```
 
 Paste the first secret when prompted.
 
 ```
-wrangler secret put EMDASH_PREVIEW_SECRET
+npx wrangler secret put EMDASH_PREVIEW_SECRET
 ```
 
 Paste the second secret when prompted.
 
-## 2. Database Schema
-
-Apply the core EmDash schema to your D1 database:
-
 ```
-wrangler d1 execute sk-blog --file=./node_modules/emdash/migrations/0001_core.sql
+npx wrangler secret put EMDASH_SITE_URL
 ```
 
-## 3. Deploy
+Enter `https://blog.skakatur.dev` when prompted.
+
+## 4. Apply Database Schema
+
+```
+npx wrangler d1 execute sk-blog --file=./node_modules/emdash/migrations/0001_core.sql
+```
+
+Run this from the `apps/blog` directory.
+
+## 5. Deploy
+
+From the monorepo root:
 
 ```
 pnpm --filter blog deploy
 ```
 
-## 4. Setup Admin Account
+This runs `astro build && wrangler deploy`. The blog will be live at `https://skakatur-blog.<your-subdomain>.workers.dev`.
 
-Open https://blog.skakatur-blog.<your-subdomain>.workers.dev/\_emdash/admin/setup
+## 6. Setup Admin Account
+
+Open `https://skakatur-blog.<your-subdomain>.workers.dev/_emdash/admin/setup`
 
 Follow the setup wizard to create your admin account (Samyak Kakatur).
 
-## 5. Custom Domain
+## 7. Custom Domain
 
 In the Cloudflare Dashboard:
 
@@ -69,20 +88,20 @@ In the Cloudflare Dashboard:
 3. Enter `blog.skakatur.dev`
 4. Wait for DNS propagation
 
-## 6. Update Site Settings
+## 8. Update Site Settings
 
-In the EmDash admin at https://blog.skakatur.dev/_emdash/admin:
+In the EmDash admin at `https://blog.skakatur.dev/_emdash/admin`:
 
 1. Go to **Settings**
 2. Set **Site Title** to `SKB`
 3. Set **Tagline** to `My personal ramblings`
 4. Save
 
-## 7. Verify
+## 9. Verify
 
-- https://blog.skakatur.dev — shows "SKB" header
-- https://blog.skakatur.dev/posts — shows post listing
-- https://blog.skakatur.dev/_emdash/admin — admin dashboard works
+- `https://blog.skakatur.dev` — shows "SKB" header
+- `https://blog.skakatur.dev/posts` — shows empty post listing
+- `https://blog.skakatur.dev/_emdash/admin` — admin dashboard works
 
 ---
 
@@ -90,7 +109,7 @@ In the EmDash admin at https://blog.skakatur.dev/_emdash/admin:
 
 ## Via Admin UI (recommended)
 
-1. Go to https://blog.skakatur.dev/_emdash/admin
+1. Go to `https://blog.skakatur.dev/_emdash/admin`
 2. Click **Posts** → **New Post**
 3. Fill in:
    - **Title** — your post title
