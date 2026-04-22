@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "lefthook": "^2.1.5",
-    "oxfmt": "^0.44.0",
+    "oxfmt": "^0.46.0",
     "oxlint": "^1.59.0",
     "turbo": "^2.5.0"
   },
@@ -18,8 +18,10 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "@tailwindcss/oxide",
+      "better-sqlite3",
       "esbuild",
       "lefthook",
+      "msw",
       "sharp",
       "workerd"
     ]
