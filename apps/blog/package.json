@@ -27,11 +27,5 @@
     "@astrojs/check": "^0.9.0",
     "@cloudflare/workers-types": "^4.20250410.0",
     "wrangler": "^4.81.1"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "workerd"
-    ]
   }
 }
