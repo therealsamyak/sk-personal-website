@@ -4,8 +4,9 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "check": "turbo check",
-    "clean": "turbo clean"
+    "check": "oxlint --fix . && oxfmt .",
+    "clean": "turbo clean && rm -rf node_modules",
+    "prepare": "lefthook install"
   },
   "devDependencies": {
     "lefthook": "^2.1.5",
