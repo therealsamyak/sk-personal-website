@@ -2,11 +2,11 @@
 
 ## Commands
 
-**Development:** `bun run dev`
+**Development:** `pnpm dev`
 
-**Build:** `bun run build`
+**Build:** `pnpm build`
 
-**Lint & Format:** `bun run check` (runs oxlint --fix + oxfmt)
+**Lint & Format:** `pnpm check` (runs oxlint --fix + oxfmt)
 
 **Pre-commit:** Lefthook automatically runs lint and format on staged files before commit.
 

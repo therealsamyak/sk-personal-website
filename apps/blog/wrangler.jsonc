@@ -1,21 +1,22 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "my-emdash-site",
+  "name": "skakatur-blog",
   "main": "./src/worker.ts",
   "compatibility_date": "2026-02-24",
   "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": "./dist" },
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "my-emdash-site",
-      // Run `wrangler d1 create my-emdash-site` and paste the real ID here for deploy
+      "database_name": "skakatur-blog",
+      // Run: wrangler d1 create skakatur-blog — paste the database_id here
       "database_id": "local",
     },
   ],
   "r2_buckets": [
     {
       "binding": "MEDIA",
-      "bucket_name": "my-emdash-media",
+      "bucket_name": "skakatur-blog-media",
     },
   ],
   // Worker Loader for plugin sandboxing

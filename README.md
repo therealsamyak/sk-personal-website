@@ -7,14 +7,14 @@ A modern portfolio website with dark/light theme, project showcase, and contact 
 ```bash
 git clone https://github.com/therealsamyak/sk-personal-website.git
 cd sk-personal-website
-bun install
+pnpm install
 cp .env.example .env
 ```
 
 Edit `.env` with your Resend API key (for contact form).
 
 ```bash
-bun run dev
+pnpm run dev
 ```
 
 ## Make It Yours
@@ -26,8 +26,8 @@ Ask your favorite AI agent to help you customize the content!
 Deployed to Cloudflare Workers via OpenNext.
 
 ```bash
-bun run cf-build
-bun run cf-deploy
+pnpm run cf-build
+pnpm run cf-deploy
 ```
 
 Set these environment variables in Cloudflare:
