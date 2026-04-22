@@ -8,8 +8,8 @@
   },
 
   "settings": {
-    "title": "My Blog",
-    "tagline": "Thoughts on building for the web"
+    "title": "SKB",
+    "tagline": "My personal ramblings"
   },
 
   "collections": [
@@ -100,7 +100,7 @@
     {
       "id": "byline-editorial",
       "slug": "emdash-editorial",
-      "displayName": "EmDash Editorial"
+      "displayName": "Samyak Kakatur"
     },
     {
       "id": "byline-guest",

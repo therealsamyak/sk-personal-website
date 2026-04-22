@@ -8,15 +8,15 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "skakatur-blog",
-      // Run: wrangler d1 create skakatur-blog — paste the database_id here
+      "database_name": "sk-blog",
+      // Run: wrangler d1 create sk-blog — paste the database_id here
       "database_id": "local",
     },
   ],
   "r2_buckets": [
     {
       "binding": "MEDIA",
-      "bucket_name": "skakatur-blog-media",
+      "bucket_name": "sk-blog-media",
     },
   ],
   // Worker Loader for plugin sandboxing
