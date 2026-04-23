@@ -1,49 +1,46 @@
-# Personal Portfolio Template
+# skakatur.dev
 
-A modern portfolio website with dark/light theme, project showcase, and contact form. Built with Next.js, TypeScript, Tailwind CSS, and shadcn/ui.
+My personal website and blog. Built with Next.js, Astro (EmDash CMS), TypeScript, Tailwind CSS, and shadcn/ui. Hosted on Cloudflare Workers free tier.
 
-## Getting Started
+## Tech Stack
 
-```bash
-git clone https://github.com/therealsamyak/sk-personal-website.git
-cd sk-personal-website
-bun install
-cp .env.example .env
-```
+- **Portfolio** ([apps/web](apps/web)) — Next.js + shadcn/ui, deployed to Cloudflare Workers via OpenNext
+- **Blog** ([apps/blog](apps/blog)) — Astro with EmDash CMS, deployed to Cloudflare Workers
+- **Monorepo** — pnpm workspaces + Turborepo
 
-Edit `.env` with your Resend API key (for contact form).
+## Local Development
 
 ```bash
-bun run dev
+pnpm install
 ```
 
-## Make It Yours
+Each app has its own `.env.example` — copy and fill in values:
 
-Ask your favorite AI agent to help you customize the content!
+```bash
+cp apps/web/.env.example apps/web/.env
+cp apps/blog/.env.example apps/blog/.env
+```
+
+```bash
+pnpm run dev
+```
 
 ## Deployment
 
-Deployed to Cloudflare Workers via OpenNext.
+Both apps deploy to Cloudflare Workers. Each app has its own `.env.production` with the necessary secrets and config.
+
+### Web App
 
 ```bash
-bun run cf-build
-bun run cf-deploy
+pnpm run cf-deploy-website
 ```
 
-Set these environment variables in Cloudflare:
+Set environment variables in the Cloudflare Dashboard under **Workers & Pages** → **web** → **Settings** → **Variables**.
 
-**Secret (encrypted):**
+### Blog
 
-- `FROM_EMAIL` - Sender email for contact form
-- `NOTIFICATION_EMAIL` - Your email to receive form submissions
-- `RESEND_API_KEY` - Your Resend API key
-- `TURNSTILE_SECRET_KEY` - Turnstile secret for spam protection
+```bash
+pnpm run cf-deploy-blog
+```
 
-**Plaintext:**
-
-- `NEXT_PUBLIC_BASE_URL` - Your production URL (e.g., https://yourdomain.dev)
-- `NEXT_PUBLIC_TURNSTILE_SITE_KEY` - Turnstile site key for spam protection
-
-## Created by
-
-[Samyak Kakatur](https://github.com/therealsamyak)
+Set secrets via the Cloudflare Dashboard under **Workers & Pages** → **blog** → **Settings** → **Variables** → **Encrypt**.

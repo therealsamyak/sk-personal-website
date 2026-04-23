@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "building-emdash-site": {
+      "source": "emdash-cms/emdash",
+      "sourceType": "github",
+      "computedHash": "67270c0e3618d3c131ca3d08e6a9b5c28539aed51ee7b08b61378248caf71870"
+    },
+    "emdash-cli": {
+      "source": "emdash-cms/emdash",
+      "sourceType": "github",
+      "computedHash": "a12ea04526286b4f6c62aeb4af7500426574f03bc4465ce7e245d6bb83765b3d"
+    }
+  }
+}

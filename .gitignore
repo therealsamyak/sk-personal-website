@@ -1,18 +1,19 @@
 # Dependencies
 node_modules/
-/.pnp
+.pnp
 .pnp.js
 
 # Testing
-/coverage
+coverage
 
 # Next.js
-/.open-next/
-/.next/
-/out/
+.open-next/
+.next/
+out/
 
 # Production
-/build
+build
+dist/
 
 # Misc
 .DS_Store
@@ -95,8 +96,13 @@ temp/
 # Claude Code
 .claude/settings*
 .serena*
-.wrangler*
 .sisyphus*
+
+# Turborepo
+.turbo/
+
+# Cloudflare
+.wrangler*
 
 # opensrc - source code for packages
 opensrc/

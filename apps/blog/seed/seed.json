@@ -1,0 +1,241 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "meta": {
+    "name": "Blog Starter",
+    "description": "A blog with posts and pages",
+    "author": "EmDash"
+  },
+
+  "settings": {
+    "title": "SKB",
+    "tagline": "My personal ramblings"
+  },
+
+  "collections": [
+    {
+      "slug": "posts",
+      "label": "Posts",
+      "labelSingular": "Post",
+      "supports": ["drafts", "revisions", "search", "seo"],
+      "commentsEnabled": true,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured Image",
+          "type": "image"
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "searchable": true
+        },
+        {
+          "slug": "excerpt",
+          "label": "Excerpt",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "slug": "pages",
+      "label": "Pages",
+      "labelSingular": "Page",
+      "supports": ["drafts", "revisions", "search"],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "searchable": true
+        }
+      ]
+    }
+  ],
+
+  "taxonomies": [
+    {
+      "name": "category",
+      "label": "Categories",
+      "labelSingular": "Category",
+      "hierarchical": true,
+      "collections": ["posts"],
+      "terms": [
+        { "slug": "development", "label": "Development" },
+        { "slug": "design", "label": "Design" },
+        { "slug": "notes", "label": "Notes" }
+      ]
+    },
+    {
+      "name": "tag",
+      "label": "Tags",
+      "labelSingular": "Tag",
+      "hierarchical": false,
+      "collections": ["posts"],
+      "terms": [
+        { "slug": "webdev", "label": "Web Development" },
+        { "slug": "opinion", "label": "Opinion" },
+        { "slug": "tools", "label": "Tools" },
+        { "slug": "creativity", "label": "Creativity" }
+      ]
+    }
+  ],
+
+  "bylines": [
+    {
+      "id": "byline-editorial",
+      "slug": "emdash-editorial",
+      "displayName": "Samyak Kakatur"
+    },
+    {
+      "id": "byline-guest",
+      "slug": "guest-contributor",
+      "displayName": "Guest Contributor",
+      "isGuest": true
+    }
+  ],
+
+  "menus": [
+    {
+      "name": "primary",
+      "label": "Primary Navigation",
+      "items": [
+        { "type": "custom", "label": "Home", "url": "/" },
+        { "type": "custom", "label": "About", "url": "/pages/about" },
+        { "type": "custom", "label": "Posts", "url": "/posts" }
+      ]
+    }
+  ],
+
+  "widgetAreas": [
+    {
+      "name": "sidebar",
+      "label": "Sidebar",
+      "description": "Widget area displayed on single post pages",
+      "widgets": [
+        {
+          "type": "component",
+          "componentId": "core:search",
+          "title": "Search"
+        },
+        {
+          "type": "component",
+          "componentId": "core:categories",
+          "title": "Categories"
+        },
+        {
+          "type": "component",
+          "componentId": "core:tags",
+          "title": "Tags"
+        },
+        {
+          "type": "component",
+          "componentId": "core:recent-posts",
+          "title": "Recent Posts",
+          "settings": {
+            "count": 5,
+            "showDate": true
+          }
+        },
+        {
+          "type": "component",
+          "componentId": "core:archives",
+          "title": "Archives",
+          "settings": {
+            "type": "monthly",
+            "limit": 6
+          }
+        }
+      ]
+    },
+    {
+      "name": "footer",
+      "label": "Footer",
+      "description": "Widget area displayed in the site footer",
+      "widgets": [
+        {
+          "type": "content",
+          "title": "About",
+          "content": [
+            {
+              "_type": "block",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "text": "A blog about software, design, and the occasional stray thought."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "sections": [
+    {
+      "slug": "newsletter-signup",
+      "title": "Newsletter Signup",
+      "description": "A call-to-action block for newsletter subscriptions",
+      "keywords": ["newsletter", "subscribe", "email", "cta"],
+      "source": "theme",
+      "content": [
+        {
+          "_type": "block",
+          "style": "h3",
+          "children": [{ "_type": "span", "text": "Stay in the loop" }]
+        },
+        {
+          "_type": "block",
+          "style": "normal",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Get notified when new posts are published. No spam, unsubscribe anytime."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "about-author",
+      "title": "About the Author",
+      "description": "Brief author bio for use in posts or pages",
+      "keywords": ["author", "bio", "about"],
+      "source": "theme",
+      "content": [
+        {
+          "_type": "block",
+          "style": "normal",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Samyak Kakatur writes about software, projects, and whatever else comes to mind."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "content": {
+    "pages": [],
+    "posts": []
+  }
+}
