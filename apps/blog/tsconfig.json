@@ -1,0 +1,4 @@
+{
+  "extends": "astro/tsconfigs/base",
+  "include": ["src", ".astro/types.d.ts", "emdash-env.d.ts"]
+}
