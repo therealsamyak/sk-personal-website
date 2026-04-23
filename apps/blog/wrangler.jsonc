@@ -4,6 +4,20 @@
   "main": "./src/worker.ts",
   "compatibility_date": "2026-04-21",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": {
+    "logs": {
+      "enabled": true,
+    },
+  },
+  "routes": [
+    {
+      "pattern": "blog.skakatur.dev",
+      "zone_name": "skakatur.dev",
+      "custom_domain": true,
+    },
+  ],
   "assets": {
     "directory": "./dist",
   },
@@ -22,7 +36,6 @@
       "remote": true,
     },
   ],
-
   "kv_namespaces": [
     {
       "binding": "SESSION",
