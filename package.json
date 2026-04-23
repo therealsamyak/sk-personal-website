@@ -6,6 +6,8 @@
     "dev": "turbo dev",
     "check": "oxlint --fix . && oxfmt .",
     "clean": "turbo clean && rm -rf node_modules",
+    "cf-deploy-website": "pnpm --filter web deploy",
+    "cf-deploy-blog": "pnpm --filter blog deploy",
     "prepare": "lefthook install"
   },
   "devDependencies": {
