@@ -38,7 +38,7 @@ npx wrangler r2 bucket create sk-blog-media
 
 ## 3. Generate and Set Auth Secrets
 
-From `<root>`:
+From `<root>/apps/blog`:
 
 ```
 npx emdash auth secret
