@@ -4,11 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev --remote",
-    "cf-dev": "astro dev",
     "build": "astro build",
+    "dev": "wrangler dev --remote",
     "preview": "astro preview",
-    "deploy": "astro build && wrangler deploy",
+    "cf-deploy": "wrangler deploy",
     "typecheck": "astro check",
     "bootstrap": "emdash init && emdash seed",
     "seed": "emdash seed"
