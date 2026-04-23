@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro build && wrangler dev --remote",
+    "dev": "wrangler dev --remote",
+    "cf-dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "deploy": "astro build && wrangler deploy",
