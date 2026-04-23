@@ -5,7 +5,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "check": "oxlint --fix . && oxfmt .",
-    "clean": "turbo clean && rm -rf node_modules",
+    "rebuild": "rm -rf .next dist .turbo .vercel node_modules apps/*/.next apps/*/dist apps/*/.turbo apps/*/.vercel apps/*/node_modules && pnpm install && pnpm build",
     "cf-deploy-website": "pnpm --filter web deploy",
     "cf-deploy-blog": "pnpm --filter blog deploy",
     "prepare": "lefthook install"
