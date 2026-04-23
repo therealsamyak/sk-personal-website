@@ -4,25 +4,30 @@
   "main": "./src/worker.ts",
   "compatibility_date": "2026-02-24",
   "compatibility_flags": ["nodejs_compat"],
-  "assets": { "directory": "./dist" },
+  "assets": {
+    "directory": "./dist",
+  },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "sk-blog",
-      // Run: wrangler d1 create sk-blog — paste the database_id here
-      "database_id": "local",
+      "database_id": "0e23cac9-9532-4995-aa41-bfe1fe31ea0d",
+      "remote": true,
     },
   ],
   "r2_buckets": [
     {
       "binding": "MEDIA",
       "bucket_name": "sk-blog-media",
+      "remote": true,
     },
   ],
-  // Worker Loader for plugin sandboxing
-  "worker_loaders": [
+
+  "kv_namespaces": [
     {
-      "binding": "LOADER",
+      "binding": "SESSION",
+      "id": "d69a89943cd848f1aa616bcb86beb90a",
+      "remote": true,
     },
   ],
 }
