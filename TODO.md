@@ -41,19 +41,31 @@ cd apps/blog
 npx wrangler secret put EMDASH_AUTH_SECRET
 ```
 
-Paste the first secret when prompted.
+Paste the first secret when prompted. Also add it to `apps/blog/.env.production`:
+
+```
+EMDASH_AUTH_SECRET=<paste-the-same-secret>
+```
 
 ```
 npx wrangler secret put EMDASH_PREVIEW_SECRET
 ```
 
-Paste the second secret when prompted.
+Paste the second secret when prompted. Also add it to `apps/blog/.env.production`:
+
+```
+EMDASH_PREVIEW_SECRET=<paste-the-same-secret>
+```
 
 ```
 npx wrangler secret put EMDASH_SITE_URL
 ```
 
-Enter `https://blog.skakatur.dev` when prompted.
+Enter `https://blog.skakatur.dev` when prompted. Also add it to `apps/blog/.env.production`:
+
+```
+EMDASH_SITE_URL=https://blog.skakatur.dev
+```
 
 ## 4. Apply Database Schema
 
@@ -68,7 +80,7 @@ Run this from the `apps/blog` directory.
 From the monorepo root:
 
 ```
-pnpm --filter blog deploy
+pnpm run cf-deploy-blog
 ```
 
 This runs `astro build && wrangler deploy`. The blog will be live at `https://skakatur-blog.<your-subdomain>.workers.dev`.
@@ -119,87 +131,6 @@ In the EmDash admin at `https://blog.skakatur.dev/_emdash/admin`:
 4. Set **Category** and **Tags** from the sidebar
 5. Click **Publish**
 
-## Via CLI
-
-### Login to your blog
-
-```
-npx emdash login --url https://blog.skakatur.dev
-```
-
-### Create a post
-
-```
-npx emdash content create posts --data '{"title": "My First Post", "excerpt": "Hello world", "content": "# Hello\n\nThis is my first blog post."}' --slug my-first-post
-```
-
-The `content` field accepts markdown — EmDash converts it to Portable Text automatically.
-
-### Update a post
-
-```
-npx emdash content get posts <id> --json
-```
-
-Copy the `_rev` value from the output, then:
-
-```
-npx emdash content update posts <id> --rev <rev-value> --data '{"title": "Updated Title"}'
-```
-
-### Publish a draft
-
-```
-npx emdash content publish posts <id>
-```
-
 ## Uploading Images
 
-### Via CLI
-
-```
-npx emdash media upload ./path/to/image.jpg --alt "Description of the image"
-```
-
-Returns a media ID. Use this ID when creating/updating a post's featured_image field.
-
-### Via Admin UI
-
 In the post editor, click the image upload button in the content area or the Featured Image field.
-
-### Uploading a Featured Image for a Post (CLI)
-
-```
-MEDIA_ID=$(npx emdash media upload ./photo.jpg --alt "Photo description" --json | jq -r '.id')
-
-npx emdash content create posts --data "{\"title\": \"My Post\", \"featured_image\": {\"\$media\": {\"id\": \"$MEDIA_ID\"}}, \"content\": \"# Hello\"}" --slug my-post
-```
-
-## Managing Categories and Tags
-
-### List existing terms
-
-```
-npx emdash taxonomy terms category
-npx emdash taxonomy terms tag
-```
-
-### Add a new category
-
-```
-npx emdash taxonomy add-term category --name "New Category" --slug new-category
-```
-
-### Add a new tag
-
-```
-npx emdash taxonomy add-term tag --name "New Tag" --slug new-tag
-```
-
-### Assign categories/tags when creating a post
-
-Use the `--taxonomies` flag:
-
-```
-npx emdash content create posts --data '{"title": "My Post", "content": "Hello"}' --slug my-post --taxonomies '{"category": ["development"], "tag": ["webdev"]}'
-```
