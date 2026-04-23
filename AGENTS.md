@@ -137,9 +137,9 @@ onClick={handleClick}
 
 ## Source Code Reference
 
-Source code for dependencies is available in `opensrc/` for deeper understanding of implementation details.
+Source code for dependencies is available in `~/.opensrc/` for deeper understanding of implementation details.
 
-See `opensrc/sources.json` for the list of available packages and their versions.
+See `~/.opensrc/sources.json` for the list of available packages and their versions.
 
 Use this source code when you need to understand how a package works internally, not just its types/interface.
 
@@ -148,10 +148,10 @@ Use this source code when you need to understand how a package works internally,
 To fetch source code for a package or repository you need to understand, run:
 
 ```bash
-npx opensrc <package>           # npm package (e.g., npx opensrc zod)
-npx opensrc pypi:<package>      # Python package (e.g., npx opensrc pypi:requests)
-npx opensrc crates:<package>    # Rust crate (e.g., npx opensrc crates:serde)
-npx opensrc <owner>/<repo>      # GitHub repo (e.g., npx opensrc vercel/ai)
+npx opensrc fetch <package>           # npm package (e.g., npx opensrc fetch zod)
+npx opensrc fetch pypi:<package>      # Python package (e.g., npx opensrc fetch pypi:requests)
+npx opensrc fetch crates:<package>    # Rust crate (e.g., npx opensrc fetch crates:serde)
+npx opensrc fetch <owner>/<repo>      # GitHub repo (e.g., npx opensrc fetch vercel/ai)
 ```
 
 <!-- opensrc:end -->
