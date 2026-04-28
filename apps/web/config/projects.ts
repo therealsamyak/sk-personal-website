@@ -47,7 +47,7 @@ export const projects: Project[] = [
       "AI-powered multi-modal compliance training application for businesses. For LAHacks 2026.",
     image: "/compi-learn.png",
     link: "https://github.com/therealsamyak/compi-learn",
-    tags: ["TypeScript", "Next.js", "React", "TailwindCSS", "Convex", "shadcn/ui", "AI"],
+    tags: ["Convex", "TypeScript", "Next.js", "React", "TailwindCSS", "shadcn/ui", "AI", "Vercel"],
   },
   {
     title: "Vehicle Net",
