@@ -7,7 +7,8 @@
     "build": "astro check && astro build",
     "dev": "wrangler dev --remote",
     "cf-deploy": "wrangler deploy",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "typegen": "emdash types --url https://blog.skakatur.dev"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.2.0",
