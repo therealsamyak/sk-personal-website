@@ -5,7 +5,6 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --port 3000",
-    "check": "oxlint --fix . && oxfmt .",
     "start": "next start",
     "preview": "pnpm run cf-build && pnpm run cf-preview",
     "deploy": "pnpm run cf-build && pnpm run cf-deploy",
