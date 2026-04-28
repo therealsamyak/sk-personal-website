@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "astro check && astro build",
+    "cf-build": "astro build",
     "dev": "wrangler dev --remote",
     "cf-deploy": "wrangler deploy",
     "preview": "astro preview",
