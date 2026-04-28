@@ -42,6 +42,14 @@ export const projects: Project[] = [
     ],
   },
   {
+    title: "CompiLearn",
+    description:
+      "AI-powered multi-modal compliance training application for businesses. For LAHacks 2026.",
+    image: "/compi-learn.png",
+    link: "https://github.com/therealsamyak/compi-learn",
+    tags: ["TypeScript", "Next.js", "React", "TailwindCSS", "Convex", "shadcn/ui", "AI"],
+  },
+  {
     title: "Vehicle Net",
     description:
       "Decentralized vehicle condition reporting system with cryptographically signed reports and smart contract integration.",
