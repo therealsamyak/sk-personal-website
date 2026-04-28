@@ -4,13 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "astro build",
+    "build": "astro check && astro build",
     "dev": "wrangler dev --remote",
-    "preview": "astro preview",
     "cf-deploy": "wrangler deploy",
-    "typecheck": "astro check",
-    "bootstrap": "emdash init && emdash seed",
-    "seed": "emdash seed"
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.2.0",
