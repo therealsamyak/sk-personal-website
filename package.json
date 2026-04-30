@@ -11,10 +11,10 @@
     "prepare": "lefthook install"
   },
   "devDependencies": {
-    "lefthook": "^2.1.5",
-    "oxfmt": "^0.46.0",
-    "oxlint": "^1.59.0",
-    "turbo": "^2.5.0"
+    "lefthook": "^2.1.6",
+    "oxfmt": "^0.47.0",
+    "oxlint": "^1.62.0",
+    "turbo": "^2.9.6"
   },
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
