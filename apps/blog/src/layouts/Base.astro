@@ -280,9 +280,32 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 				root.setAttribute("data-theme-icon", theme);
 			}
 
-			// Init icons from cookie or system pref
+			function setRippleCoordinates(event: MouseEvent) {
+				const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+				root.style.setProperty("--x", `${rect.left + rect.width / 2}px`);
+				root.style.setProperty("--y", `${rect.top + rect.height / 2}px`);
+			}
+
+			function handleViewTransition(callback: () => void) {
+				if (!document.startViewTransition) {
+					callback();
+					return;
+				}
+
+				root.style.viewTransitionName = "theme-switch";
+
+				document.startViewTransition(callback).finished.then(() => {
+					root.style.viewTransitionName = "";
+				});
+			}
+
 			updateIcons(getStoredTheme());
-			toggleBtns.forEach((btn) => btn.addEventListener("click", cycleTheme));
+			toggleBtns.forEach((btn) =>
+				btn.addEventListener("click", (e: MouseEvent) => {
+					setRippleCoordinates(e);
+					handleViewTransition(cycleTheme);
+				}),
+			);
 
 			// ── Live clock ──
 			const clockEl = document.getElementById("header-clock");
