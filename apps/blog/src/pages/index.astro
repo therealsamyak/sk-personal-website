@@ -1,450 +1,311 @@
 ---
-import { getEmDashCollection, getEntryTerms, getSiteSettings } from "emdash";
+import {
+	getEmDashCollection,
+	getEntryTerms,
+	getSiteSettings,
+	getTaxonomyTerms,
+} from "emdash";
 import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
-import PostCard from "../components/PostCard.astro";
-import { getReadingTime } from "../utils/reading-time";
+import { getReadingTime, extractText } from "../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
 
-const { entries: posts, cacheHint } = await getEmDashCollection("posts");
-const { siteTitle, siteTagline } = resolveBlogSiteIdentity(await getSiteSettings());
+// SSR category filter from URL param
+const categoryParam = Astro.url.searchParams.get("category");
+
+// Fetch all categories for chips
+const categories = await getTaxonomyTerms("category");
+
+// Resolve category label → slug for EmDash query
+const activeTerm = categoryParam
+	? categories.find(
+			(t) => t.label.toLowerCase() === categoryParam.toLowerCase(),
+		)
+	: null;
+
+// Fetch posts — filtered by category if param matches
+const queryOpts: Record<string, unknown> = {
+	orderBy: { published_at: "desc" },
+};
+if (activeTerm) {
+	queryOpts.where = { category: activeTerm.slug };
+}
+
+const { entries: posts, cacheHint } = await getEmDashCollection(
+	"posts",
+	queryOpts,
+);
+
+const { siteTitle, siteTagline } = resolveBlogSiteIdentity(
+	await getSiteSettings(),
+);
 
 Astro.cache.set(cacheHint);
 
+// Sort by publishedAt descending
 const sortedPosts = posts.toSorted((a, b) => {
 	const dateA = a.data.publishedAt?.getTime() ?? 0;
 	const dateB = b.data.publishedAt?.getTime() ?? 0;
 	return dateB - dateA;
 });
 
-// Find the first post with a featured image for the hero
-const featuredPost = sortedPosts.find((p) => p.data.featured_image);
-const featuredIndex = featuredPost ? sortedPosts.indexOf(featuredPost) : -1;
-
-// Get remaining posts (exclude featured if found, limit to 6 for grid)
-const gridPosts = sortedPosts.filter((_, i) => i !== featuredIndex).slice(0, 6);
-
-// Total posts shown = featured (if any) + grid posts
-const totalShown = (featuredPost ? 1 : 0) + gridPosts.length;
-const hasMorePosts = sortedPosts.length > totalShown;
-
-// Fetch tags for featured post (bylines are already hydrated by getEmDashCollection)
-let featuredTags: Array<{ slug: string; label: string }> = [];
-const featuredBylines = featuredPost?.data.bylines ?? [];
-if (featuredPost) {
-	const tags = await getEntryTerms("posts", featuredPost.data.id, "tag");
-	featuredTags = tags.map((t) => ({ slug: t.slug, label: t.label }));
-}
-
-// Fetch tags for grid posts (bylines are already hydrated by getEmDashCollection)
-const gridPostsWithTags = await Promise.all(
-	gridPosts.map(async (post) => {
-		const tags = await getEntryTerms("posts", post.data.id, "tag");
+// Enrich posts with category + reading time
+const enrichedPosts = await Promise.all(
+	sortedPosts.map(async (post) => {
+		const terms = await getEntryTerms("posts", post.data.id, "category");
 		const bylines = post.data.bylines ?? [];
+		const wordCount = extractText(post.data.content)
+			.split(/\s+/)
+			.filter(Boolean).length;
 		return {
 			post,
-			tags: tags.map((t) => ({ slug: t.slug, label: t.label })),
+			categories: terms.map((t) => ({ slug: t.slug, label: t.label })),
 			bylines,
+			readTime: getReadingTime(post.data.content),
+			wordCount,
 		};
-	})
+	}),
 );
 
-// Format date helper
-function formatDate(date: Date | null | undefined) {
-	if (!date) return null;
+// Fetch ALL posts count for the "Showing X / Y" display
+const { entries: allPosts } = await getEmDashCollection("posts");
+
+// Category counts
+const categoryCounts = new Map<string, number>();
+categoryCounts.set("All", allPosts.length);
+for (const cat of categories) {
+	const { entries: catPosts } = await getEmDashCollection("posts", {
+		where: { category: cat.slug },
+	});
+	categoryCounts.set(cat.label, catPosts.length);
+}
+
+// Split into featured / secondary / ledger
+const [featured, ...rest] = enrichedPosts;
+const secondary = rest.slice(0, 2);
+const ledger = rest.slice(2);
+
+// Date helpers
+function fmtShort(date?: Date | null) {
+	if (!date) return "";
+	return date
+		.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+		.replace(", 2026", "");
+}
+function fmtFull(date?: Date | null) {
+	if (!date) return "";
 	return date.toLocaleDateString("en-US", {
 		year: "numeric",
 		month: "long",
 		day: "numeric",
 	});
 }
+
+function fmtWords(n: number) {
+	return n.toLocaleString();
+}
+
+// Author name from bylines
+function authorName(
+	bylines: Array<{ byline: { displayName: string } }>,
+): string {
+	if (bylines.length === 0) return "Staff";
+	return bylines
+		.slice(0, 2)
+		.map((c) => c.byline.displayName)
+		.join(", ");
+}
+
+// Halftone plate fallback component as inline function
+function halftonePlate(kind: "accent" | "ink" | "soft", label: string, seed: number) {
+	const cls = kind === "accent" ? "halftone-accent" : kind === "ink" ? "halftone-ink" : "halftone-soft";
+	const stampCls = kind === "accent" ? "stamp-accent" : "stamp-solid";
+	const cx = 25 + ((seed * 37) % 50);
+	const cy = 30 + ((seed * 53) % 40);
+	return `
+		<div class="relative aspect-[16/9] overflow-hidden border-b border-border" style="background: var(--card)">
+			<div class="absolute inset-0 ${cls}"></div>
+			<div class="absolute mix-blend-multiply rounded-full"
+				style="left:${cx}%;top:${cy}%;width:60%;height:120%;transform:translate(-50%,-50%);
+				background:radial-gradient(circle, var(--${kind === "accent" ? "foreground" : "accent"}) 0%, transparent ${kind === "accent" ? "60" : "55"}%);
+				opacity:0.55;"></div>
+			<div class="absolute top-2 left-2"><span class="stamp ${stampCls}">${label}</span></div>
+			<div class="absolute bottom-2 right-2 mono text-[10px] tracking-[0.2em] uppercase opacity-70">
+				plate № ${(seed + 42).toString().padStart(3, "0")}
+			</div>
+		</div>
+	`;
+}
 ---
 
 <Base title={siteTitle} description={siteTagline}>
-	{
-		posts.length === 0 ? (
-			<section class="empty-state">
-				<h2>No posts yet</h2>
-				<p>Create your first post in the admin panel.</p>
-				<a href="/_emdash/admin/content/posts/new" class="btn">
-					Create a post
+	{/* FILTER BAR */}
+	<section class="max-w-[1400px] mx-auto px-6 pt-5 pb-4 flex flex-wrap items-baseline justify-between gap-3 border-b border-border">
+		<div class="flex items-baseline gap-3 mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
+			<span><span style="color: var(--accent)">§</span> Front Page</span>
+			<span>·</span>
+			<span>Showing <span class="text-foreground">{enrichedPosts.length.toString().padStart(2, "0")}</span> / {allPosts.length.toString().padStart(2, "0")}</span>
+		</div>
+		<div class="flex gap-2 flex-wrap">
+			<a
+				href="/"
+				class="chip"
+				data-active={String(!categoryParam)}
+			>
+				All <span class="opacity-60 ml-1">{(categoryCounts.get("All") ?? 0).toString().padStart(2, "0")}</span>
+			</a>
+			{categories.map((cat) => (
+				<a
+					href={`/?category=${encodeURIComponent(cat.label)}`}
+					class="chip"
+					data-active={String(categoryParam?.toLowerCase() === cat.label.toLowerCase())}
+				>
+					{cat.label} <span class="opacity-60 ml-1">{(categoryCounts.get(cat.label) ?? 0).toString().padStart(2, "0")}</span>
 				</a>
-			</section>
-		) : (
-			<div class="home-content">
-				{/* Featured Post - Side by side */}
-				{featuredPost && (
-					<section class="featured-section">
-						<div class="featured-grid">
-							<a href={`/posts/${featuredPost.id}`} class="featured-image-link">
-								<div class="featured-image">
-									<Image image={featuredPost.data.featured_image} />
-								</div>
-							</a>
-							<div class="featured-content">
-								<div class="featured-meta">
-									{featuredBylines.length > 0 && (
-										<>
-											<div class="featured-bylines">
-												{featuredBylines.slice(0, 2).map((credit, index) => (
-													<>
-														{index > 0 && <span class="byline-sep">,</span>}
-														<span class="featured-byline">
-															{credit.byline.avatarMediaId && (
-																<img
-																	src={`/_emdash/api/media/file/${credit.byline.avatarMediaId}`}
-																	alt={credit.byline.displayName}
-																	class="featured-byline-avatar"
-																/>
-															)}
-															<span class="featured-byline-name">
-																{credit.byline.displayName}
-															</span>
-														</span>
-													</>
-												))}
-												{featuredBylines.length > 2 && (
-													<span class="byline-more">
-														+{featuredBylines.length - 2}
-													</span>
-												)}
-											</div>
-											<span class="meta-dot" />
-										</>
-									)}
-									{formatDate(featuredPost.data.publishedAt) && (
-										<time>{formatDate(featuredPost.data.publishedAt)}</time>
-									)}
-									<span class="meta-dot" />
-									<span>
-										{getReadingTime(featuredPost.data.content)} min read
-									</span>
-								</div>
-								<a
-									href={`/posts/${featuredPost.id}`}
-									class="featured-title-link"
+			))}
+		</div>
+	</section>
+
+	{/* EMPTY STATE */}
+	{enrichedPosts.length === 0 ? (
+		<section class="max-w-[1400px] mx-auto px-6 py-20 text-center">
+			<p class="display text-2xl font-semibold">
+				No dispatches filed under <span style="color: var(--accent)">{categoryParam}</span>.
+			</p>
+		</section>
+	) : (
+		<>
+			{/* TILE GRID */}
+			<section class="max-w-[1400px] mx-auto px-6 py-6 grid grid-cols-12 gap-5">
+				{/* FEATURED TILE */}
+				{featured && (
+					<a
+						href={`/posts/${featured.post.id}`}
+						class="tile tile-accent col-span-12 lg:col-span-7 border-2 border-foreground bg-card flex flex-col"
+					>
+						{featured.post.data.featured_image ? (
+							<div class="relative aspect-[16/9] overflow-hidden border-b border-border">
+								<Image image={featured.post.data.featured_image} {...featured.post.edit.featured_image} />
+							</div>
+						) : (
+							<Fragment set:html={halftonePlate("accent", `Lead · ${featured.categories[0]?.label ?? "Dispatch"}`, 0)} />
+						)}
+						<div class="p-5 flex-1 flex flex-col">
+							<div class="flex items-baseline justify-between mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-3">
+								<span>{fmtFull(featured.post.data.publishedAt)}</span>
+								<span>{featured.readTime} min · {fmtWords(featured.wordCount)} w</span>
+							</div>
+							<h2
+								class="display mb-3"
+								style="font-size: clamp(1.85rem, 3.2vw, 2.75rem); font-weight: 700; line-height: 0.98; letter-spacing: -0.035em;"
+								{...featured.post.edit.title}
+							>
+								{featured.post.data.title}.
+							</h2>
+							{featured.post.data.excerpt && (
+								<p
+									class="serif text-base leading-[1.55] text-foreground/85 mb-3 max-w-[58ch]"
+									{...featured.post.edit.excerpt}
 								>
-									<h1 class="featured-title">{featuredPost.data.title}</h1>
-								</a>
-								{featuredPost.data.excerpt && (
-									<p class="featured-excerpt">{featuredPost.data.excerpt}</p>
-								)}
-								{featuredTags.length > 0 && (
-									<div class="featured-tags">
-										{featuredTags.map((tag) => (
-											<a href={`/tag/${tag.slug}`} class="featured-tag">
-												{tag.label}
-											</a>
-										))}
-									</div>
-								)}
+									{featured.post.data.excerpt}
+								</p>
+							)}
+							<div class="mt-auto pt-3 border-t border-border flex items-center justify-between mono text-[11px] tracking-[0.22em] uppercase">
+								<span>By <span class="text-foreground">{authorName(featured.bylines)}</span></span>
+								<span style="color: var(--accent)">Read →</span>
 							</div>
 						</div>
-					</section>
+					</a>
 				)}
 
-				{/* Latest Posts */}
-				{gridPostsWithTags.length > 0 && (
-					<section class="posts-section">
-						<header class="section-header">
-							<h2 class="section-title">Latest</h2>
-							{hasMorePosts && (
-								<a href="/posts" class="section-link">
-									View all
-								</a>
-							)}
-						</header>
-						<div class="posts-grid">
-							{gridPostsWithTags.map(({ post, tags, bylines }) => (
-								<PostCard
-									title={post.data.title ?? "Untitled"}
-									excerpt={post.data.excerpt}
-									featuredImage={post.data.featured_image}
-									href={`/posts/${post.id}`}
-									date={post.data.publishedAt ?? undefined}
-									readingTime={getReadingTime(post.data.content)}
-									tags={tags}
-									bylines={bylines}
-								/>
-							))}
-						</div>
-					</section>
-				)}
-			</div>
-		)
-	}
+				{/* SECONDARY TILES */}
+				<div class="col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5">
+					{secondary.map((item, i) => {
+						const kind = i % 2 === 0 ? "ink" : "soft";
+						return (
+							<a
+								href={`/posts/${item.post.id}`}
+								class="tile tile-accent border-2 border-foreground bg-card flex flex-col"
+							>
+								{item.post.data.featured_image ? (
+									<div class="relative aspect-[16/9] overflow-hidden border-b border-border">
+										<Image image={item.post.data.featured_image} {...item.post.edit.featured_image} />
+									</div>
+								) : (
+									<Fragment set:html={halftonePlate(kind, item.categories[0]?.label ?? "Dispatch", i + 1)} />
+								)}
+								<div class="p-4 flex-1 flex flex-col">
+									<div class="mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2 flex justify-between">
+										<span>№ 0{i + 2}</span>
+										<span>{fmtShort(item.post.data.publishedAt)} · {item.readTime} min</span>
+									</div>
+									<h3
+										class="display mb-1.5"
+										style="font-size: 1.3rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.025em;"
+										{...item.post.edit.title}
+									>
+										{item.post.data.title}.
+									</h3>
+									{item.post.data.excerpt && (
+										<p class="serif text-sm leading-snug text-muted-foreground line-clamp-2" {...item.post.edit.excerpt}>
+											{item.post.data.excerpt}
+										</p>
+									)}
+									<div class="mt-2 mono text-[10px] tracking-[0.22em] uppercase text-foreground/70">
+										By {authorName(item.bylines)}
+									</div>
+								</div>
+							</a>
+						);
+					})}
+				</div>
+			</section>
+
+			{/* LEDGER (rest of issue) */}
+			{ledger.length > 0 && (
+				<section class="max-w-[1400px] mx-auto px-6 py-6">
+					<div class="flex items-baseline justify-between border-y-2 border-foreground py-2 mb-1">
+						<h2 class="display" style="font-size: 1.4rem; font-weight: 700; letter-spacing: -0.03em;">
+							Also in this issue
+						</h2>
+						<span class="mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
+							{ledger.length.toString().padStart(2, "0")} more
+						</span>
+					</div>
+					<div class="hidden md:grid grid-cols-[40px_90px_120px_1fr_140px_60px_30px] gap-3 mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground py-2 border-b border-border">
+						<span>№</span><span>Date</span><span>Section</span><span>Title</span><span>By</span><span class="text-right">Min</span><span></span>
+					</div>
+					{ledger.map((item, i) => (
+						<a
+							href={`/posts/${item.post.id}`}
+							class="ledger-row grid grid-cols-[36px_1fr_30px] md:grid-cols-[40px_90px_120px_1fr_140px_60px_30px] gap-3 items-baseline py-3 px-1"
+						>
+							<span class="display text-foreground/40" style="font-size: 1rem; font-weight: 700;">
+								{(i + 4).toString().padStart(2, "0")}
+							</span>
+							<span class="mono text-[11px] tracking-wider uppercase text-muted-foreground hidden md:block">
+								{fmtShort(item.post.data.publishedAt)}
+							</span>
+							<span class="mono text-[10px] tracking-[0.2em] uppercase hidden md:block" style="color: var(--accent)">
+								{item.categories[0]?.label ?? ""}
+							</span>
+							<span class="display text-foreground" style="font-size: 1.1rem; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em;">
+								{item.post.data.title}.
+								<span class="md:hidden block mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground mt-1">
+									{item.categories[0]?.label ?? ""} · {fmtShort(item.post.data.publishedAt)} · {item.readTime} min · {authorName(item.bylines)}
+								</span>
+							</span>
+							<span class="mono text-[11px] tracking-wider uppercase text-foreground/80 hidden md:block">
+								{authorName(item.bylines)}
+							</span>
+							<span class="mono text-[11px] text-muted-foreground hidden md:block text-right">
+								{item.readTime}′
+							</span>
+							<span class="ledger-arrow text-foreground/50 text-right">→</span>
+						</a>
+					))}
+				</section>
+			)}
+		</>
+	)}
 </Base>
-
-<style>
-	.home-content {
-		max-width: var(--wide-width);
-		margin: 0 auto;
-		padding: var(--spacing-16) var(--spacing-6);
-	}
-
-	/* Featured Section - Side by side */
-	.featured-section {
-		margin-bottom: var(--spacing-16);
-	}
-
-	.featured-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--spacing-8);
-		align-items: center;
-	}
-
-	.featured-image-link {
-		grid-column: 1 / 3;
-		display: block;
-		/* Extend to viewport edge, but cap at -6rem minimum extension */
-		margin-left: min(
-			-6rem,
-			calc(-1 * (var(--spacing-6) + (100vw - var(--wide-width)) / 2))
-		);
-	}
-
-	.featured-image {
-		overflow: hidden;
-		border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-		background: var(--color-surface);
-	}
-
-	.featured-image img {
-		width: 100%;
-		height: auto;
-		aspect-ratio: 4 / 3;
-		object-fit: cover;
-		transition: transform 0.4s ease;
-	}
-
-	.featured-image-link:hover .featured-image img,
-	.featured-grid:has(.featured-title-link:hover) .featured-image img {
-		transform: scale(1.02);
-	}
-
-	.featured-content {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-4);
-	}
-
-	.featured-meta {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		column-gap: var(--spacing-3);
-		row-gap: var(--spacing-1);
-		font-size: var(--font-size-sm);
-		color: var(--color-muted);
-	}
-
-	.meta-dot {
-		width: 3px;
-		height: 3px;
-		border-radius: 50%;
-		background: var(--color-muted);
-	}
-
-	/* Featured bylines */
-	.featured-bylines {
-		display: flex;
-		align-items: center;
-		gap: 2px;
-	}
-
-	.featured-byline {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--spacing-2);
-	}
-
-	.featured-byline-avatar {
-		width: var(--avatar-size-md);
-		height: var(--avatar-size-md);
-		border-radius: 50%;
-		object-fit: cover;
-	}
-
-	.featured-byline-name {
-		font-weight: 500;
-		color: var(--color-text-secondary);
-	}
-
-	.byline-sep {
-		color: var(--color-muted);
-		margin-right: 2px;
-	}
-
-	.byline-more {
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-		margin-left: 2px;
-	}
-
-	.featured-title-link {
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.featured-title {
-		font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
-		font-weight: 700;
-		line-height: var(--leading-tight);
-		letter-spacing: var(--tracking-tight);
-		transition: color var(--transition-fast);
-	}
-
-	.featured-title-link:hover .featured-title,
-	.featured-grid:has(.featured-image-link:hover) .featured-title {
-		color: var(--color-accent);
-	}
-
-	.featured-excerpt {
-		font-size: var(--font-size-lg);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-	}
-
-	.featured-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--spacing-2);
-		margin-top: var(--spacing-2);
-	}
-
-	.featured-tag {
-		display: inline-block;
-		padding: var(--spacing-1) var(--spacing-3);
-		font-size: var(--font-size-sm);
-		color: var(--color-text-secondary);
-		background: var(--color-surface);
-		border-radius: var(--radius);
-		text-decoration: none;
-		transition:
-			color var(--transition-fast),
-			background var(--transition-fast);
-	}
-
-	.featured-tag:hover {
-		color: var(--color-text);
-		background: var(--color-border);
-	}
-
-	/* Section header */
-	.section-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		margin-bottom: var(--spacing-8);
-		padding-bottom: var(--spacing-4);
-		border-bottom: 1px solid var(--color-border-subtle);
-	}
-
-	.section-title {
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		text-transform: uppercase;
-		letter-spacing: var(--tracking-wider);
-		color: var(--color-muted);
-	}
-
-	.section-link {
-		font-size: var(--font-size-sm);
-		color: var(--color-accent);
-		text-decoration: none;
-		transition: color var(--transition-fast);
-	}
-
-	.section-link:hover {
-		color: var(--color-accent-hover);
-	}
-
-	/* Posts Grid */
-	.posts-section {
-	}
-
-	.posts-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--spacing-12) var(--spacing-8);
-	}
-
-	/* Empty State */
-	.empty-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--spacing-3);
-		text-align: center;
-		padding: var(--spacing-20) var(--spacing-6);
-		max-width: 400px;
-		margin: 0 auto;
-	}
-
-	.empty-state h2 {
-		font-size: var(--font-size-2xl);
-		font-weight: 600;
-	}
-
-	.empty-state p {
-		color: var(--color-muted);
-	}
-
-	.btn {
-		display: inline-block;
-		margin-top: var(--spacing-4);
-		padding: var(--spacing-3) var(--spacing-6);
-		background: var(--color-accent);
-		color: var(--color-on-accent);
-		text-decoration: none;
-		border-radius: var(--radius);
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		transition: background var(--transition-fast);
-	}
-
-	.btn:hover {
-		background: var(--color-accent-hover);
-	}
-
-	/* Responsive */
-	@media (max-width: 900px) {
-		.home-content {
-			padding: var(--spacing-6) var(--spacing-4) var(--spacing-12);
-		}
-
-		.featured-image-link {
-			margin-left: 0;
-		}
-
-		.featured-grid {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-6);
-		}
-
-		.featured-image {
-			border-radius: var(--radius-lg);
-		}
-
-		.featured-image img {
-			aspect-ratio: 16 / 9;
-		}
-
-		.posts-grid {
-			grid-template-columns: repeat(2, 1fr);
-			gap: var(--spacing-8) var(--spacing-6);
-		}
-	}
-
-	@media (max-width: 600px) {
-		.featured-title {
-			font-size: var(--font-size-2xl);
-		}
-
-		.posts-grid {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-8);
-		}
-	}
-</style>

@@ -16,93 +16,71 @@ if (!page) {
 }
 
 Astro.cache.set(cacheHint);
+
+const stats = [
+	{ k: "Founded", v: "2026" },
+	{ k: "Issue", v: "№ 042" },
+	{ k: "Frequency", v: "Weekly" },
+	{ k: "Trackers", v: "0" },
+];
+
+const tenets = [
+	{ n: "I", t: "Slow over fast" },
+	{ n: "II", t: "Craft over churn" },
+	{ n: "III", t: "Signal over noise" },
+	{ n: "IV", t: "Strange over safe" },
+];
 ---
 
 <Base
 	title={page.data.title}
 	content={{ collection: "pages", id: page.data.id, slug }}
 >
-	<article class="page-article">
-		<header class="page-header">
-			<h1 class="page-title" {...page.edit.title}>{page.data.title}</h1>
-		</header>
+	<div class="min-h-screen">
+		<section class="max-w-[900px] mx-auto px-6 py-12 grid grid-cols-12 gap-6">
+			<!-- Particulars sidebar -->
+			<aside class="col-span-12 md:col-span-4">
+				<div class="border-l-2 pl-4 mono text-[11px] tracking-[0.18em] uppercase" style={`border-color: var(--accent)`}>
+					<h1 class="text-[1.25rem] tracking-normal normal-case display font-bold mb-4" {...page.edit.title}>{page.data.title}</h1>
 
-		<div class="page-content">
-			<PortableText value={page.data.content} />
-		</div>
-	</article>
+					<a href="/" class="acid-link text-muted-foreground hover:text-foreground transition-colors mb-4 inline-block">← Front</a>
+
+					<dl class="space-y-1.5 mt-2">
+						{stats.map((s) => (
+							<div class="flex items-baseline gap-2">
+								<dt class="text-muted-foreground">{s.k}</dt>
+								<span class="flex-1 border-b border-dotted border-foreground/25 translate-y-[-3px]" />
+								<dd class="text-foreground">{s.v}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+			</aside>
+
+			<!-- Content area -->
+			<div class="col-span-12 md:col-span-8 max-w-[60ch]">
+				<div class="serif text-[1.1rem] leading-[1.7] [&_p]:mb-4 [&_h2]:text-[1.4rem] [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:font-bold [&_h2]:display [&_h2]:tracking-tight [&_h3]:text-[1.15rem] [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:font-semibold [&_h3]:display [&_blockquote]:my-6 [&_blockquote]:pl-6 [&_blockquote]:border-l-3 [&_blockquote]:border-border [&_blockquote]:text-muted-foreground [&_blockquote]:italic [&_ul]:mb-4 [&_ul]:pl-5 [&_ol]:mb-4 [&_ol]:pl-5 [&_li]:mb-1 [&_pre]:my-4 [&_pre]:p-4 [&_pre]:bg-card [&_pre]:rounded [&_pre]:mono [&_pre]:text-sm [&_pre]:overflow-x-auto [&_code]:mono [&_code]:text-[0.9em] [&_code]:bg-card [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_pre_code]:bg-transparent [&_pre_code]:p-0">
+					<PortableText value={page.data.content} />
+				</div>
+
+				<!-- Tenets / Manifesto -->
+				<div class="mt-8 flex flex-wrap gap-x-6 gap-y-2 mono text-[10px] tracking-[0.2em] uppercase">
+					{tenets.map((t) => (
+						<span class="flex items-baseline gap-2">
+							<span class="font-semibold" style={`color: var(--accent)`}>{t.n}.</span>
+							<span class="text-foreground">{t.t}</span>
+						</span>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- Page footer -->
+		<footer class="border-t border-border">
+			<div class="max-w-[900px] mx-auto px-6 py-4 flex justify-between mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
+				<span>© 2026 SK/Dispatch</span>
+				<span>Syne · Spectral · JetBrains Mono</span>
+			</div>
+		</footer>
+	</div>
 </Base>
-
-<style>
-	.page-article {
-		max-width: var(--max-width);
-		margin: 0 auto;
-		padding: var(--spacing-16) var(--spacing-6) var(--spacing-16);
-	}
-
-	.page-header {
-		margin-bottom: var(--spacing-8);
-	}
-
-	.page-title {
-		font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
-		font-weight: 700;
-		line-height: var(--leading-tight);
-	}
-
-	.page-content :global(p) {
-		margin-bottom: 1.5em;
-	}
-
-	.page-content :global(h2) {
-		font-size: var(--font-size-2xl);
-		margin-top: 2em;
-		margin-bottom: 0.75em;
-	}
-
-	.page-content :global(h3) {
-		font-size: var(--font-size-xl);
-		margin-top: 1.75em;
-		margin-bottom: 0.5em;
-	}
-
-	.page-content :global(blockquote) {
-		margin: 1.5em 0;
-		padding-left: var(--spacing-6);
-		border-left: 3px solid var(--color-border);
-		color: var(--color-muted);
-	}
-
-	.page-content :global(pre) {
-		margin: 1.5em 0;
-		padding: var(--spacing-4);
-		background: var(--color-surface);
-		border-radius: var(--radius);
-		overflow-x: auto;
-		font-family: var(--font-mono);
-		font-size: var(--font-size-sm);
-	}
-
-	.page-content :global(code) {
-		font-family: var(--font-mono);
-		font-size: 0.9em;
-		background: var(--color-surface);
-		padding: 0.15em 0.3em;
-		border-radius: var(--radius);
-	}
-
-	.page-content :global(pre code) {
-		background: none;
-		padding: 0;
-	}
-
-	.page-content :global(ul),
-	.page-content :global(ol) {
-		margin-bottom: 1.5em;
-		padding-left: var(--spacing-5);
-	}
-
-	.page-content :global(li) {
-		margin-bottom: 0.5em;
-	}
-</style>
