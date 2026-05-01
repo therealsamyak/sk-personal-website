@@ -72,6 +72,7 @@ const pageCtx = createPublicPageContext({
 // Ribbon date/time (server-rendered, updated client-side)
 const now = new Date();
 const ribbonDate = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }).toUpperCase();
+const ribbonDateShort = `${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")}/${String(now.getFullYear()).slice(-2)}`;
 const ribbonTime = now.toUTCString().slice(17, 25);
 ---
 
@@ -86,6 +87,12 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 		<title>{fullTitle}</title>
 		{siteFavicon && <link rel="icon" href={siteFavicon} />}
 		<EmDashHead page={pageCtx} />
+		<style>
+			.theme-icon { display: none; }
+			[data-theme-icon="light"] .theme-icon-light { display: initial; }
+			[data-theme-icon="dark"] .theme-icon-dark { display: initial; }
+			[data-theme-icon="system"] .theme-icon-system { display: initial; }
+		</style>
 		<script is:inline>
 			// Apply theme immediately to prevent flash
 			(function () {
@@ -94,8 +101,12 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 				var theme = i >= 0 ? c.slice(i + 6).split(";")[0] : null;
 				if (theme === "dark" || theme === "light") {
 					document.documentElement.classList.add(theme);
+					document.documentElement.setAttribute("data-theme-icon", theme);
 				} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
 					document.documentElement.classList.add("dark");
+					document.documentElement.setAttribute("data-theme-icon", "system");
+				} else {
+					document.documentElement.setAttribute("data-theme-icon", "system");
 				}
 			})();
 		</script>
@@ -106,14 +117,14 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 		<header class="sticky top-0 z-50 bg-background border-b-2 border-foreground">
 			<!-- Info ribbon -->
 			<div class="border-b border-border">
-				<div class="max-w-[1400px] mx-auto px-4 md:px-6 h-7 grid grid-cols-[1fr_auto_1fr] items-center mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground gap-2 md:gap-4 overflow-hidden">
+				<div class="max-w-[1400px] mx-auto px-4 md:px-6 h-7 grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground gap-2 md:gap-4 overflow-hidden">
 					<div class="flex items-center gap-2 md:gap-4 justify-self-start min-w-0">
-						<span class="flex items-center gap-1.5 shrink-0">
-							<span class="w-1.5 h-1.5 rounded-full bg-accent live-dot" />
-							<span class="text-foreground">On press</span>
-						</span>
+						<span class="w-1.5 h-1.5 rounded-full bg-accent live-dot shrink-0" />
+						<span class="hidden md:inline text-foreground">On press</span>
 						<span class="truncate">
-							{ribbonDate} · <span class="tabular-nums" id="header-clock">{ribbonTime}</span> UTC
+							<span class="md:hidden">{ribbonDateShort}</span>
+							<span class="hidden md:inline">{ribbonDate}</span>
+							· <span class="tabular-nums" id="header-clock">{ribbonTime}</span> UTC
 						</span>
 					</div>
 					<div class="hidden md:flex items-center gap-4 justify-self-center text-muted-foreground">
@@ -142,7 +153,7 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 				<nav class="hidden md:flex items-center gap-2">
 					<a href="/" class="acid-link mono text-[11px] tracking-[0.22em] uppercase">Front</a>
 					<span class="mono text-muted-foreground/50">·</span>
-					<a href="/manifesto" class="acid-link mono text-[11px] tracking-[0.22em] uppercase">Manifesto</a>
+					<a href="https://skakatur.dev" target="_blank" rel="noopener noreferrer" class="acid-link mono text-[11px] tracking-[0.22em] uppercase">About</a>
 					<a
 							href="/_emdash/admin"
 							class="ml-3 mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-foreground text-background hover:bg-accent hover:border-accent transition-colors duration-200"
@@ -175,7 +186,7 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 					</div>
 					<nav class="flex flex-col gap-0 mono text-[11px] tracking-[0.22em] uppercase">
 						<a href="/" class="py-3 border-b border-border block">Front</a>
-						<a href="/manifesto" class="py-3 border-b border-border block">Manifesto</a>
+						<a href="https://skakatur.dev" target="_blank" rel="noopener noreferrer" class="py-3 border-b border-border block">About</a>
 						<a href="/_emdash/admin" class="py-3 border-b border-border block">⌘ Admin</a>
 						<div class="flex items-center gap-3 py-3 border-b border-border">
 							<button type="button" class="theme-toggle" id="mobile-theme-toggle-btn" aria-label="Toggle theme">
@@ -275,12 +286,7 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 			}
 
 			function updateIcons(theme: string) {
-				document.querySelectorAll(".theme-icon").forEach((icon) => {
-					(icon as SVGElement).style.display = "none";
-				});
-				document.querySelectorAll(`.theme-icon-${theme}`).forEach((icon) => {
-					(icon as SVGElement).style.display = "";
-				});
+				root.setAttribute("data-theme-icon", theme);
 			}
 
 			// Init icons from cookie
@@ -322,6 +328,15 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 			});
 
 			document.getElementById("search-trigger")?.addEventListener("click", openSearch);
+
+			// Close search on click outside
+			document.addEventListener("mousedown", (e) => {
+				if (!searchPanel) return;
+				const isHidden = searchPanel.classList.contains("pointer-events-none");
+				if (isHidden) return;
+				if (searchPanel.contains(e.target as Node)) return;
+				closeSearch();
+			});
 
 			// ── Mobile menu ──
 			const mobileMenu = document.getElementById("mobile-menu");
