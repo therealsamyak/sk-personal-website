@@ -1,11 +1,8 @@
 import type { APIRoute } from "astro"
-import { getEmDashCollection, getSiteSettings } from "emdash"
-
-import { resolveBlogSiteIdentity } from "../utils/site-identity"
+import { getEmDashCollection } from "emdash"
 
 export const GET: APIRoute = async ({ site, url }) => {
   const siteUrl = site?.toString() || url.origin
-  const { siteTitle, siteTagline } = resolveBlogSiteIdentity(await getSiteSettings())
 
   const { entries: posts } = await getEmDashCollection("posts", {
     orderBy: { published_at: "desc" },
@@ -35,8 +32,8 @@ export const GET: APIRoute = async ({ site, url }) => {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(siteTitle)}</title>
-    <description>${escapeXml(siteTagline)}</description>
+    <title>${escapeXml("SK/Dispatch")}</title>
+    <description>${escapeXml("A riso quarterly at the seam between engineering and craft. Long-form dispatches on type systems, design, and the philosophy of code.")}</description>
     <link>${siteUrl}</link>
     <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
