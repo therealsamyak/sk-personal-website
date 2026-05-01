@@ -6,32 +6,27 @@ const WHITESPACE_REGEX = /\s+/
 const CJK_CHARACTER_REGEX =
   /\p{Script=Han}|\p{Script=Hangul}|\p{Script=Hiragana}|\p{Script=Katakana}/gu
 
-type PortableTextSpan = {
+interface PortableTextSpan {
   _type: string
   text?: string
 }
 
-type PortableTextTextBlock = PortableTextBlock & {
+interface PortableTextTextBlock extends PortableTextBlock {
   _type: "block"
   children: PortableTextSpan[]
 }
 
-function isTextBlock(block: PortableTextBlock): block is PortableTextTextBlock {
-  return block._type === "block" && Array.isArray(block.children)
-}
+const isTextBlock = (block: PortableTextBlock): block is PortableTextTextBlock =>
+  block._type === "block" && Array.isArray(block.children)
 
-function countWords(text: string): number {
-  return text.split(WHITESPACE_REGEX).filter(Boolean).length
-}
+const countWords = (text: string): number => text.split(WHITESPACE_REGEX).filter(Boolean).length
 
-function countCjkCharacters(text: string): number {
-  return text.match(CJK_CHARACTER_REGEX)?.length ?? 0
-}
+const countCjkCharacters = (text: string): number => text.match(CJK_CHARACTER_REGEX)?.length ?? 0
 
 /**
  * Extract plain text from Portable Text blocks
  */
-export function extractText(blocks: PortableTextBlock[] | undefined): string {
+export const extractText = (blocks: PortableTextBlock[] | undefined): string => {
   if (!blocks || !Array.isArray(blocks)) return ""
 
   return blocks
@@ -48,7 +43,7 @@ export function extractText(blocks: PortableTextBlock[] | undefined): string {
 /**
  * Calculate reading time in minutes from Portable Text content
  */
-export function getReadingTime(content: PortableTextBlock[] | undefined): number {
+export const getReadingTime = (content: PortableTextBlock[] | undefined): number => {
   const text = extractText(content)
   const cjkCharacterCount = countCjkCharacters(text)
   const wordCount = countWords(text.replace(CJK_CHARACTER_REGEX, " "))
@@ -61,6 +56,4 @@ export function getReadingTime(content: PortableTextBlock[] | undefined): number
 /**
  * Format reading time for display
  */
-export function formatReadingTime(minutes: number): string {
-  return `${minutes} min read`
-}
+export const formatReadingTime = (minutes: number): string => `${minutes} min read`
