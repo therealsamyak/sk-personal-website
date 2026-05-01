@@ -170,7 +170,10 @@ function halftonePlate(kind: "accent" | "ink" | "soft", label: string, seed: num
 	{enrichedPosts.length === 0 ? (
 		<section class="max-w-[1400px] mx-auto px-6 py-20 text-center">
 			<p class="display text-2xl font-semibold">
-				No dispatches filed under <span style="color: var(--accent)">{categoryParam}</span>.
+				{categoryParam
+				? <>No dispatches filed under <span style="color: var(--accent)">{categoryParam}</span>.</>
+				: "No dispatches filed."
+			}
 			</p>
 		</section>
 	) : (
