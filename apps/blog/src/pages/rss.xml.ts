@@ -58,7 +58,7 @@ const XML_ESCAPE_PATTERNS = [
   [/'/g, "&apos;"],
 ] as const
 
-function escapeXml(str: string): string {
+const escapeXml = (str: string): string => {
   let result = str
   for (const [pattern, replacement] of XML_ESCAPE_PATTERNS) {
     result = result.replace(pattern, replacement)
