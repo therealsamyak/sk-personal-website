@@ -146,7 +146,7 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 						SK<span class="text-accent">/</span>DISPATCH
 					</span>
 					<span class="mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground hidden sm:inline">
-						a riso quarterly
+						My personal ramblings
 					</span>
 				</a>
 
@@ -328,6 +328,8 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 			function closeSearch() {
 				searchPanel?.classList.add("opacity-0", "pointer-events-none");
 				searchPanel?.classList.remove("opacity-100", "pointer-events-auto");
+				const input = searchPanel?.querySelector(".site-search-input") as HTMLInputElement | null;
+				if (input) input.value = "";
 			}
 
 			document.addEventListener("keydown", (e) => {

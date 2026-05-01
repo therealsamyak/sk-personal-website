@@ -142,6 +142,11 @@ body::before {
   transition: color 200ms ease;
 }
 
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
 /* Theme switch view transition */
 ::view-transition-old(theme-switch),
 ::view-transition-new(theme-switch) {
