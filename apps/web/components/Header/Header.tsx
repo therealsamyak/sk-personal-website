@@ -1,6 +1,6 @@
 "use client"
 
-import { Linkedin, Menu, X } from "lucide-react"
+import { ExternalLink, Linkedin, Menu, X } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Link } from "next-view-transitions"
@@ -96,6 +96,15 @@ export const Header = () => {
               </Link>
             )
           })}
+          <a
+            href="https://blog.skakatur.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 rounded-md px-3 py-2 font-medium text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+          >
+            Blog
+            <ExternalLink className="h-3 w-3" />
+          </a>
         </nav>
 
         {/* Right: Controls */}
@@ -143,6 +152,16 @@ export const Header = () => {
                 </Link>
               )
             })}
+            <a
+              href="https://blog.skakatur.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-md px-3 py-2 font-medium text-base transition-colors hover:bg-accent hover:text-accent-foreground"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Blog
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
             {personalInfo.resumeUrl && (
               <Button
                 variant="default"
