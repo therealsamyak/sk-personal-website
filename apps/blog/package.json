@@ -17,10 +17,12 @@
     "@emdash-cms/cloudflare": "0.8.0",
     "@emdash-cms/plugin-forms": "^0.1.1",
     "@emdash-cms/plugin-webhook-notifier": "^0.1.2",
+    "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.2.1",
     "emdash": "0.8.0",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",

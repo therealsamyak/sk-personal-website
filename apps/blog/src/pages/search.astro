@@ -3,7 +3,6 @@ export const prerender = false;
 
 import { getEmDashCollection } from "emdash";
 import Base from "../layouts/Base.astro";
-import PostCard from "../components/PostCard.astro";
 import { getReadingTime, extractText } from "../utils/reading-time";
 
 const query = Astro.url.searchParams.get("q")?.trim() || "";
@@ -23,33 +22,47 @@ function matchesQuery(post: (typeof allPosts)[0], q: string): boolean {
 	);
 }
 
+function formatDate(date: Date | undefined): string {
+	if (!date) return "";
+	return date.toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "short",
+		day: "numeric",
+	});
+}
+
 const results = query ? allPosts.filter((p) => matchesQuery(p, query)) : [];
 ---
 
 <Base
 	title={query ? `Search: ${query}` : "Search"}
-	description="Search blog posts"
+	description="Search dispatches"
 >
-	<section class="search-page">
-		<h1 class="search-title">Search</h1>
+	<div class="max-w-[1400px] mx-auto px-6 py-10">
+		<h1 class="display text-4xl font-extrabold tracking-tight mb-8">Search dispatches</h1>
 
-		<form method="get" action="/search" class="search-form">
+		<form method="get" action="/search" class="flex gap-2 mb-10">
 			<input
 				type="search"
 				name="q"
 				value={query}
-				placeholder="Search posts..."
-				class="search-input"
+				placeholder="Search dispatches..."
+				class="mono flex-1 px-3 py-2 text-sm border border-foreground bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent"
 				autofocus
 			/>
-			<button type="submit" class="search-button">Search</button>
+			<button
+				type="submit"
+				class="mono text-[11px] tracking-[0.15em] uppercase px-6 py-2 bg-accent text-accent-foreground border border-accent cursor-pointer hover:opacity-90 transition-opacity"
+			>
+				Search
+			</button>
 		</form>
 
 		{
 			query && (
-				<p class="search-summary">
+				<p class="mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-6">
 					{results.length === 0
-						? `No results for "${query}"`
+						? `No signals found for "${query}"`
 						: `${results.length} result${results.length === 1 ? "" : "s"} for "${query}"`}
 				</p>
 			)
@@ -57,85 +70,36 @@ const results = query ? allPosts.filter((p) => matchesQuery(p, query)) : [];
 
 		{
 			results.length > 0 && (
-				<div class="search-results">
+				<div class="flex flex-col gap-8">
 					{results.map((post) => (
-						<PostCard
-							title={post.data.title}
-							excerpt={post.data.excerpt}
-							featuredImage={post.data.featured_image}
+						<a
 							href={`/posts/${post.id}`}
-							date={post.data.publishedAt ?? undefined}
-							readingTime={getReadingTime(post.data.content)}
-						/>
+							class="ledger-row block p-4 -mx-4 no-underline"
+						>
+							<h2 class="display text-lg font-bold text-foreground mb-1">
+								{post.data.title}
+							</h2>
+							{post.data.excerpt && (
+								<p class="serif text-sm text-muted-foreground leading-relaxed mb-2">
+									{post.data.excerpt}
+								</p>
+							)}
+							<span class="mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
+								{formatDate(post.data.publishedAt ?? undefined)}
+								{getReadingTime(post.data.content) && (
+									<> · {getReadingTime(post.data.content)}</>
+								)}
+							</span>
+						</a>
 					))}
 				</div>
 			)
 		}
 
-		{!query && <p class="search-hint">Enter a search term to find posts.</p>}
-	</section>
+		{!query && (
+			<p class="mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground">
+				Enter a search term to find dispatches
+			</p>
+		)}
+	</div>
 </Base>
-
-<style>
-	.search-page {
-		max-width: var(--max-width);
-		margin: 0 auto;
-		padding: var(--spacing-8) var(--spacing-6) var(--spacing-16);
-	}
-
-	.search-title {
-		font-size: var(--font-size-2xl);
-		margin-bottom: var(--spacing-6);
-	}
-
-	.search-form {
-		display: flex;
-		gap: var(--spacing-2);
-		margin-bottom: var(--spacing-8);
-	}
-
-	.search-input {
-		flex: 1;
-		padding: var(--spacing-2) var(--spacing-4);
-		font-size: var(--font-size-base);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
-		background: var(--color-bg);
-		color: var(--color-text);
-	}
-
-	.search-input:focus {
-		outline: none;
-		border-color: var(--color-accent);
-	}
-
-	.search-button {
-		padding: var(--spacing-2) var(--spacing-6);
-		font-size: var(--font-size-base);
-		background: var(--color-accent);
-		color: var(--color-on-accent);
-		border: none;
-		border-radius: var(--radius);
-		cursor: pointer;
-		font-weight: 500;
-	}
-
-	.search-button:hover {
-		opacity: 0.9;
-	}
-
-	.search-summary {
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-6);
-	}
-
-	.search-hint {
-		color: var(--color-muted);
-	}
-
-	.search-results {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-8);
-	}
-</style>

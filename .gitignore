@@ -104,5 +104,8 @@ temp/
 # Cloudflare
 .wrangler*
 
+# Design reference projects
+Blog Website UI Design/
+
 # opensrc - source code for packages
 opensrc/

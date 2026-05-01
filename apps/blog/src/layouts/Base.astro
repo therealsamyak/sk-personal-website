@@ -10,7 +10,7 @@ import { createPublicPageContext } from "emdash/page";
 import LiveSearch from "emdash/ui/search";
 import { Font } from "astro:assets";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
-import "../styles/theme.css";
+import "../styles/index.css";
 
 interface Props {
 	title: string;
@@ -67,8 +67,12 @@ const pageCtx = createPublicPageContext({
 	siteName: siteTitle,
 });
 
-// Check if user is logged in (for showing admin link)
-const isLoggedIn = !!Astro.locals.user;
+// Admin button always visible (admin portal is auth-gated)
+
+// Ribbon date/time (server-rendered, updated client-side)
+const now = new Date();
+const ribbonDate = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }).toUpperCase();
+const ribbonTime = now.toUTCString().slice(17, 25);
 ---
 
 <!doctype html>
@@ -76,7 +80,8 @@ const isLoggedIn = !!Astro.locals.user;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<Font cssVariable="--font-sans" preload />
+		<Font cssVariable="--font-display" preload />
+		<Font cssVariable="--font-serif" />
 		<Font cssVariable="--font-mono" />
 		<title>{fullTitle}</title>
 		{siteFavicon && <link rel="icon" href={siteFavicon} />}
@@ -97,915 +102,266 @@ const isLoggedIn = !!Astro.locals.user;
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />
-		<header class="site-header">
-			<nav class="nav">
-				<a href="/" class="site-title">
-					{siteLogo
-						? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="site-logo-img" />
-						: siteTitle
-					}
-				</a>
-				<div class="nav-right">
-					<LiveSearch
-						placeholder="Search..."
-						class="site-search"
-						inputClass="site-search-input"
-						resultsClass="site-search-results"
-						resultClass="site-search-result"
-						collections={["posts", "pages"]}
-					/>
-					<div class="nav-links">
-						{
-							menu?.items.map((item) => (
-								<a href={item.url} target={item.target}>
-									{item.label}
-								</a>
-							))
-						}
+
+		<header class="sticky top-0 z-50 bg-background border-b-2 border-foreground">
+			<!-- Info ribbon -->
+			<div class="border-b border-border">
+				<div class="max-w-[1400px] mx-auto px-4 md:px-6 h-7 grid grid-cols-[1fr_auto_1fr] items-center mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground gap-2 md:gap-4 overflow-hidden">
+					<div class="flex items-center gap-2 md:gap-4 justify-self-start min-w-0">
+						<span class="flex items-center gap-1.5 shrink-0">
+							<span class="w-1.5 h-1.5 rounded-full bg-accent live-dot" />
+							<span class="text-foreground">On press</span>
+						</span>
+						<span class="truncate">
+							{ribbonDate} · <span class="tabular-nums" id="header-clock">{ribbonTime}</span> UTC
+						</span>
 					</div>
-					{
-						isLoggedIn && (
-							<a href="/_emdash/admin" class="nav-admin">
-								Admin
-							</a>
-						)
-					}
+					<div class="hidden md:flex items-center gap-4 justify-self-center text-muted-foreground">
+						<span>Issue <span class="text-foreground">№ 042</span></span>
+						<span>Vol. <span class="text-foreground">III</span></span>
+						<span>Run <span class="text-foreground">2,400 copies</span></span>
+					</div>
+					<div class="justify-self-end text-foreground truncate">
+						{pageTitle || "FRONT"}
+					</div>
 				</div>
-			</nav>
+			</div>
+
+			<!-- Masthead -->
+			<div class="max-w-[1400px] mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-4 md:gap-6">
+				<a href="/" class="flex items-baseline gap-2 sm:gap-3">
+					<span class="display leading-none text-[1.85rem] font-extrabold tracking-[-0.04em]">
+						SK<span class="text-accent">/</span>DISPATCH
+					</span>
+					<span class="mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground hidden sm:inline">
+						a riso quarterly
+					</span>
+				</a>
+
+				<!-- Desktop nav -->
+				<nav class="hidden md:flex items-center gap-2">
+					<a href="/" class="acid-link mono text-[11px] tracking-[0.22em] uppercase">Front</a>
+					<span class="mono text-muted-foreground/50">·</span>
+					<a href="/manifesto" class="acid-link mono text-[11px] tracking-[0.22em] uppercase">Manifesto</a>
+					<a
+							href="/_emdash/admin"
+							class="ml-3 mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-foreground text-background hover:bg-accent hover:border-accent transition-colors duration-200"
+						>
+							⌘ Admin
+						</a>
+					<button type="button" class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
+						<svg class="theme-icon theme-icon-light" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
+						<svg class="theme-icon theme-icon-dark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+					</button>
+					<button type="button" class="theme-toggle" id="search-trigger" aria-label="Search">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+					</button>
+				</nav>
+
+				<!-- Mobile hamburger -->
+				<button type="button" class="md:hidden display text-xl leading-none p-1" id="mobile-menu-toggle" aria-label="Open menu">☰</button>
+			</div>
 		</header>
+
+		<!-- Mobile menu overlay -->
+		<div id="mobile-menu" class="md:hidden fixed inset-0 z-[60] pointer-events-none">
+			<div class="absolute inset-0 bg-foreground/20 opacity-0 transition-opacity duration-300" id="mobile-menu-backdrop"></div>
+			<div class="absolute inset-x-0 top-0 bg-background border-b-2 border-foreground transform -translate-y-full transition-transform duration-300 ease-in-out pointer-events-auto" id="mobile-menu-panel">
+				<div class="max-w-[1400px] mx-auto px-4 py-4">
+					<div class="flex justify-between items-center mb-6">
+						<span class="display text-lg font-extrabold tracking-[-0.04em]">SK<span class="text-accent">/</span>DISPATCH</span>
+						<button type="button" class="display text-xl leading-none p-1" id="mobile-menu-close" aria-label="Close menu">✕</button>
+					</div>
+					<nav class="flex flex-col gap-0 mono text-[11px] tracking-[0.22em] uppercase">
+						<a href="/" class="py-3 border-b border-border block">Front</a>
+						<a href="/manifesto" class="py-3 border-b border-border block">Manifesto</a>
+						<a href="/_emdash/admin" class="py-3 border-b border-border block">⌘ Admin</a>
+						<div class="flex items-center gap-3 py-3 border-b border-border">
+							<button type="button" class="theme-toggle" id="mobile-theme-toggle-btn" aria-label="Toggle theme">
+								<svg class="theme-icon theme-icon-light" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
+								<svg class="theme-icon theme-icon-dark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+							</button>
+							<span class="text-muted-foreground">Theme</span>
+						</div>
+						<button type="button" class="flex items-center gap-3 py-3 w-full text-left" id="mobile-search-trigger">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+							<span>Search</span>
+						</button>
+					</nav>
+				</div>
+			</div>
+		</div>
+
+		<!-- Search overlay (hidden by default, activated by ⌘K or icon click) -->
+		<div class="fixed top-20 right-4 md:right-6 z-[70] opacity-0 pointer-events-none transition-opacity duration-200" id="search-panel">
+			<LiveSearch
+				placeholder="Search..."
+				class="relative w-72 md:w-80"
+				inputClass="site-search-input w-full border border-border bg-background text-foreground rounded px-3 py-2 mono text-[11px] tracking-wider focus:outline-none focus:border-accent"
+				resultsClass="site-search-results absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-lg shadow-lg max-h-80 overflow-y-auto z-50"
+				resultClass="site-search-result block px-4 py-3 no-underline text-foreground border-b border-border hover:bg-card transition-colors"
+				collections={["posts", "pages"]}
+			/>
+		</div>
 
 		<main>
 			<slot />
 		</main>
 
-		<footer class="site-footer">
-			<div class="footer-inner">
-				<div class="footer-grid">
-					<div class="footer-brand">
-						<a href="/" class="footer-logo">
-							{siteLogo
-								? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="footer-logo-img" />
-								: siteTitle
-							}
-						</a>
-						<p class="footer-tagline">{siteTagline}</p>
+		<footer class="border-t-2 border-foreground mt-6">
+			<div class="max-w-[1400px] mx-auto px-4 md:px-6 py-6">
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
+					<div>
+						<div class="text-foreground font-medium">SK/DISPATCH</div>
+						est. mmxxvi · vol iii
 					</div>
-					<div class="footer-nav">
-						<h4 class="footer-heading">Navigate</h4>
-						<ul class="footer-links">
-							<li><a href="/">Home</a></li>
-							<li><a href="/posts">All Posts</a></li>
-							{
-								pages.slice(0, 3).map((page) => (
-									<li>
-										<a href={`/pages/${page.data.slug || page.id}`}>
-											{page.data.title}
-										</a>
-									</li>
-								))
-							}
-						</ul>
+					<div>
+						<div class="text-foreground font-medium">Editorial</div>
+						S. Kakatur · Editor
 					</div>
-					<div class="footer-nav">
-						<h4 class="footer-heading">Connect</h4>
-						<ul class="footer-links">
-							{
-								menu?.items.map((item) => (
-									<li>
-										<a
-											href={item.url}
-											target={item.target}
-											rel={
-												item.target === "_blank"
-													? "noopener noreferrer"
-													: undefined
-											}
-										>
-											{item.label}
-										</a>
-									</li>
-								))
-							}
-							<li><a href="/rss.xml">RSS Feed</a></li>
-						</ul>
+					<div>
+						<div class="text-foreground font-medium">Frequency</div>
+						Weekly · Long-form
 					</div>
-					<div class="footer-widgets-section">
-						<WidgetArea name="footer" />
+					<div class="md:text-right">
+						<div class="text-foreground font-medium">Colophon</div>
+						Syne · Spectral · JetBrains Mono
 					</div>
 				</div>
-				<div class="footer-bottom">
-					<p class="footer-copyright">
-						Powered by <a href="https://emdashcms.com">EmDash</a>
-					</p>
-					<div class="theme-switcher">
-						<button
-							type="button"
-							class="theme-btn"
-							data-theme="light"
-							aria-label="Light mode"
-						>
-							<svg
-								width="16"
-								height="16"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								><circle cx="12" cy="12" r="5"></circle><line
-									x1="12"
-									y1="1"
-									x2="12"
-									y2="3"></line><line x1="12" y1="21" x2="12" y2="23"
-								></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"
-								></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"
-								></line><line x1="1" y1="12" x2="3" y2="12"></line><line
-									x1="21"
-									y1="12"
-									x2="23"
-									y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"
-								></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"
-								></line></svg
-							>
-						</button>
-						<button
-							type="button"
-							class="theme-btn"
-							data-theme="dark"
-							aria-label="Dark mode"
-						>
-							<svg
-								width="16"
-								height="16"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-								></path></svg
-							>
-						</button>
-						<button
-							type="button"
-							class="theme-btn"
-							data-theme="system"
-							aria-label="System theme"
-						>
-							<svg
-								width="16"
-								height="16"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								><rect x="2" y="3" width="20" height="14" rx="2" ry="2"
-								></rect><line x1="8" y1="21" x2="16" y2="21"></line><line
-									x1="12"
-									y1="17"
-									x2="12"
-									y2="21"></line></svg
-							>
-						</button>
-					</div>
-				</div>
+				<WidgetArea name="footer" />
 			</div>
 		</footer>
 
 		<script>
-			// Theme switcher
+			// ── Theme toggle: cycles light → dark → system, cookie-persisted ──
 			const THEME_REGEX = /theme=([^;]+)/;
-			const themeBtns =
-				document.querySelectorAll<HTMLButtonElement>(".theme-btn");
 			const root = document.documentElement;
+			const toggleBtns = document.querySelectorAll<HTMLButtonElement>("#theme-toggle-btn, #mobile-theme-toggle-btn");
 
-			function setCookie(
-				name: string,
-				value: string,
-				maxAge: number = 31536000
-			) {
+			function setCookie(name: string, value: string, maxAge: number = 31536000) {
 				const secure = location.protocol === "https:" ? "; Secure" : "";
-				if (value === "") {
-					document.cookie = `${name}=; path=/; max-age=0; SameSite=Lax${secure}`;
-				} else {
-					document.cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax${secure}`;
-				}
-			}
-
-			function setTheme(theme: string) {
-				if (theme === "system") {
-					setCookie("theme", "");
-					root.classList.remove("light", "dark");
-					if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-						root.classList.add("dark");
-					}
-				} else {
-					setCookie("theme", theme);
-					root.classList.remove("light", "dark");
-					root.classList.add(theme);
-				}
-				updateActiveBtn(theme);
-			}
-
-			function updateActiveBtn(theme: string) {
-				themeBtns.forEach((btn) => {
-					btn.classList.toggle("active", btn.dataset.theme === theme);
-				});
+				document.cookie = value === ""
+					? `${name}=; path=/; max-age=0; SameSite=Lax${secure}`
+					: `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax${secure}`;
 			}
 
 			function getStoredTheme(): string {
 				const match = document.cookie.match(THEME_REGEX);
-				return match ? match[1] : "system";
+				return match ? match[1] : "";
 			}
 
-			// Initialize
-			const storedTheme = getStoredTheme();
-			setTheme(storedTheme);
+			function getEffectiveTheme(): string {
+				const stored = getStoredTheme();
+				return stored || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+			}
 
-			themeBtns.forEach((btn) => {
-				btn.addEventListener("click", () => {
-					setTheme(btn.dataset.theme || "system");
+			function setTheme(theme: string) {
+				if (theme) {
+					setCookie("theme", theme);
+				} else {
+					setCookie("theme", "");
+				}
+				root.classList.remove("light", "dark");
+				if (theme) {
+					root.classList.add(theme);
+				} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+					root.classList.add("dark");
+				}
+				updateIcons(getEffectiveTheme());
+			}
+
+			function cycleTheme() {
+				setTheme(getEffectiveTheme() === "light" ? "dark" : "light");
+			}
+
+			function updateIcons(theme: string) {
+				document.querySelectorAll(".theme-icon").forEach((icon) => {
+					(icon as SVGElement).style.display = "none";
 				});
+				document.querySelectorAll(`.theme-icon-${theme}`).forEach((icon) => {
+					(icon as SVGElement).style.display = "";
+				});
+			}
+
+			// Init icons from cookie
+			updateIcons(getEffectiveTheme());
+			toggleBtns.forEach((btn) => btn.addEventListener("click", cycleTheme));
+			window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+				if (!getStoredTheme()) {
+					root.classList.toggle("dark", window.matchMedia("(prefers-color-scheme: dark)").matches);
+					updateIcons(getEffectiveTheme());
+				}
 			});
 
-			// Listen for system preference changes
-			window
-				.matchMedia("(prefers-color-scheme: dark)")
-				.addEventListener("change", (e) => {
-					if (getStoredTheme() === "system") {
-						root.classList.toggle("dark", e.matches);
-					}
-				});
-		</script>
-
-		<style is:global>
-			/*
-			 * Establish layer order: "base" has lower priority than unlayered
-			 * styles, so theme.css overrides always win regardless of source
-			 * order in the bundled CSS.
-			 */
-			@layer base;
-
-			@layer base {
-				*:where(:not([class*="emdash"]):not([class*="ec-"])),
-				*:where(:not([class*="emdash"]):not([class*="ec-"]))::before,
-				*:where(:not([class*="emdash"]):not([class*="ec-"]))::after {
-					box-sizing: border-box;
-				}
-
-				body,
-				h1,
-				h2,
-				h3,
-				h4,
-				h5,
-				h6,
-				p,
-				ul,
-				ol,
-				figure,
-				blockquote,
-				dl,
-				dd {
-					margin: 0;
-				}
-
-				ul,
-				ol {
-					padding: 0;
-				}
-
-				:root {
-					/* Colors - Light mode (default) */
-					--color-bg: #ffffff;
-					--color-bg-subtle: #fafafa;
-					--color-text: #1a1a1a;
-					--color-text-secondary: #525252;
-					--color-muted: #8b8b8b;
-					--color-border: #e5e5e5;
-					--color-border-subtle: #f0f0f0;
-					--color-surface: #f7f7f7;
-					--color-accent: #0066cc;
-					--color-accent-hover: #0052a3;
-					--color-on-accent: white;
-					--color-accent-ring: color-mix(
-						in srgb,
-						var(--color-accent) 25%,
-						transparent
-					);
-
-					/* EmDash search theming */
-					--emdash-search-bg: var(--color-bg);
-					--emdash-search-text: var(--color-text);
-					--emdash-search-muted: var(--color-muted);
-					--emdash-search-border: var(--color-border);
-					--emdash-search-hover: var(--color-surface);
-					--emdash-search-highlight: var(--color-text);
-
-					/* Type scale - more refined */
-					--font-size-xs: 0.8125rem;
-					--font-size-sm: 0.875rem;
-					--font-size-base: 1rem;
-					--font-size-lg: 1.125rem;
-					--font-size-xl: 1.25rem;
-					--font-size-2xl: 1.5rem;
-					--font-size-3xl: 2rem;
-					--font-size-4xl: 2.5rem;
-					--font-size-5xl: 3.5rem;
-
-					/* Line heights */
-					--leading-tight: 1.15;
-					--leading-snug: 1.3;
-					--leading-normal: 1.5;
-					--leading-relaxed: 1.7;
-
-					/* Spacing - more generous */
-					--spacing-1: 0.25rem;
-					--spacing-2: 0.5rem;
-					--spacing-3: 0.75rem;
-					--spacing-4: 1rem;
-					--spacing-5: 1.25rem;
-					--spacing-6: 1.5rem;
-					--spacing-8: 2rem;
-					--spacing-10: 2.5rem;
-					--spacing-12: 3rem;
-					--spacing-16: 4rem;
-					--spacing-20: 5rem;
-					--spacing-24: 6rem;
-
-					/* Legacy spacing aliases */
-					--spacing-xs: var(--spacing-1);
-					--spacing-sm: var(--spacing-2);
-					--spacing-md: var(--spacing-4);
-					--spacing-lg: var(--spacing-6);
-					--spacing-xl: var(--spacing-8);
-					--spacing-2xl: var(--spacing-12);
-					--spacing-3xl: var(--spacing-16);
-
-					/* Layout - wider for three-column */
-					--content-width: 680px;
-					--wide-width: 1200px;
-					--max-width: var(--content-width);
-					--gutter-width: 200px;
-					--radius: 4px;
-					--radius-lg: 8px;
-
-					/* Transitions */
-					--transition-fast: 120ms ease;
-					--transition-base: 180ms ease;
-
-					/* Nav */
-					--nav-height: 64px;
-
-					/* Search */
-					--search-input-width: 180px;
-
-					/* Article layout */
-					--meta-col-width: 180px;
-
-					/* Avatar sizes */
-					--avatar-size-xs: 18px;
-					--avatar-size-sm: 20px;
-					--avatar-size-md: 24px;
-					--avatar-size-lg: 32px;
-
-					/* Letter spacing */
-					--tracking-tight: -0.03em;
-					--tracking-snug: -0.02em;
-					--tracking-wide: 0.06em;
-					--tracking-wider: 0.08em;
-
-					/* Tag pill */
-					--tag-padding-y: 2px;
-
-					/* Shadows */
-					--shadow-dropdown: 0 8px 30px rgba(0, 0, 0, 0.12);
-					--shadow-btn-active: 0 1px 2px rgba(0, 0, 0, 0.05);
-				}
-
-				/* Dark mode via system preference (when no explicit class) */
-				@media (prefers-color-scheme: dark) {
-					:root:not(.light) {
-						--color-bg: #0d0d0d;
-						--color-bg-subtle: #141414;
-						--color-text: #ededed;
-						--color-text-secondary: #a0a0a0;
-						--color-muted: #6b6b6b;
-						--color-border: #2a2a2a;
-						--color-border-subtle: #1f1f1f;
-						--color-surface: #181818;
-						--color-accent: #4d9fff;
-						--color-accent-hover: #6eb0ff;
-					}
-				}
-
-				/* Explicit dark mode */
-				:root.dark {
-					--color-bg: #0d0d0d;
-					--color-bg-subtle: #141414;
-					--color-text: #ededed;
-					--color-text-secondary: #a0a0a0;
-					--color-muted: #6b6b6b;
-					--color-border: #2a2a2a;
-					--color-border-subtle: #1f1f1f;
-					--color-surface: #181818;
-					--color-accent: #4d9fff;
-					--color-accent-hover: #6eb0ff;
-				}
-
-				html {
-					scroll-behavior: smooth;
-				}
-
-				body {
-					font-family: var(--font-sans);
-					font-size: var(--font-size-base);
-					line-height: var(--leading-relaxed);
-					color: var(--color-text);
-					background: var(--color-bg);
-					-webkit-font-smoothing: antialiased;
-					-moz-osx-font-smoothing: grayscale;
-					min-height: 100vh;
-				}
-
-				a:where(:not([class*="emdash"]):not([class*="ec-"])) {
-					color: var(--color-accent);
-					text-decoration: none;
-					transition: color var(--transition-fast);
-				}
-
-				a:where(:not([class*="emdash"]):not([class*="ec-"])):hover {
-					color: var(--color-accent-hover);
-				}
-
-				img {
-					max-width: 100%;
-					height: auto;
-					display: block;
-				}
-
-				h1,
-				h2,
-				h3,
-				h4,
-				h5,
-				h6 {
-					font-family: var(--font-sans);
-					line-height: var(--leading-tight);
-					font-weight: 600;
-					letter-spacing: var(--tracking-snug);
-				}
-
-				h1 {
-					font-weight: 700;
-					letter-spacing: var(--tracking-tight);
-				}
-
-				::selection {
-					background: var(--color-accent);
-					color: white;
-				}
-			}
-		</style>
-
-		<style>
-			.site-header {
-				position: sticky;
-				top: 0;
-				z-index: 100;
-				background: color-mix(in srgb, var(--color-bg) 65%, transparent);
-				backdrop-filter: blur(12px);
-				-webkit-backdrop-filter: blur(12px);
-				border-bottom: 1px solid var(--color-border-subtle);
+			// ── Live clock ──
+			const clockEl = document.getElementById("header-clock");
+			if (clockEl) {
+				setInterval(() => {
+					clockEl.textContent = new Date().toUTCString().slice(17, 25);
+				}, 1000);
 			}
 
-			.nav {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				max-width: var(--wide-width);
-				margin: 0 auto;
-				padding: var(--spacing-4) var(--spacing-6);
-				height: var(--nav-height);
+			// ── Search panel (⌘K / icon toggle) ──
+			const searchPanel = document.getElementById("search-panel");
+
+			function openSearch() {
+				searchPanel?.classList.remove("opacity-0", "pointer-events-none");
+				searchPanel?.classList.add("opacity-100", "pointer-events-auto");
+				const input = searchPanel?.querySelector(".site-search-input") as HTMLInputElement | null;
+				if (input) setTimeout(() => input.focus(), 50);
 			}
 
-			.site-title {
-				font-size: var(--font-size-lg);
-				font-weight: 600;
-				color: var(--color-text);
-				text-decoration: none;
-				letter-spacing: var(--tracking-snug);
+			function closeSearch() {
+				searchPanel?.classList.add("opacity-0", "pointer-events-none");
+				searchPanel?.classList.remove("opacity-100", "pointer-events-auto");
 			}
 
-			.site-title:hover {
-				color: var(--color-accent);
-			}
-
-			.site-logo-img {
-				height: 48px;
-				width: auto;
-				display: block;
-				margin: -8px 0;
-			}
-
-			.nav-right {
-				display: flex;
-				align-items: center;
-				gap: var(--spacing-6);
-			}
-
-			.nav-links {
-				display: flex;
-				gap: var(--spacing-5);
-				font-size: var(--font-size-sm);
-			}
-
-			.nav-links a {
-				text-decoration: none;
-				color: var(--color-text);
-				transition: color var(--transition-fast);
-			}
-
-			.nav-links a:hover {
-				color: var(--color-accent);
-			}
-
-			.nav-admin {
-				font-size: var(--font-size-sm);
-				color: var(--color-muted);
-				text-decoration: none;
-				opacity: 0.5;
-				transition: opacity var(--transition-fast);
-			}
-
-			.nav-admin:hover {
-				opacity: 1;
-			}
-
-			/* Search styling */
-			.site-search {
-				position: relative;
-				width: var(--search-input-width);
-				--emdash-search-border-focus: var(--color-accent);
-			}
-
-			:global(.site-search-input) {
-				width: var(--search-input-width);
-				padding: var(--spacing-2) var(--spacing-3);
-				font-family: var(--font-sans);
-				font-size: var(--font-size-sm);
-				border: 1px solid var(--color-border);
-				border-radius: var(--radius);
-				background: var(--color-bg);
-				color: var(--color-text);
-				transition:
-					border-color var(--transition-fast),
-					box-shadow var(--transition-fast);
-			}
-
-			:global(.site-search-input)::placeholder {
-				color: var(--color-muted);
-			}
-
-			:global(.site-search-input):focus,
-			:global(.site-search-input):focus-visible {
-				outline: none;
-				border-color: var(--color-accent) !important;
-				box-shadow: 0 0 0 3px var(--color-accent-ring);
-			}
-
-			:global(.site-search-results) {
-				position: absolute;
-				top: 100%;
-				left: 0;
-				right: 0;
-				margin-top: var(--spacing-2);
-				background: var(--color-bg);
-				border: 1px solid var(--color-border);
-				border-radius: var(--radius-lg);
-				box-shadow: var(--shadow-dropdown);
-				max-height: 400px;
-				overflow-y: auto;
-				z-index: 1000;
-			}
-
-			:global(.site-search-results .emdash-live-search-loading),
-			:global(.site-search-results .emdash-live-search-no-results) {
-				padding: var(--spacing-4);
-				text-align: center;
-				color: var(--color-muted);
-				font-size: var(--font-size-sm);
-			}
-
-			:global(.site-search-result) {
-				display: block;
-				padding: var(--spacing-3) var(--spacing-4);
-				text-decoration: none;
-				color: var(--color-text);
-				border-bottom: 1px solid var(--color-border-subtle);
-				transition: background var(--transition-fast);
-			}
-
-			:global(.site-search-result):last-child {
-				border-bottom: none;
-			}
-
-			:global(.site-search-result):hover,
-			:global(.site-search-result):focus,
-			:global(.site-search-result.focused) {
-				background: var(--color-surface);
-				outline: none;
-			}
-
-			:global(.site-search-result .emdash-live-search-result-title) {
-				display: block;
-				font-weight: 500;
-				font-size: var(--font-size-sm);
-			}
-
-			:global(.site-search-result .emdash-live-search-result-collection) {
-				display: block;
-				font-size: var(--font-size-xs);
-				color: var(--color-muted);
-				text-transform: uppercase;
-				letter-spacing: var(--tracking-wide);
-				margin-top: 2px;
-			}
-
-			:global(.site-search-result .emdash-live-search-result-snippet) {
-				display: block;
-				font-size: var(--font-size-sm);
-				color: var(--color-muted);
-				margin-top: var(--spacing-1);
-				line-height: var(--leading-snug);
-			}
-
-			:global(.site-search-result .emdash-live-search-result-snippet mark) {
-				font-weight: 600;
-				color: var(--color-text);
-			}
-
-			main {
-				min-height: calc(100vh - var(--nav-height) - 300px);
-			}
-
-			/* Footer */
-			.site-footer {
-				background: var(--color-bg-subtle);
-				border-top: 1px solid var(--color-border-subtle);
-			}
-
-			.footer-inner {
-				max-width: var(--wide-width);
-				margin: 0 auto;
-				padding: var(--spacing-16) var(--spacing-6) var(--spacing-8);
-			}
-
-			.footer-grid {
-				display: grid;
-				grid-template-columns: 2fr 1fr 1fr 1fr;
-				gap: var(--spacing-12);
-				margin-bottom: var(--spacing-12);
-			}
-
-			.footer-brand {
-				max-width: 280px;
-			}
-
-			.footer-logo {
-				font-size: var(--font-size-lg);
-				font-weight: 600;
-				color: var(--color-text);
-				text-decoration: none;
-				letter-spacing: var(--tracking-snug);
-			}
-
-			.footer-logo-img {
-				height: 24px;
-				width: auto;
-			}
-
-			.footer-tagline {
-				margin-top: var(--spacing-3);
-				font-size: var(--font-size-sm);
-				color: var(--color-muted);
-				line-height: var(--leading-relaxed);
-			}
-
-			.footer-nav {
-				min-width: 0;
-			}
-
-			.footer-heading {
-				font-size: var(--font-size-xs);
-				font-weight: 500;
-				text-transform: uppercase;
-				letter-spacing: var(--tracking-wider);
-				color: var(--color-muted);
-				margin-bottom: var(--spacing-4);
-			}
-
-			.footer-links {
-				list-style: none;
-			}
-
-			.footer-links li {
-				margin-bottom: var(--spacing-2);
-			}
-
-			.footer-links a {
-				color: var(--color-text-secondary);
-				text-decoration: none;
-				font-size: var(--font-size-sm);
-				transition: color var(--transition-fast);
-			}
-
-			.footer-links a:hover {
-				color: var(--color-text);
-			}
-
-			.footer-widgets-section :global(.widget-area) {
-				display: block;
-			}
-
-			.footer-widgets-section :global(.widget) {
-				color: var(--color-text-secondary);
-			}
-
-			.footer-widgets-section :global(.widget__title) {
-				font-size: var(--font-size-xs);
-				font-weight: 500;
-				text-transform: uppercase;
-				letter-spacing: var(--tracking-wider);
-				color: var(--color-muted);
-				margin-bottom: var(--spacing-4);
-			}
-
-			.footer-widgets-section :global(.widget__content) {
-				color: var(--color-text-secondary);
-				font-size: var(--font-size-sm);
-				line-height: var(--leading-relaxed);
-			}
-
-			.footer-bottom {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				padding-top: var(--spacing-6);
-				border-top: 1px solid var(--color-border);
-			}
-
-			.footer-copyright {
-				font-size: var(--font-size-sm);
-				color: var(--color-muted);
-			}
-
-			.footer-copyright a {
-				color: var(--color-text-secondary);
-			}
-
-			/* Theme switcher */
-			.theme-switcher {
-				display: flex;
-				gap: var(--spacing-1);
-				padding: var(--spacing-1);
-				background: var(--color-surface);
-				border-radius: var(--radius);
-			}
-
-			.theme-btn {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: 32px;
-				height: 28px;
-				background: transparent;
-				border: none;
-				color: var(--color-muted);
-				border-radius: var(--radius);
-				cursor: pointer;
-				transition: all var(--transition-fast);
-			}
-
-			.theme-btn:hover {
-				color: var(--color-text-secondary);
-			}
-
-			.theme-btn.active {
-				background: var(--color-bg);
-				color: var(--color-text);
-				box-shadow: var(--shadow-btn-active);
-			}
-
-			.theme-btn svg {
-				width: 16px;
-				height: 16px;
-			}
-
-			@media (max-width: 900px) {
-				.footer-grid {
-					grid-template-columns: 1fr 1fr;
-					gap: var(--spacing-8);
-				}
-
-				.footer-brand {
-					grid-column: span 2;
-					max-width: none;
-				}
-			}
-
-			@media (max-width: 640px) {
-				.site-header {
-					position: relative;
-					border-bottom: none;
-				}
-
-				.nav {
-					flex-direction: row;
-					flex-wrap: wrap;
-					justify-content: space-between;
-					align-items: center;
-					height: auto;
-					gap: var(--spacing-2);
-					padding: var(--spacing-3) var(--spacing-4);
-				}
-
-				.site-title {
-					font-size: var(--font-size-base);
-				}
-
-				.nav-right {
-					display: contents;
-				}
-
-				.site-search {
-					order: 0;
-					max-width: 140px;
-				}
-
-				:global(.site-search-input) {
-					width: 140px !important;
-					padding: var(--spacing-1) var(--spacing-2) !important;
-					font-size: var(--font-size-sm) !important;
-				}
-
-				.nav-links {
-					order: 1;
-					width: 100%;
-					display: flex;
-					column-gap: var(--spacing-3);
-					row-gap: var(--spacing-1);
-					flex-wrap: wrap;
-					justify-content: flex-start;
-				}
-
-				.nav-admin {
-					order: 2;
-					position: absolute;
-					right: var(--spacing-4);
-					top: var(--spacing-3);
-					font-size: var(--font-size-xs);
-				}
-
-				.footer-grid {
-					grid-template-columns: 1fr;
-				}
-
-				.footer-brand {
-					grid-column: span 1;
-				}
-
-				.footer-bottom {
-					flex-direction: column;
-					gap: var(--spacing-4);
-					text-align: center;
-				}
-
-				.footer-controls {
-					flex-wrap: wrap;
-					justify-content: center;
-				}
-			}
-		</style>
-
-		<script>
-			// ⌘K / Ctrl+K to focus search
 			document.addEventListener("keydown", (e) => {
 				if ((e.metaKey || e.ctrlKey) && e.key === "k") {
 					e.preventDefault();
-					const searchInput = document.querySelector(
-						".site-search-input"
-					) as HTMLInputElement;
-					if (searchInput) {
-						searchInput.focus();
-					}
+					openSearch();
 				}
+				if (e.key === "Escape") closeSearch();
+			});
+
+			document.getElementById("search-trigger")?.addEventListener("click", openSearch);
+
+			// ── Mobile menu ──
+			const mobileMenu = document.getElementById("mobile-menu");
+			const mobileBackdrop = document.getElementById("mobile-menu-backdrop");
+			const mobilePanel = document.getElementById("mobile-menu-panel");
+
+			function openMobileMenu() {
+				mobileMenu?.classList.add("pointer-events-auto");
+				mobileMenu?.classList.remove("pointer-events-none");
+				mobilePanel?.classList.remove("-translate-y-full");
+				mobilePanel?.classList.add("translate-y-0");
+				mobileBackdrop?.classList.add("opacity-100");
+				mobileBackdrop?.classList.remove("opacity-0");
+			}
+
+			function closeMobileMenu() {
+				mobilePanel?.classList.add("-translate-y-full");
+				mobilePanel?.classList.remove("translate-y-0");
+				mobileBackdrop?.classList.remove("opacity-100");
+				mobileBackdrop?.classList.add("opacity-0");
+				setTimeout(() => {
+					mobileMenu?.classList.remove("pointer-events-auto");
+					mobileMenu?.classList.add("pointer-events-none");
+				}, 300);
+			}
+
+			document.getElementById("mobile-menu-toggle")?.addEventListener("click", openMobileMenu);
+			document.getElementById("mobile-menu-close")?.addEventListener("click", closeMobileMenu);
+			mobileBackdrop?.addEventListener("click", closeMobileMenu);
+
+			// Mobile search trigger: close menu then open search
+			document.getElementById("mobile-search-trigger")?.addEventListener("click", () => {
+				closeMobileMenu();
+				setTimeout(openSearch, 350);
 			});
 		</script>
+
 		<EmDashBodyEnd page={pageCtx} />
 	</body>
 </html>
