@@ -1,4 +1,11 @@
 packages:
   - apps/*
+allowBuilds:
+  better-sqlite3: true
+  esbuild: true
+  lefthook: true
+  msw: true
+  sharp: true
+  workerd: true
 
 onlyBuiltDependencies: better-sqlite3
