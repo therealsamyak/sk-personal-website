@@ -1,11 +1,10 @@
-/** Resolved media reference from getSiteSettings() */
-export interface MediaReference {
+interface MediaReference {
   mediaId: string
   alt?: string
   url?: string
 }
 
-export interface BlogSiteIdentitySettings {
+interface BlogSiteIdentitySettings {
   title?: string
   tagline?: string
   logo?: MediaReference
