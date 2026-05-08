@@ -76,9 +76,7 @@ const ledger = rest.slice(2);
 
 function fmtShort(date?: Date | null) {
 	if (!date) return "";
-	return date
-		.toLocaleDateString("en-US", { month: "short", day: "numeric" })
-		.replace(", 2026", "");
+	return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 function fmtFull(date?: Date | null) {
 	if (!date) return "";
