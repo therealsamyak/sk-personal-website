@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro"
 
 export const GET: APIRoute = ({ redirect }) => {
-  return redirect("/", 301)
+  return redirect("/", 302)
 }
