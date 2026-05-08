@@ -63,9 +63,7 @@ const seo = getSeoMeta(post, {
 const categories = await getEntryTerms("posts", post.data.id, "category");
 const category = categories[0];
 
-// Bylines are already hydrated by getEmDashEntry
-const bylines = post.data.bylines ?? [];
-const authorName = bylines.map((c) => c.byline.displayName).join(", ") || "SK";
+const authorName = (post.data.bylines ?? []).map((c: { byline: { displayName: string } }) => c.byline.displayName).join(", ") || "SK";
 
 // Reading time and word count
 const readingTime = getReadingTime(post.data.content);
