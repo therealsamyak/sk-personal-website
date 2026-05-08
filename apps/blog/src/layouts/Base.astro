@@ -61,9 +61,6 @@ const pageCtx = createPublicPageContext({
 	siteName: siteTitle,
 });
 
-// Admin button always visible (admin portal is auth-gated)
-
-// Ribbon date/time (server-rendered, updated client-side)
 const now = new Date();
 const ribbonDate = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }).toUpperCase();
 const ribbonDateShort = `${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")}/${String(now.getFullYear()).slice(-2)}`;
@@ -88,7 +85,6 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 		</style>
 		<script is:inline>
 			// Apply theme immediately to prevent flash
-			// Defaults to system preference (light/dark) if no cookie set
 			(function () {
 				var c = document.cookie;
 				var i = c.indexOf("theme=");

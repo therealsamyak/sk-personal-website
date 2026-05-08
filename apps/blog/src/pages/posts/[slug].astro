@@ -65,7 +65,6 @@ const category = categories[0];
 
 const authorName = (post.data.bylines ?? []).map((c: { byline: { displayName: string } }) => c.byline.displayName).join(", ") || "SK";
 
-// Reading time and word count
 const readingTime = getReadingTime(post.data.content);
 const plainText = extractText(post.data.content);
 const wordCount = plainText ? plainText.split(/\s+/).filter(Boolean).length : 0;
