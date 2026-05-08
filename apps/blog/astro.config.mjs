@@ -22,14 +22,6 @@ export default defineConfig({
       auth: access({
         teamDomain: "samheart564.cloudflareaccess.com",
         audienceEnvVar: "CF_ACCESS_AUDIENCE",
-        autoProvision: true,
-        defaultRole: 20, // Contributor
-        syncRoles: true,
-        roleMapping: {
-          Admins: 50, // Admin
-          "Content Editors": 40, // Editor
-          Writers: 30, // Author
-        },
       }),
     }),
   ],
