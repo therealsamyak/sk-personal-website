@@ -10,20 +10,14 @@ import Base from "../layouts/Base.astro";
 import { getReadingTime, extractText } from "../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
 
-// SSR category filter from URL param
 const categoryParam = Astro.url.searchParams.get("category");
-
-// Fetch all categories for chips
 const categories = await getTaxonomyTerms("category");
-
-// Resolve category label → slug for EmDash query
 const activeTerm = categoryParam
 	? categories.find(
 			(t) => t.label.toLowerCase() === categoryParam.toLowerCase(),
 		)
 	: null;
 
-// Fetch posts — filtered by category if param matches
 const queryOpts: Record<string, unknown> = {
 	orderBy: { published_at: "desc" },
 };
@@ -42,14 +36,12 @@ const { siteTitle, siteTagline } = resolveBlogSiteIdentity(
 
 Astro.cache.set(cacheHint);
 
-// Sort by publishedAt descending
 const sortedPosts = posts.toSorted((a, b) => {
 	const dateA = a.data.publishedAt?.getTime() ?? 0;
 	const dateB = b.data.publishedAt?.getTime() ?? 0;
 	return dateB - dateA;
 });
 
-// Enrich posts with category + reading time
 const enrichedPosts = await Promise.all(
 	sortedPosts.map(async (post) => {
 		const terms = await getEntryTerms("posts", post.data.id, "category");
@@ -67,10 +59,8 @@ const enrichedPosts = await Promise.all(
 	}),
 );
 
-// Fetch ALL posts count for the "Showing X / Y" display
 const { entries: allPosts } = await getEmDashCollection("posts");
 
-// Category counts
 const categoryCounts = new Map<string, number>();
 categoryCounts.set("All", allPosts.length);
 for (const cat of categories) {
@@ -80,12 +70,10 @@ for (const cat of categories) {
 	categoryCounts.set(cat.label, catPosts.length);
 }
 
-// Split into featured / secondary / ledger
 const [featured, ...rest] = enrichedPosts;
 const secondary = rest.slice(0, 2);
 const ledger = rest.slice(2);
 
-// Date helpers
 function fmtShort(date?: Date | null) {
 	if (!date) return "";
 	return date
@@ -105,7 +93,6 @@ function fmtWords(n: number) {
 	return n.toLocaleString();
 }
 
-// Author name from bylines
 function authorName(
 	bylines: Array<{ byline: { displayName: string } }>,
 ): string {
@@ -116,7 +103,6 @@ function authorName(
 		.join(", ");
 }
 
-// Halftone plate fallback component as inline function
 function halftonePlate(kind: "accent" | "ink" | "soft", label: string, seed: number) {
 	const cls = kind === "accent" ? "halftone-accent" : kind === "ink" ? "halftone-ink" : "halftone-soft";
 	const stampCls = kind === "accent" ? "stamp-accent" : "stamp-solid";
