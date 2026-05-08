@@ -1,6 +1,6 @@
 import cloudflare from "@astrojs/cloudflare"
 import react from "@astrojs/react"
-import { d1, r2 } from "@emdash-cms/cloudflare"
+import { d1, r2, access } from "@emdash-cms/cloudflare"
 import { formsPlugin } from "@emdash-cms/plugin-forms"
 import { defineConfig, fontProviders } from "astro/config"
 import emdash from "emdash/astro"
@@ -19,6 +19,18 @@ export default defineConfig({
       database: d1({ binding: "DB", session: "auto" }),
       storage: r2({ binding: "MEDIA" }),
       plugins: [formsPlugin()],
+      auth: access({
+        teamDomain: "samheart564.cloudflareaccess.com",
+        audienceEnvVar: "CF_ACCESS_AUDIENCE",
+        autoProvision: true,
+        defaultRole: 20, // Contributor
+        syncRoles: true,
+        roleMapping: {
+          Admins: 50, // Admin
+          "Content Editors": 40, // Editor
+          Writers: 30, // Author
+        },
+      }),
     }),
   ],
   fonts: [
