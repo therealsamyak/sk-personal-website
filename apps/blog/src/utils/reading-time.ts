@@ -52,8 +52,3 @@ export const getReadingTime = (content: PortableTextBlock[] | undefined): number
   )
   return Math.max(1, minutes)
 }
-
-/**
- * Format reading time for display
- */
-export const formatReadingTime = (minutes: number): string => `${minutes} min read`
