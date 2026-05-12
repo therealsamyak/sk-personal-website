@@ -1,6 +1,7 @@
 packages:
   - apps/*
 allowBuilds:
+  "@tailwindcss/oxide": true
   better-sqlite3: true
   esbuild: true
   lefthook: true
@@ -8,4 +9,5 @@ allowBuilds:
   sharp: true
   workerd: true
 
+blockExoticSubdeps: true
 onlyBuiltDependencies: better-sqlite3
