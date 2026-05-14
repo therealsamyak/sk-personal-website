@@ -12,7 +12,7 @@ export const AboutSection = () => (
     <div className="mb-12 flex flex-col items-center justify-center gap-6 text-center">
       {personalInfo.profileImage && (
         <div
-          className="relative h-64 w-64 shrink-0 overflow-hidden rounded-full"
+          className="relative size-64 shrink-0 overflow-hidden rounded-full"
           style={{ viewTransitionName: "profile-image" }}
         >
           <Image
@@ -47,14 +47,14 @@ export const AboutSection = () => (
               className="duolingo-button -translate-y-[4px] transform-gpu shadow-[0px_4px_var(--button-shadow)] transition-all duration-100 ease-out hover:bg-primary/90 active:translate-y-0 active:animate-duolingoButtonPress active:shadow-[0px_0px_var(--button-shadow)]"
             >
               {social.icon === "siGithub" && (
-                <svg className="h-3 w-3 sm:mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="size-3 sm:mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <title>GitHub</title>
                   <path d={siGithub.path} />
                 </svg>
               )}
-              {social.icon === "siLinkedin" && <Linkedin className="h-3 w-3 sm:mr-2" />}
+              {social.icon === "siLinkedin" && <Linkedin className="size-3 sm:mr-2" />}
               {social.icon === "siX" && (
-                <svg className="h-3 w-3 sm:mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="size-3 sm:mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <title>X (Twitter)</title>
                   <path d={siX.path} />
                 </svg>

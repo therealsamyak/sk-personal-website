@@ -1,4 +1,11 @@
+import type { Metadata } from "next"
+
 import { ContactSection } from "@/components/ContactSection"
+
+export const metadata: Metadata = {
+  title: "Contact | Sevak Kaktur",
+  description: "Get in touch with me.",
+}
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 

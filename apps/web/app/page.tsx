@@ -1,4 +1,11 @@
+import type { Metadata } from "next"
+
 import { AboutSection } from "@/components/AboutSection"
+
+export const metadata: Metadata = {
+  title: "Sevak Kaktur",
+  description: "Full-Stack & Embedded Software Engineer.",
+}
 import { ExperienceSection } from "@/components/ExperienceSection"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"

@@ -170,6 +170,7 @@ function FieldError({
 }: React.ComponentProps<"div"> & {
   errors?: Array<{ message?: string } | undefined>
 }) {
+  // oxlint-disable-next-line react-doctor/rerender-memo-before-early-return
   const content = useMemo(() => {
     if (children) {
       return children
