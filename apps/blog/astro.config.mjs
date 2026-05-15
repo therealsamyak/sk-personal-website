@@ -1,6 +1,6 @@
 import cloudflare from "@astrojs/cloudflare"
 import react from "@astrojs/react"
-import { d1, r2, access } from "@emdash-cms/cloudflare"
+import { d1, r2 } from "@emdash-cms/cloudflare"
 import { formsPlugin } from "@emdash-cms/plugin-forms"
 import { defineConfig, fontProviders, memoryCache } from "astro/config"
 import emdash from "emdash/astro"
