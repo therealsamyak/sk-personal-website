@@ -159,6 +159,7 @@ export const ContactForm = () => {
         widgetIdRef.current = window.turnstile.render(container, {
           sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!,
           theme: "auto",
+          // oxlint-disable-next-line react-doctor/no-cascading-set-state
           callback: () => setTurnstileVerified(true),
           "error-callback": () => setTurnstileVerified(false),
         })
@@ -224,7 +225,7 @@ export const ContactForm = () => {
             {state === "submitting" && (
               <div
                 className="[grid-area:1/1] flex min-h-[300px] items-center justify-center"
-                style={{ animation: "loadingAppear 2s ease-in-out forwards" }}
+                style={{ animation: "loadingAppear 800ms ease-in-out forwards" }}
               >
                 <p className="text-muted-foreground text-sm">Loading{dots}</p>
               </div>
@@ -234,7 +235,7 @@ export const ContactForm = () => {
               style={
                 state === "submitting"
                   ? {
-                      animation: "formScanClip 2s ease-in-out forwards",
+                      animation: "formScanClip 800ms ease-in-out forwards",
                       backgroundColor: "var(--card)",
                     }
                   : undefined

@@ -19,10 +19,10 @@ export const ExperienceSection = () => (
               />
               <div className="flex-1 flex flex-col gap-2 text-right">
                 <h5 className="font-medium">University of California, Los Angeles</h5>
-                <p className="text-gray-600 text-sm dark:text-gray-400">
+                <p className="text-zinc-600 text-sm dark:text-zinc-400">
                   Masters of Engineering - IoT Systems
                 </p>
-                <p className="text-gray-500 text-sm">Sept. 2025 - Sept. 2026</p>
+                <p className="text-zinc-500 text-sm">Sept. 2025 - Sept. 2026</p>
               </div>
             </div>
           </div>
@@ -38,10 +38,10 @@ export const ExperienceSection = () => (
               />
               <div className="flex-1 flex flex-col gap-2 text-right">
                 <h5 className="font-medium">University of California, Riverside</h5>
-                <p className="text-gray-600 text-sm dark:text-gray-400">
+                <p className="text-zinc-600 text-sm dark:text-zinc-400">
                   Bachelor's of Science - Computer Science
                 </p>
-                <p className="text-gray-500 text-sm">Sept. 2022 - June 2025</p>
+                <p className="text-zinc-500 text-sm">Sept. 2022 - June 2025</p>
               </div>
             </div>
           </div>
@@ -55,10 +55,10 @@ export const ExperienceSection = () => (
           <div className="flex flex-1 flex-col rounded-lg border p-4">
             <div className="flex flex-col gap-2">
               <h5 className="font-medium">Sidecar Health</h5>
-              <p className="text-gray-600 text-sm dark:text-gray-400">Software Engineer Intern</p>
-              <p className="text-gray-500 text-sm">July - Sept. 2025 | July - Sept. 2024</p>
+              <p className="text-zinc-600 text-sm dark:text-zinc-400">Software Engineer Intern</p>
+              <p className="text-zinc-500 text-sm">July - Sept. 2025 | July - Sept. 2024</p>
             </div>
-            <ul className="mt-3 flex-1 list-inside list-disc flex flex-col gap-1 text-gray-600 text-sm dark:text-gray-400">
+            <ul className="mt-3 flex-1 list-inside list-disc flex flex-col gap-1 text-zinc-600 text-sm dark:text-zinc-400">
               <li>
                 Created a containerized audit automation app in NextJS, speeding up Audit timeline
                 from ~1 week -&gt; ~48 hours.

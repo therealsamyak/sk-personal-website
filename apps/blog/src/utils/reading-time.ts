@@ -30,13 +30,17 @@ export const extractText = (blocks: PortableTextBlock[] | undefined): string => 
   if (!blocks || !Array.isArray(blocks)) return ""
 
   return blocks
-    .filter(isTextBlock)
-    .map((block) =>
-      block.children
-        .filter((child) => child._type === "span" && typeof child.text === "string")
-        .map((span) => span.text)
-        .join(""),
-    )
+    .reduce<string[]>((acc, block) => {
+      if (!isTextBlock(block)) return acc
+      const text = block.children.reduce<string>((spanAcc, child) => {
+        if (child._type === "span" && typeof child.text === "string") {
+          return spanAcc + child.text
+        }
+        return spanAcc
+      }, "")
+      acc.push(text)
+      return acc
+    }, [])
     .join(" ")
 }
 
