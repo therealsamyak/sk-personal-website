@@ -1,7 +1,0 @@
-{
-  "ignore": {
-    "files": ["open-next.config.ts"],
-    "rules": ["react/no-danger"]
-  },
-  "adoptExistingLintConfig": true
-}

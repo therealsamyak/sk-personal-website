@@ -1,6 +1,0 @@
-{
-  "ignore": {
-    "files": ["src/live.config.ts"]
-  },
-  "adoptExistingLintConfig": true
-}
