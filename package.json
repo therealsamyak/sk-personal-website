@@ -12,9 +12,9 @@
   },
   "devDependencies": {
     "lefthook": "^2.1.6",
-    "oxfmt": "^0.47.0",
-    "oxlint": "^1.62.0",
-    "turbo": "^2.9.6"
+    "oxfmt": "^0.49.0",
+    "oxlint": "^1.64.0",
+    "turbo": "^2.9.12"
   },
   "packageManager": "pnpm@11.0.3",
   "pnpm": {

@@ -80,13 +80,15 @@ export const technologies: TechCategory[] = [
   },
 ]
 
-export const getTechColor = (skillName: string): string => {
-  for (const tech of technologies) {
-    if (tech.skills.includes(skillName)) {
-      return tech.color
-    }
+const skillColorMap = new Map<string, string>()
+for (const tech of technologies) {
+  for (const skill of tech.skills) {
+    skillColorMap.set(skill, tech.color)
   }
-  return "gray"
+}
+
+export const getTechColor = (skillName: string): string => {
+  return skillColorMap.get(skillName) ?? "gray"
 }
 
 export const getColorClasses = (color: string): string => {

@@ -33,6 +33,7 @@ export const ProjectCard = ({
               src={image || "/placeholder.svg"}
               alt={title}
               fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
               loading={loading}
               className="object-cover transition-transform hover:scale-105"
             />
@@ -50,6 +51,7 @@ export const ProjectCard = ({
                 src={image || "/placeholder.svg"}
                 alt={title}
                 fill
+                sizes="(max-width: 768px) 100vw, 896px"
                 className="rounded-lg object-cover"
               />
             </div>
@@ -78,7 +80,7 @@ export const ProjectCard = ({
             target="_blank"
             className="inline-flex items-center gap-2 text-sm hover:underline"
           >
-            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
               <title>GitHub</title>
               <path d={siGithub.path} />
             </svg>

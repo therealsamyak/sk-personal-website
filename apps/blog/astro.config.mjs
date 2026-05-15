@@ -19,9 +19,9 @@ export default defineConfig({
       database: d1({ binding: "DB", session: "auto" }),
       storage: r2({ binding: "MEDIA" }),
       plugins: [formsPlugin()],
-      auth: access({
-        teamDomain: "samheart564.cloudflareaccess.com",
-      }),
+      // auth: access({
+      //   teamDomain: "samheart564.cloudflareaccess.com",
+      // }),
     }),
   ],
   fonts: [
