@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { AboutSection } from "@/components/AboutSection"
 
 export const metadata: Metadata = {
-  title: "Sevak Kaktur",
+  title: "Samyak Kakatur",
   description: "Full-Stack & Embedded Software Engineer.",
 }
 import { ExperienceSection } from "@/components/ExperienceSection"
