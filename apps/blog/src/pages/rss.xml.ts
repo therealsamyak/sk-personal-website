@@ -12,23 +12,24 @@ export const GET: APIRoute = async ({ site, url }) => {
   })
 
   const items = posts
-    .map((post) => {
-      if (!post.data.publishedAt) return null
+    .flatMap((post) => {
+      if (!post.data.publishedAt) return []
       const pubDate = post.data.publishedAt.toUTCString()
 
       const postUrl = `${siteUrl}/posts/${post.id}`
       const title = escapeXml(post.data.title || "Untitled")
       const description = escapeXml(post.data.excerpt || "")
 
-      return `    <item>
+      return [
+        `    <item>
       <title>${title}</title>
       <link>${postUrl}</link>
       <guid isPermaLink="true">${postUrl}</guid>
       <pubDate>${pubDate}</pubDate>
       <description>${description}</description>
-    </item>`
+    </item>`,
+      ]
     })
-    .filter(Boolean)
     .join("\n")
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>

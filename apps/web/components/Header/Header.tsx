@@ -24,13 +24,14 @@ export const Header = () => {
             {/* Desktop: Show PFP on sub-pages, Mobile: Always show PFP on sub-pages */}
             {isSubPage && personalInfo.profileImage && (
               <div
-                className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full"
+                className="relative size-8 shrink-0 overflow-hidden rounded-full"
                 style={{ viewTransitionName: "profile-image" }}
               >
                 <Image
                   src={personalInfo.profileImage}
                   alt={personalInfo.name}
                   fill
+                  sizes="32px"
                   className="object-cover"
                 />
               </div>
@@ -58,16 +59,16 @@ export const Header = () => {
                   target="_blank"
                   className="opacity-70 transition-opacity hover:opacity-100"
                 >
-                  <Button variant="ghost" size="icon" className="h-7 w-7">
+                  <Button variant="ghost" size="icon" className="size-7">
                     {social.icon === "siGithub" && (
-                      <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
                         <title>GitHub</title>
                         <path d={siGithub.path} />
                       </svg>
                     )}
-                    {social.icon === "siLinkedin" && <Linkedin className="h-3 w-3" />}
+                    {social.icon === "siLinkedin" && <Linkedin className="size-3" />}
                     {social.icon === "siX" && (
-                      <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
                         <title>X (Twitter)</title>
                         <path d={siX.path} />
                       </svg>
@@ -103,7 +104,7 @@ export const Header = () => {
             className="inline-flex items-center gap-1 rounded-md px-3 py-2 font-medium text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
           >
             Blog
-            <ExternalLink className="h-3 w-3" />
+            <ExternalLink className="size-3" />
           </a>
         </nav>
 
@@ -116,7 +117,7 @@ export const Header = () => {
             className="sm:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
             <span className="sr-only">Toggle menu</span>
           </Button>
 
@@ -160,7 +161,7 @@ export const Header = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Blog
-              <ExternalLink className="h-3.5 w-3.5" />
+              <ExternalLink className="size-3.5" />
             </a>
             {personalInfo.resumeUrl && (
               <Button

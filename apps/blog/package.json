@@ -12,21 +12,21 @@
     "typegen": "emdash types --url https://blog.skakatur.dev"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.3.0",
-    "@astrojs/react": "^5.0.4",
-    "@emdash-cms/cloudflare": "0.8.0",
-    "@emdash-cms/plugin-forms": "^0.1.1",
-    "@emdash-cms/plugin-webhook-notifier": "^0.1.2",
-    "@tailwindcss/vite": "^4.2.4",
-    "astro": "^6.2.1",
-    "emdash": "0.8.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "tailwindcss": "^4.2.4"
+    "@astrojs/cloudflare": "^13.5.1",
+    "@astrojs/react": "^5.0.5",
+    "@emdash-cms/cloudflare": "0.12.0",
+    "@emdash-cms/plugin-forms": "^0.2.2",
+    "@emdash-cms/plugin-webhook-notifier": "^0.1.3",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.3.2",
+    "emdash": "0.12.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "@cloudflare/workers-types": "^4.20260430.1",
-    "wrangler": "^4.87.0"
+    "@cloudflare/workers-types": "^4.20260511.1",
+    "wrangler": "^4.90.1"
   }
 }
