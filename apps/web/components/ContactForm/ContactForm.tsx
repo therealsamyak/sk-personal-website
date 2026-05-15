@@ -3,7 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CircleCheck, CircleX } from "lucide-react"
 import { useEffect, useReducer, useRef } from "react"
+import type { BaseSyntheticEvent, ReactNode, RefObject } from "react"
 import { Controller, useForm } from "react-hook-form"
+import type { Control, SubmitHandler } from "react-hook-form"
 import type { z } from "zod"
 import { submitContactForm } from "@/lib/resend/actions"
 import { clientContactFormSchema } from "@/lib/resend/validation"
@@ -25,6 +27,8 @@ declare global {
 
 type ContactFormStatus = "idle" | "submitting" | "success" | "error"
 
+type ContactFormValues = z.infer<typeof clientContactFormSchema>
+
 type ContactFormState = {
   status: ContactFormStatus
   turnstileVerified: boolean
@@ -36,6 +40,112 @@ type ContactFormAction =
   | { type: "set-turnstile-verified"; verified: boolean }
   | { type: "advance-dots" }
   | { type: "complete-success" }
+
+const ScannerGlow = () => (
+  <svg
+    style={{
+      position: "absolute",
+      width: 0,
+      height: 0,
+      overflow: "hidden",
+    }}
+    aria-hidden="true"
+  >
+    <defs>
+      <filter id="scannerGlow" colorInterpolationFilters="linearRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur16" />
+        <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur8" />
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur4" />
+        <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur2" />
+        <feMerge>
+          <feMergeNode in="blur16" />
+          <feMergeNode in="blur8" />
+          <feMergeNode in="blur4" />
+          <feMergeNode in="blur2" />
+        </feMerge>
+        <feBlend in="SourceGraphic" mode="screen" />
+      </filter>
+    </defs>
+  </svg>
+)
+
+const ContactFormMessage = ({
+  icon,
+  message,
+  tone,
+}: {
+  icon: ReactNode
+  message: string
+  tone: "success" | "error"
+}) => (
+  <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
+    {icon}
+    <p
+      className="text-center text-green-600 dark:text-green-400 data-[error=true]:text-red-600 dark:data-[error=true]:text-red-400"
+      data-error={tone === "error"}
+    >
+      {message}
+    </p>
+  </div>
+)
+
+const ContactFormFields = ({
+  control,
+  onSubmit,
+  isDisabled,
+  isSubmitting,
+  isFormValid,
+  turnstileRef,
+}: {
+  control: Control<ContactFormValues>
+  onSubmit: (event?: BaseSyntheticEvent) => unknown
+  isDisabled: boolean
+  isSubmitting: boolean
+  isFormValid: boolean
+  turnstileRef: RefObject<HTMLDivElement | null>
+}) => (
+  <form onSubmit={onSubmit} className="flex flex-col gap-4">
+    <Controller
+      name="name"
+      control={control}
+      render={({ field, fieldState }) => (
+        <Field data-invalid={fieldState.invalid}>
+          <FieldLabel htmlFor="name">Name</FieldLabel>
+          <Input {...field} id="name" aria-invalid={fieldState.invalid} />
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+        </Field>
+      )}
+    />
+    <Controller
+      name="email"
+      control={control}
+      render={({ field, fieldState }) => (
+        <Field data-invalid={fieldState.invalid}>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Input {...field} id="email" type="email" aria-invalid={fieldState.invalid} />
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+        </Field>
+      )}
+    />
+    <Controller
+      name="message"
+      control={control}
+      render={({ field, fieldState }) => (
+        <Field data-invalid={fieldState.invalid}>
+          <FieldLabel htmlFor="message">Message</FieldLabel>
+          <Textarea {...field} id="message" aria-invalid={fieldState.invalid} />
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+        </Field>
+      )}
+    />
+    <div className="flex justify-center">
+      <div ref={turnstileRef} id="turnstile-container" />
+    </div>
+    <Button type="submit" className="w-full" disabled={isDisabled || !isFormValid}>
+      {isSubmitting ? "Sending..." : "Send Message"}
+    </Button>
+  </form>
+)
 
 export const ContactForm = () => {
   const [formState, dispatch] = useReducer(
@@ -83,7 +193,7 @@ export const ContactForm = () => {
 
   const dots = ".".repeat(formState.dotCount + 1)
 
-  const form = useForm<z.infer<typeof clientContactFormSchema>>({
+  const form = useForm<ContactFormValues>({
     resolver: zodResolver(clientContactFormSchema),
     defaultValues: { name: "", email: "", message: "" },
     mode: "onBlur",
@@ -154,7 +264,7 @@ export const ContactForm = () => {
     return () => clearInterval(id)
   }, [formState.status])
 
-  const onSubmit = async (data: z.infer<typeof clientContactFormSchema>) => {
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
     dispatch({ type: "set-status", status: "submitting" })
 
     try {
@@ -215,52 +325,25 @@ export const ContactForm = () => {
 
   return (
     <>
-      <svg
-        style={{
-          position: "absolute",
-          width: 0,
-          height: 0,
-          overflow: "hidden",
-        }}
-        aria-hidden="true"
-      >
-        <defs>
-          <filter id="scannerGlow" colorInterpolationFilters="linearRGB">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur16" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur8" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur4" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur2" />
-            <feMerge>
-              <feMergeNode in="blur16" />
-              <feMergeNode in="blur8" />
-              <feMergeNode in="blur4" />
-              <feMergeNode in="blur2" />
-            </feMerge>
-            <feBlend in="SourceGraphic" mode="screen" />
-          </filter>
-        </defs>
-      </svg>
+      <ScannerGlow />
       <Card className="p-6 relative overflow-hidden">
         <div
           ref={successViewRef}
-          className="flex min-h-[300px] flex-col items-center justify-center gap-4"
           style={{ display: formState.status === "success" ? "flex" : "none" }}
         >
-          <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
-          <p className="text-center text-green-600 dark:text-green-400">
-            Thanks for your message! I&apos;ll get back to you soon.
-          </p>
+          <ContactFormMessage
+            icon={<CircleCheck className="size-12 text-green-600 dark:text-green-400" />}
+            message="Thanks for your message! I'll get back to you soon."
+            tone="success"
+          />
         </div>
 
-        <div
-          ref={errorViewRef}
-          className="flex min-h-[300px] flex-col items-center justify-center gap-4"
-          style={{ display: formState.status === "error" ? "flex" : "none" }}
-        >
-          <CircleX className="size-12 text-red-600 dark:text-red-400" />
-          <p className="text-center text-red-600 dark:text-red-400">
-            Something went wrong. Refresh the page and try again.
-          </p>
+        <div ref={errorViewRef} style={{ display: formState.status === "error" ? "flex" : "none" }}>
+          <ContactFormMessage
+            icon={<CircleX className="size-12 text-red-600 dark:text-red-400" />}
+            message="Something went wrong. Refresh the page and try again."
+            tone="error"
+          />
         </div>
 
         <div
@@ -290,54 +373,14 @@ export const ContactForm = () => {
                   : undefined
               }
             >
-              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                <Controller
-                  name="name"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="name">Name</FieldLabel>
-                      <Input {...field} id="name" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                <Controller
-                  name="email"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="email">Email</FieldLabel>
-                      <Input {...field} id="email" type="email" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                <Controller
-                  name="message"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="message">Message</FieldLabel>
-                      <Textarea {...field} id="message" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                {/* turnstile */}
-                <div className="flex justify-center">
-                  <div ref={turnstileRef} id="turnstile-container" />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={
-                    formState.status !== "idle" || !isFormValid || !formState.turnstileVerified
-                  }
-                >
-                  {formState.status === "submitting" ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
+              <ContactFormFields
+                control={form.control}
+                onSubmit={form.handleSubmit(onSubmit)}
+                isDisabled={formState.status !== "idle" || !formState.turnstileVerified}
+                isSubmitting={formState.status === "submitting"}
+                isFormValid={isFormValid}
+                turnstileRef={turnstileRef}
+              />
             </div>
           </div>
         </div>
