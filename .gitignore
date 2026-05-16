@@ -107,5 +107,8 @@ temp/
 # Design reference projects
 Blog Website UI Design/
 
+# react-doctor
+react-doctor.config.json
+
 # opensrc - source code for packages
 opensrc/
