@@ -16,7 +16,6 @@
     "@astrojs/react": "^5.0.5",
     "@emdash-cms/cloudflare": "0.14.0",
     "@emdash-cms/plugin-forms": "^0.2.2",
-    "@emdash-cms/plugin-webhook-notifier": "^0.2.0",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.7",
     "emdash": "0.14.0",
