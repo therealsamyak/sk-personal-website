@@ -16,5 +16,34 @@
     "oxlint": "^1.66.0",
     "turbo": "^2.9.14"
   },
-  "packageManager": "pnpm@11.0.3"
+  "packageManager": "pnpm@11.0.3",
+  "reactDoctor": {
+    "serverAuthFunctionNames": [
+      "verifyContactFormRequest"
+    ],
+    "ignore": {
+      "overrides": [
+        {
+          "files": [
+            "components/ui/card.tsx",
+            "apps/web/components/ui/card.tsx",
+            "components/ui/dialog.tsx",
+            "apps/web/components/ui/dialog.tsx"
+          ],
+          "rules": [
+            "react-doctor/no-multi-comp"
+          ]
+        },
+        {
+          "files": [
+            "package.json",
+            "apps/blog/package.json"
+          ],
+          "rules": [
+            "deslop/unused-dev-dependency"
+          ]
+        }
+      ]
+    }
+  }
 }
