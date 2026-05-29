@@ -13,20 +13,20 @@
     "typegen": "emdash types --url https://blog.skakatur.dev"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.5.4",
-    "@astrojs/react": "^5.0.5",
-    "@emdash-cms/cloudflare": "0.14.0",
+    "@astrojs/cloudflare": "^13.6.0",
+    "@astrojs/react": "^5.0.6",
+    "@emdash-cms/cloudflare": "0.15.0",
     "@emdash-cms/plugin-forms": "^0.2.2",
     "@tailwindcss/vite": "^4.3.0",
-    "astro": "^6.3.7",
-    "emdash": "0.14.0",
+    "astro": "^6.4.2",
+    "emdash": "0.15.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "@cloudflare/workers-types": "^4.20260525.1",
-    "wrangler": "^4.94.0"
+    "@cloudflare/workers-types": "^4.20260528.1",
+    "wrangler": "^4.95.0"
   }
 }
