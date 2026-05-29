@@ -6,7 +6,8 @@
   "scripts": {
     "build": "astro check && astro build",
     "cf-build": "astro build",
-    "dev": "wrangler dev --remote",
+    "dev": "wrangler dev",
+    "dev-r": "wrangler dev --remote",
     "cf-deploy": "wrangler deploy",
     "preview": "astro preview",
     "typegen": "emdash types --url https://blog.skakatur.dev"
