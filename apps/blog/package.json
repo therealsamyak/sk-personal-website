@@ -6,27 +6,27 @@
   "scripts": {
     "build": "astro check && astro build",
     "cf-build": "astro build",
-    "dev": "wrangler dev --remote",
+    "dev": "wrangler dev",
+    "dev-r": "wrangler dev --remote",
     "cf-deploy": "wrangler deploy",
     "preview": "astro preview",
     "typegen": "emdash types --url https://blog.skakatur.dev"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.5.1",
-    "@astrojs/react": "^5.0.5",
-    "@emdash-cms/cloudflare": "0.12.0",
+    "@astrojs/cloudflare": "^13.6.0",
+    "@astrojs/react": "^5.0.6",
+    "@emdash-cms/cloudflare": "0.15.0",
     "@emdash-cms/plugin-forms": "^0.2.2",
-    "@emdash-cms/plugin-webhook-notifier": "^0.1.3",
     "@tailwindcss/vite": "^4.3.0",
-    "astro": "^6.3.2",
-    "emdash": "0.12.0",
+    "astro": "^6.4.2",
+    "emdash": "0.15.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "@cloudflare/workers-types": "^4.20260511.1",
-    "wrangler": "^4.90.1"
+    "@cloudflare/workers-types": "^4.20260528.1",
+    "wrangler": "^4.95.0"
   }
 }

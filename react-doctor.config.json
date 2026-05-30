@@ -1,0 +1,9 @@
+{
+  "serverAuthFunctionNames": ["verifyContactFormRequest"],
+  "ignore": {
+    "files": ["**/components/ui/**"]
+  },
+  "rules": {
+    "deslop/unused-dev-dependency": "off"
+  }
+}
