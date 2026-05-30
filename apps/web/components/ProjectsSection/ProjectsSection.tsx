@@ -8,8 +8,8 @@ export const ProjectsSection = () => (
         Projects
       </h2>
       <div className="flex flex-wrap justify-center gap-6">
-        {projects.map((project, index) => (
-          <ProjectCard key={project.title} {...project} loading={index === 0 ? "eager" : "lazy"} />
+        {projects.map((project) => (
+          <ProjectCard key={project.title} {...project} loading="lazy" />
         ))}
       </div>
     </div>
