@@ -7,7 +7,7 @@
 **Build:** `pnpm build`
 
 **Lint & Format:** `pnpm check` (runs oxlint --fix + oxfmt)
-
+`
 **Pre-commit:** Lefthook automatically runs lint and format on staged files before commit.
 
 **No test suite** exists in this codebase.
@@ -19,7 +19,7 @@
 1. External libraries (alphabetical)
 2. Next.js imports
 3. Internal config
-4. UI components (@/ui/\*)
+4. UI components (shadcn/ui) (@/ui/\*)
 
 ```tsx
 import { Linkedin } from "lucide-react"
@@ -31,24 +31,8 @@ import { Button } from "@/ui/button"
 ### State Management
 
 - Minimal useState usage
-- No useReducer, useContext, or complex state patterns
+- No useReducer, useContext, or complex state patterns unless absolutely necessary
 - Prefer component-level state over global state
-
-### Event Handlers
-
-- **Good**: Inline handlers with descriptive actions
-- **Avoid**: Generic `handleClick`, `handleSubmit` functions
-
-```tsx
-// Good
-onClick={() => {
-  window.open(url, "_blank")
-  setMobileMenuOpen(false)
-}}
-
-// Bad
-onClick={handleClick}
-```
 
 ### shadcn/ui
 
