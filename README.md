@@ -1,27 +1,35 @@
-# skakatur.dev
+# [skakatur.dev](https://skakatur.dev)
 
 My personal website and blog. Built with Next.js, Astro (EmDash CMS), TypeScript, Tailwind CSS, and shadcn/ui. Hosted on Cloudflare Workers free tier.
 
 ## Tech Stack
 
-- **Portfolio** ([apps/web](apps/web)) — Next.js + shadcn/ui, deployed to Cloudflare Workers via OpenNext
-- **Blog** ([apps/blog](apps/blog)) — Astro with EmDash CMS, deployed to Cloudflare Workers
-- **Monorepo** — pnpm workspaces + Turborepo
+- **Web (Portfolio)** ([apps/web](apps/web))
+  - Next.js, deployed to Cloudflare Workers via [OpenNext](https://github.com/opennextjs/opennextjs-cloudflare)
+- **Blog** ([apps/blog](apps/blog))
+  - Astro ([EmDash CMS](https://github.com/emdash-cms/emdash)), deployed to Cloudflare Workers
 
 ## Local Development
+
+The repository is a monorepo utilizing [pnpm](https://github.com/pnpm/pnpm) and [Turborepo](https://github.com/vercel/turborepo).
+
+Each app has its own `.env.example`, copy and fill in values:
+
+```bash
+cp apps/web/.env.example apps/web/.env.development
+cp apps/blog/.env.example apps/blog/.env.development
+```
+
+Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-Each app has its own `.env.example` — copy and fill in values:
+Run the build and dev commands to get started:
 
 ```bash
-cp apps/web/.env.example apps/web/.env
-cp apps/blog/.env.example apps/blog/.env
-```
-
-```bash
+pnpm run build
 pnpm run dev
 ```
 
@@ -29,18 +37,16 @@ pnpm run dev
 
 Both apps deploy to Cloudflare Workers. Each app has its own `.env.production` with the necessary secrets and config.
 
-### Web App
+#### Web
 
 ```bash
 pnpm run cf-deploy-website
 ```
 
-Set environment variables in the Cloudflare Dashboard under **Workers & Pages** → **web** → **Settings** → **Variables**.
-
-### Blog
+#### Blog
 
 ```bash
 pnpm run cf-deploy-blog
 ```
 
-Set secrets via the Cloudflare Dashboard under **Workers & Pages** → **blog** → **Settings** → **Variables** → **Encrypt**.
+Ensure environment variables / secrets are set via the Cloudflare Dashboard under **Compute** --> **Workers & Pages** --> **(Worker Name)** --> **Settings** --> **Variables and Secrets**.
