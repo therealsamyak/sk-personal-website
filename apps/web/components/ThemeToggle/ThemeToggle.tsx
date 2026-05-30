@@ -2,66 +2,65 @@
 
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
+import type { MouseEvent } from "react"
+
+const setRippleCoordinates = (event: MouseEvent) => {
+  const rect = (event.target as HTMLElement).getBoundingClientRect()
+  const coords = {
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+  }
+  const root = document.documentElement
+
+  root.style.setProperty("--x", `${coords.x}px`)
+  root.style.setProperty("--y", `${coords.y}px`)
+}
+
+const runThemeViewTransition = (callback: () => void) => {
+  const root = document.documentElement
+
+  if (!document.startViewTransition) {
+    callback()
+    return
+  }
+
+  const profileTransitionNames = ["profile-image", "profile-name", "social-links"]
+  const savedStyles: Array<{ element: HTMLElement; name: string }> = []
+
+  profileTransitionNames.forEach((name) => {
+    const elements = document.querySelectorAll(`[style*="view-transition-name: ${name}"]`)
+    elements.forEach((element) => {
+      const htmlElement = element as HTMLElement
+      savedStyles.push({ element: htmlElement, name })
+      htmlElement.style.viewTransitionName = ""
+    })
+  })
+
+  root.style.viewTransitionName = "theme-switch"
+
+  // oxlint-disable-next-line react-doctor/no-document-start-view-transition
+  document.startViewTransition(callback).finished.then(() => {
+    savedStyles.forEach(({ element, name }) => {
+      element.style.viewTransitionName = name
+    })
+
+    root.style.viewTransitionName = ""
+  })
+}
 
 export const ThemeToggle = () => {
   const { setTheme, theme } = useTheme()
-
-  const setRippleCoordinates = (event: React.MouseEvent) => {
-    const rect = (event.target as HTMLElement).getBoundingClientRect()
-    const coords = {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    }
-    const root = document.documentElement
-
-    if (coords) {
-      root.style.setProperty("--x", `${coords.x}px`)
-      root.style.setProperty("--y", `${coords.y}px`)
-    }
-  }
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light"
     setTheme(newTheme)
   }
 
-  const handleViewTransition = (callback: () => void) => {
-    const root = document.documentElement
-
-    if (!document.startViewTransition) {
-      callback()
-      return
-    }
-
-    const profileTransitionNames = ["profile-image", "profile-name", "social-links"]
-    const savedStyles: Array<{ element: HTMLElement; name: string }> = []
-
-    profileTransitionNames.forEach((name) => {
-      const elements = document.querySelectorAll(`[style*="view-transition-name: ${name}"]`)
-      elements.forEach((element) => {
-        const htmlElement = element as HTMLElement
-        savedStyles.push({ element: htmlElement, name })
-        htmlElement.style.viewTransitionName = ""
-      })
-    })
-
-    root.style.viewTransitionName = "theme-switch"
-
-    // oxlint-disable-next-line react-doctor/no-document-start-view-transition
-    document.startViewTransition(callback).finished.then(() => {
-      savedStyles.forEach(({ element, name }) => {
-        element.style.viewTransitionName = name
-      })
-
-      root.style.viewTransitionName = ""
-    })
-  }
-
   return (
     <button
       onClick={(event) => {
         setRippleCoordinates(event)
-        handleViewTransition(toggleTheme)
+        runThemeViewTransition(toggleTheme)
       }}
       className="relative flex h-9 w-16 items-center rounded-full border border-input bg-zinc-200 p-1 transition-all duration-300 hover:shadow-md dark:bg-zinc-800"
       aria-label="Toggle theme"
