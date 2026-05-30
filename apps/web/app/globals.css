@@ -141,12 +141,20 @@ body {
     @apply border-border outline-ring/50;
   }
   html {
+    overflow-y: auto;
     scrollbar-gutter: stable;
   }
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
   }
+}
+
+/* Prevent layout shift when dialog scroll-lock is active.
+   scrollbar-gutter: stable on html reserves the gutter.
+   Override react-remove-scroll-bar's margin compensation to avoid double-shifting. */
+html > body[data-scroll-locked] {
+  margin-right: 0 !important;
 }
 
 /* View Transitions - Prevent Layout Shift */
