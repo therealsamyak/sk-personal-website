@@ -6,7 +6,8 @@
   "scripts": {
     "build": "astro check && astro build",
     "cf-build": "astro build",
-    "dev": "wrangler dev",
+    "dev": "portless",
+    "dev:app": "wrangler dev --port $PORT",
     "dev-r": "wrangler dev --remote",
     "cf-deploy": "wrangler deploy",
     "preview": "astro preview",
@@ -28,5 +29,9 @@
     "@astrojs/check": "^0.9.9",
     "@cloudflare/workers-types": "^4.20260528.1",
     "wrangler": "^4.95.0"
+  },
+  "portless": {
+    "name": "blog",
+    "script": "dev:app"
   }
 }

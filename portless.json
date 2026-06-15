@@ -1,0 +1,6 @@
+{
+  "apps": {
+    "apps/web": { "name": "web" },
+    "apps/blog": { "name": "blog" }
+  }
+}
