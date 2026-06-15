@@ -1,0 +1,171 @@
+---
+import { categories } from "../lib/cookie-categories"
+---
+
+<!--
+	PolicyStack cookie consent — Astro canonical pattern.
+	Markup is server-rendered; the hoisted <script> below wires it to the
+	headless consent store. No framework island, no React adapter.
+	See https://policystack.dev/blog/astro-cookie-banner
+-->
+
+<!-- Bottom banner -->
+<div
+	data-policystack-banner
+	hidden
+	class="fixed inset-x-0 bottom-0 z-40 border-t-2 border-foreground bg-background"
+>
+	<div
+		class="mx-auto flex max-w-[1400px] flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6"
+	>
+		<div class="flex items-center gap-3">
+			<span
+				class="hidden h-1.5 w-1.5 shrink-0 rounded-full bg-accent live-dot md:inline-block"
+				aria-hidden="true"
+			></span>
+			<p class="serif max-w-xl text-sm leading-relaxed text-foreground">
+				We use cookies to keep the press running. Choose what you'll allow.
+			</p>
+		</div>
+		<div class="flex flex-wrap items-center gap-2">
+			<button
+				type="button"
+				data-action="customize"
+				class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-background text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background"
+			>
+				Customize
+			</button>
+			<button
+				type="button"
+				data-action="necessary"
+				class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-background text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background"
+			>
+				Necessary only
+			</button>
+			<button
+				type="button"
+				data-action="all"
+				class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-foreground text-background transition-colors duration-200 hover:bg-accent hover:border-accent"
+			>
+				Accept all
+			</button>
+		</div>
+	</div>
+</div>
+
+<!-- Preferences modal -->
+<div
+	data-policystack-prefs
+	hidden
+	class="fixed inset-0 z-[80] flex items-center justify-center bg-foreground/40 p-4"
+>
+	<div
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="policystack-prefs-title"
+		class="w-full max-w-md border-2 border-foreground bg-background"
+	>
+		<div class="flex items-baseline justify-between gap-4 border-b-2 border-foreground px-5 py-4">
+			<h2 id="policystack-prefs-title" class="display text-lg font-extrabold leading-none tracking-tight">
+				Cookie preferences
+			</h2>
+			<span class="mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">Privacy</span>
+		</div>
+		<div class="px-5 py-4">
+			<p class="serif text-sm leading-relaxed text-muted-foreground">
+				Choose which categories of cookies to allow. Essential cookies are always on.
+			</p>
+			<div class="mt-4 flex flex-col">
+				{
+					categories.map((c) => (
+						<label class="ledger-row flex items-start justify-between gap-4 px-1 py-3">
+							<span class="flex flex-col gap-1">
+								<span class="mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground">
+									{c.label}
+									{c.locked && <span class="text-accent"> · Locked</span>}
+								</span>
+								{c.description && (
+									<span class="serif text-xs leading-relaxed text-muted-foreground">
+										{c.description}
+									</span>
+								)}
+							</span>
+							<input
+								type="checkbox"
+								data-category={c.key}
+								disabled={c.locked}
+								class="mt-1 h-4 w-4 shrink-0 accent-accent disabled:opacity-50"
+							/>
+						</label>
+					))
+				}
+			</div>
+			<div class="mt-5 flex items-center justify-end gap-2 border-t border-border pt-4">
+				<button
+					type="button"
+					data-action="cancel"
+					class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-background text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background"
+				>
+					Cancel
+				</button>
+				<button
+					type="button"
+					data-action="save"
+					class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-foreground text-background transition-colors duration-200 hover:bg-accent hover:border-accent"
+				>
+					Save
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	import { createConsentStore, timezoneResolver } from "@policystack/core/consent"
+	import { localStorageAdapter } from "@policystack/core/consent/storage/local-storage"
+	import { categories } from "../lib/cookie-categories"
+
+	const store = createConsentStore({
+		categories,
+		adapter: localStorageAdapter(),
+		jurisdictionResolver: timezoneResolver(),
+	})
+
+	const banner = document.querySelector<HTMLElement>("[data-policystack-banner]")!
+	const prefs = document.querySelector<HTMLElement>("[data-policystack-prefs]")!
+	const checkboxes = prefs.querySelectorAll<HTMLInputElement>("input[data-category]")
+
+	const render = (state: ReturnType<typeof store.getState>) => {
+		banner.hidden = state.route !== "cookie"
+		prefs.hidden = state.route !== "preferences"
+		for (const cb of checkboxes) {
+			const key = cb.dataset.category
+			if (key) cb.checked = state.decisions[key] ?? false
+		}
+	}
+	store.subscribe(render)
+	render(store.getState())
+
+	banner
+		.querySelector<HTMLButtonElement>('[data-action="customize"]')!
+		.addEventListener("click", () => store.setRoute("preferences"))
+	banner
+		.querySelector<HTMLButtonElement>('[data-action="necessary"]')!
+		.addEventListener("click", () => store.acceptNecessary())
+	banner
+		.querySelector<HTMLButtonElement>('[data-action="all"]')!
+		.addEventListener("click", () => store.acceptAll())
+
+	for (const cb of checkboxes) {
+		cb.addEventListener("change", () => store.toggle(cb.dataset.category!))
+	}
+
+	prefs
+		.querySelector<HTMLButtonElement>('[data-action="cancel"]')!
+		.addEventListener("click", () => store.setRoute("cookie"))
+	prefs
+		.querySelector<HTMLButtonElement>('[data-action="save"]')!
+		.addEventListener("click", () => store.save())
+
+	window.addEventListener("policystack:open", () => store.setRoute("cookie"))
+</script>
