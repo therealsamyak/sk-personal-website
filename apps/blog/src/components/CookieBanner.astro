@@ -168,4 +168,11 @@ import { categories } from "../lib/cookie-categories"
 		.addEventListener("click", () => store.save())
 
 	window.addEventListener("policystack:open", () => store.setRoute("cookie"))
+
+	// Dismiss the preferences modal on Escape.
+	document.addEventListener("keydown", (e) => {
+		if (e.key === "Escape" && !prefs.hidden) {
+			store.setRoute("cookie")
+		}
+	})
 </script>
