@@ -33,6 +33,8 @@ pnpm run build
 pnpm run dev
 ```
 
+Dev servers are proxied through [Portless](https://github.com/vercel-labs/portless), giving each app a stable `.localhost` URL (`web.localhost`, `blog.localhost`) instead of raw port numbers. `pnpm dev` starts the proxy once before Turborepo kicks in (one password prompt), and the proxy is stopped automatically when you close the dev server.
+
 ## Deployment
 
 Both apps deploy to Cloudflare Workers. Each app has its own `.env.production` with the necessary secrets and config.
