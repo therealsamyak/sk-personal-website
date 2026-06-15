@@ -7,7 +7,7 @@
     "build": "astro check && astro build",
     "cf-build": "astro build",
     "dev": "portless",
-    "dev:app": "wrangler dev --port $PORT",
+    "dev:app": "wrangler dev --port ${PORT:-8787}",
     "dev-r": "wrangler dev --remote",
     "cf-deploy": "wrangler deploy",
     "preview": "astro preview",
