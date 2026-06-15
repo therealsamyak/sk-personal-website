@@ -33,7 +33,7 @@ pnpm run build
 pnpm run dev
 ```
 
-Dev servers are proxied through [Portless](https://github.com/vercel-labs/portless), giving each app a stable `.localhost` URL (`web.localhost`, `blog.localhost`) instead of raw port numbers. `pnpm dev` starts the proxy once before Turborepo kicks in (one password prompt), and the proxy is stopped automatically when you close the dev server.
+Dev servers are proxied through [Portless](https://github.com/vercel-labs/portless), giving each app a stable `.localhost` URL (`web.localhost`, `blog.localhost`) instead of raw port numbers. `pnpm dev` starts the proxy before Turborepo kicks in (one password prompt to start, another to stop on exit). If the proxy is already running, it's left untouched. Requires Node.js 24+.
 
 ## Deployment
 
