@@ -48,12 +48,10 @@ export default defineConfig({
     },
   ],
   devToolbar: { enabled: false },
+  cache: {
+    provider: memoryCache(),
+  },
   vite: {
     plugins: [tailwindcss()],
-  },
-  experimental: {
-    cache: {
-      provider: memoryCache(),
-    },
   },
 })
