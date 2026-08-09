@@ -1,5 +1,7 @@
 import Image from "next/image"
 
+import { WorkExperienceCarousel } from "./WorkExperienceCarousel"
+
 export const ExperienceSection = () => (
   <div className="mx-auto mt-12 max-w-6xl">
     <div className="grid gap-8 md:grid-cols-2">
@@ -51,27 +53,7 @@ export const ExperienceSection = () => (
       {/* Work Experience Section */}
       <div className="flex flex-col gap-4">
         <h4 className="text-center font-semibold text-lg">Work Experience</h4>
-        <div className="flex flex-1 flex-col">
-          <div className="flex flex-1 flex-col rounded-lg border p-4">
-            <div className="flex flex-col gap-2">
-              <h5 className="font-medium">Sidecar Health</h5>
-              <p className="text-zinc-600 text-sm dark:text-zinc-400">Software Engineer Intern</p>
-              <p className="text-zinc-500 text-sm">July - Sept. 2025 | July - Sept. 2024</p>
-            </div>
-            <ul className="mt-3 flex-1 list-inside list-disc flex flex-col gap-1 text-zinc-600 text-sm dark:text-zinc-400">
-              <li>
-                Created a containerized audit automation app in NextJS, speeding up Audit timeline
-                from ~1 week -&gt; ~48 hours.
-              </li>
-              <li>
-                Utilized AWS ECS, RDS, SDM, Amplify to deploy production applications and container
-                services.
-              </li>
-              <li>Overhauled authentication framework with WorkOS AuthKit.</li>
-              <li>Triaged and fixed multiple high-priority bugs in record-time.</li>
-            </ul>
-          </div>
-        </div>
+        <WorkExperienceCarousel />
       </div>
     </div>
   </div>
