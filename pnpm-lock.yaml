@@ -38,6 +38,9 @@ importers:
       '@emdash-cms/plugin-forms':
         specifier: ^0.2.4
         version: 0.2.4(94dba44e55f25423dc6fca5fc8231fd0)
+      '@policystack/core':
+        specifier: ^1.0.1
+        version: 1.4.0
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.16.9)(yaml@2.9.0))
@@ -75,6 +78,15 @@ importers:
       '@opennextjs/cloudflare':
         specifier: ^1.20.2
         version: 1.20.2(next@16.3.0(@babel/core@7.29.7)(@types/node@26.2.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(wrangler@4.120.0(@cloudflare/workers-types@5.20260808.1))
+      '@policystack/core':
+        specifier: ^1.0.1
+        version: 1.4.0
+      '@policystack/react':
+        specifier: ^1.0.1
+        version: 1.4.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@policystack/sdk':
+        specifier: ^1.0.1
+        version: 1.4.0
       '@tailwindcss/postcss':
         specifier: ^4.3.3
         version: 4.3.3
@@ -2263,6 +2275,18 @@ packages:
     peerDependencies:
       react: '>= 16.8'
       react-dom: '>= 16.8'
+
+  '@policystack/core@1.4.0':
+    resolution: {integrity: sha512-HJ8PtwX2z+cT35h7LUio9CGTg5BRLUG+2BSpDF/Mk2lLSeShBtbWgQoRTNWyySgNAb8FADThWjBrrJOZHZVEIA==}
+
+  '@policystack/react@1.4.0':
+    resolution: {integrity: sha512-/uKLMedalJNxZGbveGTlmmNRZivnWAh2MfA/041R8FrAbbfD6l6g+CIRCbWbMCZGD56jYHb78QIYU26etWaD6A==}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@policystack/sdk@1.4.0':
+    resolution: {integrity: sha512-Mr93YtU8xCNJztAwT91mSG3925lwcukT9SGF0yJ8zqor/AqeV4o/0htxZJsCvwlDznLCWwDPkkFG5ce8/AtgTA==}
 
   '@poppinss/colors@4.1.6':
     resolution: {integrity: sha512-H9xkIdFswbS8n1d6vmRd8+c10t2Qe+rZITbbDHHkQixH5+2x1FDGmi/0K+WgWiqQFKPSlIYB7jlH6Kpfn6Fleg==}
@@ -9277,6 +9301,15 @@ snapshots:
     dependencies:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
+
+  '@policystack/core@1.4.0': {}
+
+  '@policystack/react@1.4.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+
+  '@policystack/sdk@1.4.0': {}
 
   '@poppinss/colors@4.1.6':
     dependencies:
