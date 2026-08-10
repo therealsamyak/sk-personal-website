@@ -1,9 +1,8 @@
 "use client"
 
-import { Pause, Play } from "lucide-react"
 import { useEffect, useState } from "react"
 
-const AUTO_ADVANCE_MS = 15_000
+const AUTO_ADVANCE_MS = 30_000
 
 type WorkExperience = {
   readonly company: string
@@ -22,7 +21,7 @@ type CarouselState = {
 const workExperiences = [
   {
     company: "US Department of the Treasury",
-    division: "Departmental Offices, Treasury Common Services Center (TCSC)",
+    division: "Treasury Common Services Center (TCSC)",
     title: "AI Engineer",
     dates: "June 2026 - Present",
     highlights: ["Working on a variety of technical projects and modernization efforts."],
@@ -63,12 +62,9 @@ export const WorkExperienceCarousel = () => {
     direction: "forward",
   })
   const [isPaused, setIsPaused] = useState(false)
-  const [isInteractionPaused, setIsInteractionPaused] = useState(false)
-  const [rotationResetCount, setRotationResetCount] = useState(0)
-  const isRotationPaused = isPaused || isInteractionPaused
 
   useEffect(() => {
-    if (isRotationPaused) {
+    if (isPaused) {
       return
     }
 
@@ -81,27 +77,13 @@ export const WorkExperienceCarousel = () => {
     }, AUTO_ADVANCE_MS)
 
     return () => window.clearInterval(intervalId)
-  }, [isRotationPaused, rotationResetCount])
+  }, [isPaused])
 
   return (
     <section
       aria-label="Work experience"
       aria-roledescription="carousel"
       className="flex min-w-0 items-stretch gap-3"
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) {
-          setIsInteractionPaused(false)
-        }
-      }}
-      onFocusCapture={() => {
-        setIsInteractionPaused(true)
-      }}
-      onPointerEnter={() => {
-        setIsInteractionPaused(true)
-      }}
-      onPointerLeave={() => {
-        setIsInteractionPaused(false)
-      }}
     >
       <div
         aria-live={isPaused ? "polite" : "off"}
@@ -148,7 +130,7 @@ export const WorkExperienceCarousel = () => {
             }`}
             key={experience.company}
             onClick={() => {
-              setRotationResetCount((currentResetCount) => currentResetCount + 1)
+              setIsPaused(true)
               setCarousel((currentCarousel) => {
                 if (currentCarousel.activeIndex === index) {
                   return currentCarousel
@@ -171,24 +153,6 @@ export const WorkExperienceCarousel = () => {
             />
           </button>
         ))}
-        <button
-          aria-label={
-            isPaused
-              ? "Resume automatic work experience rotation"
-              : "Pause automatic work experience rotation"
-          }
-          className="flex size-6 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          onClick={() => {
-            setIsPaused((currentIsPaused) => !currentIsPaused)
-          }}
-          type="button"
-        >
-          {isPaused ? (
-            <Play aria-hidden="true" size={14} />
-          ) : (
-            <Pause aria-hidden="true" size={14} />
-          )}
-        </button>
       </div>
     </section>
   )
