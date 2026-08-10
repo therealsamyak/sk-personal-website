@@ -125,34 +125,36 @@ export function CookieBanner() {
           e.preventDefault()
           setRoute("cookie")
         }}
-        className="bg-card text-card-foreground flex w-full max-w-md flex-col gap-4 rounded-xl border p-5 shadow-xl [&::backdrop]:bg-black/50 [&::backdrop]:backdrop-blur-[2px]"
+        className="bg-card text-card-foreground w-full max-w-md rounded-xl border p-5 shadow-xl [&::backdrop]:bg-black/50 [&::backdrop]:backdrop-blur-[2px]"
       >
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex flex-col gap-1">
-            <h2 className="font-semibold text-base">Cookie preferences</h2>
-            <p className="text-muted-foreground text-xs">Choose which categories to allow.</p>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex flex-col gap-1">
+              <h2 className="font-semibold text-base">Cookie preferences</h2>
+              <p className="text-muted-foreground text-xs">Choose which categories to allow.</p>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => setRoute("cookie")}
+              aria-label="Close preferences"
+            >
+              <X className="size-4" />
+            </Button>
           </div>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            onClick={() => setRoute("cookie")}
-            aria-label="Close preferences"
-          >
-            <X className="size-4" />
-          </Button>
-        </div>
-        <div className="flex flex-col gap-2">
-          {categories.map((category) => (
-            <CategoryRow key={category.key} category={category} />
-          ))}
-        </div>
-        <div className="flex flex-col gap-2 sm:flex-row-reverse">
-          <Button className="flex-1" onClick={save}>
-            Save preferences
-          </Button>
-          <Button variant="outline" className="flex-1" onClick={() => setRoute("cookie")}>
-            Cancel
-          </Button>
+          <div className="flex flex-col gap-2">
+            {categories.map((category) => (
+              <CategoryRow key={category.key} category={category} />
+            ))}
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row-reverse">
+            <Button className="flex-1" onClick={save}>
+              Save preferences
+            </Button>
+            <Button variant="outline" className="flex-1" onClick={() => setRoute("cookie")}>
+              Cancel
+            </Button>
+          </div>
         </div>
       </dialog>
     </>
