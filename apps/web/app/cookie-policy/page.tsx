@@ -1,11 +1,11 @@
 import type { Metadata } from "next"
-import { CookiePolicy } from "@policystack/react/policy"
-import config from "@/policystack"
+
+import { CookiePolicyView } from "./CookiePolicyView"
 
 export const metadata: Metadata = {
   title: "Cookie Policy - SK",
 }
 
 export default function CookiePolicyPage() {
-  return <CookiePolicy config={config} />
+  return <CookiePolicyView />
 }
