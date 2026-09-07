@@ -19,9 +19,6 @@ export default defineConfig({
       database: d1({ binding: "DB", session: "auto" }),
       storage: r2({ binding: "MEDIA" }),
       plugins: [formsPlugin()],
-      // auth: access({
-      //   teamDomain: "samheart564.cloudflareaccess.com",
-      // }),
     }),
   ],
   fonts: [
@@ -53,5 +50,13 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    // Pre-optimize this module so Vite does not re-optimize deps after the
+    // workerd sandbox runner has started. A late re-optimization deletes the
+    // hashed entrypoints file the runner still imports, crashing `emdash dev`.
+    ssr: {
+      optimizeDeps: {
+        include: ["astro/logger/console"],
+      },
+    },
   },
 })
