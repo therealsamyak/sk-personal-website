@@ -11,11 +11,11 @@
     "prepare": "lefthook install"
   },
   "devDependencies": {
-    "lefthook": "^2.1.10",
-    "oxfmt": "^0.62.0",
-    "oxlint": "^1.77.0",
-    "portless": "^0.14.0",
-    "turbo": "^2.10.9"
+    "lefthook": "^2.1.12",
+    "oxfmt": "^0.66.0",
+    "oxlint": "^1.81.0",
+    "portless": "^0.15.6",
+    "turbo": "^2.10.12"
   },
   "engines": {
     "node": ">=24"
