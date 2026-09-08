@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# Force local-CA mode (.localhost domains). Tailscale mode is never used in
+# this repo: this machine exports PORTLESS_TAILSCALE=1 in ~/.zshrc, but the
+# tailnet has no HTTPS capability, so portless would exit with an error
+# before starting any dev server.
+export PORTLESS_TAILSCALE=0
+export PORTLESS_FUNNEL=0
+
 # Start portless proxy, capturing output to determine if we started it.
 # If the proxy was already running (e.g. from `portless service install`),
 # we leave it alone on exit instead of killing it.
