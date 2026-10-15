@@ -55,6 +55,79 @@ const getPositionClasses = (index: number, carousel: CarouselState) => {
     : "-translate-y-full opacity-0"
 }
 
+type CarouselTrackProps = {
+  readonly experiences: readonly WorkExperience[]
+  readonly carousel: CarouselState
+  readonly isPaused: boolean
+}
+
+const CarouselTrack = ({ experiences, carousel, isPaused }: CarouselTrackProps) => (
+  <div
+    aria-live={isPaused ? "polite" : "off"}
+    className="relative min-h-[17.5rem] min-w-0 flex-1 overflow-hidden"
+    id="work-experience-carousel"
+  >
+    {experiences.map((experience, index) => (
+      <article
+        aria-hidden={index !== carousel.activeIndex}
+        aria-label={`Work experience ${index + 1} of ${experiences.length}: ${experience.company}`}
+        className={`absolute inset-0 flex flex-col rounded-lg border p-4 transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none ${getPositionClasses(index, carousel)}`}
+        key={experience.company}
+      >
+        <div className="flex flex-col gap-2">
+          <h5 className="font-medium">{experience.company}</h5>
+          {experience.division ? (
+            <p className="text-zinc-500 text-sm">{experience.division}</p>
+          ) : null}
+          <p className="text-zinc-600 text-sm dark:text-zinc-400">{experience.title}</p>
+          <p className="text-zinc-500 text-sm">{experience.dates}</p>
+        </div>
+        <ul className="mt-3 flex-1 list-inside list-disc flex flex-col gap-1 text-zinc-600 text-sm dark:text-zinc-400">
+          {experience.highlights.map((highlight) => (
+            <li key={highlight}>{highlight}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+)
+
+type CarouselControlsProps = {
+  readonly experiences: readonly WorkExperience[]
+  readonly activeIndex: number
+  readonly onSelect: (index: number) => void
+}
+
+const CarouselControls = ({ experiences, activeIndex, onSelect }: CarouselControlsProps) => (
+  <div
+    aria-label="Work experience controls"
+    className="flex w-7 shrink-0 flex-col items-center justify-center gap-2"
+  >
+    {experiences.map((experience, index) => (
+      <button
+        aria-controls="work-experience-carousel"
+        aria-current={index === activeIndex ? "true" : undefined}
+        aria-label={`Show ${experience.company}`}
+        className={`flex size-6 items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+          index === activeIndex
+            ? "text-foreground"
+            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+        }`}
+        key={experience.company}
+        onClick={() => onSelect(index)}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className={`size-2 rounded-full ${
+            index === activeIndex ? "bg-current" : "bg-current/40"
+          }`}
+        />
+      </button>
+    ))}
+  </div>
+)
+
 export const WorkExperienceCarousel = () => {
   const [carousel, setCarousel] = useState<CarouselState>({
     activeIndex: 0,
@@ -79,81 +152,33 @@ export const WorkExperienceCarousel = () => {
     return () => window.clearInterval(intervalId)
   }, [isPaused])
 
+  const selectExperience = (index: number) => {
+    setIsPaused(true)
+    setCarousel((currentCarousel) => {
+      if (currentCarousel.activeIndex === index) {
+        return currentCarousel
+      }
+
+      return {
+        activeIndex: index,
+        previousIndex: currentCarousel.activeIndex,
+        direction: index > currentCarousel.activeIndex ? "forward" : "backward",
+      }
+    })
+  }
+
   return (
     <section
       aria-label="Work experience"
       aria-roledescription="carousel"
       className="flex min-w-0 items-stretch gap-3"
     >
-      <div
-        aria-live={isPaused ? "polite" : "off"}
-        className="relative min-h-[17.5rem] min-w-0 flex-1 overflow-hidden"
-        id="work-experience-carousel"
-      >
-        {workExperiences.map((experience, index) => (
-          <article
-            aria-hidden={index !== carousel.activeIndex}
-            aria-label={`Work experience ${index + 1} of ${workExperiences.length}: ${experience.company}`}
-            className={`absolute inset-0 flex flex-col rounded-lg border p-4 transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none ${getPositionClasses(index, carousel)}`}
-            key={experience.company}
-          >
-            <div className="flex flex-col gap-2">
-              <h5 className="font-medium">{experience.company}</h5>
-              {experience.division ? (
-                <p className="text-zinc-500 text-sm">{experience.division}</p>
-              ) : null}
-              <p className="text-zinc-600 text-sm dark:text-zinc-400">{experience.title}</p>
-              <p className="text-zinc-500 text-sm">{experience.dates}</p>
-            </div>
-            <ul className="mt-3 flex-1 list-inside list-disc flex flex-col gap-1 text-zinc-600 text-sm dark:text-zinc-400">
-              {experience.highlights.map((highlight) => (
-                <li key={highlight}>{highlight}</li>
-              ))}
-            </ul>
-          </article>
-        ))}
-      </div>
-
-      <div
-        aria-label="Work experience controls"
-        className="flex w-7 shrink-0 flex-col items-center justify-center gap-2"
-      >
-        {workExperiences.map((experience, index) => (
-          <button
-            aria-controls="work-experience-carousel"
-            aria-current={index === carousel.activeIndex ? "true" : undefined}
-            aria-label={`Show ${experience.company}`}
-            className={`flex size-6 items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-              index === carousel.activeIndex
-                ? "text-foreground"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-            }`}
-            key={experience.company}
-            onClick={() => {
-              setIsPaused(true)
-              setCarousel((currentCarousel) => {
-                if (currentCarousel.activeIndex === index) {
-                  return currentCarousel
-                }
-
-                return {
-                  activeIndex: index,
-                  previousIndex: currentCarousel.activeIndex,
-                  direction: index > currentCarousel.activeIndex ? "forward" : "backward",
-                }
-              })
-            }}
-            type="button"
-          >
-            <span
-              aria-hidden="true"
-              className={`size-2 rounded-full ${
-                index === carousel.activeIndex ? "bg-current" : "bg-current/40"
-              }`}
-            />
-          </button>
-        ))}
-      </div>
+      <CarouselTrack carousel={carousel} experiences={workExperiences} isPaused={isPaused} />
+      <CarouselControls
+        activeIndex={carousel.activeIndex}
+        experiences={workExperiences}
+        onSelect={selectExperience}
+      />
     </section>
   )
 }
