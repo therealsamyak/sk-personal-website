@@ -3,7 +3,7 @@
 import { useCategory, useConsent } from "@policystack/react/consent"
 import { Cookie as CookieIcon, X } from "lucide-react"
 import { Link } from "next-view-transitions"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/ui/button"
 
@@ -56,10 +56,6 @@ export function CookieBanner() {
   const modalRef = useRef<HTMLDialogElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const prevRoute = useRef(route)
-  const [mounted, setMounted] = useState(false)
-
-  // Defer render until mounted so the banner/store don't flash during SSR hydration.
-  useEffect(() => setMounted(true), [])
 
   // Drive the native <dialog> lifecycle from PolicyStack route state.
   useEffect(() => {
@@ -85,8 +81,6 @@ export function CookieBanner() {
     setRoute("preferences")
   }
 
-  if (!mounted) return null
-
   return (
     <>
       {route === "cookie" && (
@@ -107,10 +101,10 @@ export function CookieBanner() {
               <Button variant="outline" size="sm" onClick={openPreferences}>
                 Customize
               </Button>
-              <Button variant="ghost" size="sm" onClick={acceptNecessary}>
+              <Button variant="ghost" size="sm" onClick={() => acceptNecessary()}>
                 Necessary only
               </Button>
-              <Button size="sm" onClick={acceptAll}>
+              <Button size="sm" onClick={() => acceptAll()}>
                 Accept all
               </Button>
             </div>
@@ -148,7 +142,7 @@ export function CookieBanner() {
             ))}
           </div>
           <div className="flex flex-col gap-2 sm:flex-row-reverse">
-            <Button className="flex-1" onClick={save}>
+            <Button className="flex-1" onClick={() => save()}>
               Save preferences
             </Button>
             <Button variant="outline" className="flex-1" onClick={() => setRoute("cookie")}>
