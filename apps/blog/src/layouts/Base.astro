@@ -10,6 +10,7 @@ import { createPublicPageContext } from "emdash/page";
 import LiveSearch from "emdash/ui/search";
 import { Font } from "astro:assets";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import CookieBanner from "../components/CookieBanner.astro";
 import "../styles/index.css";
 
 interface Props {
@@ -380,5 +381,7 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 		</script>
 
 		<EmDashBodyEnd page={pageCtx} />
+
+		<CookieBanner />
 	</body>
 </html>
