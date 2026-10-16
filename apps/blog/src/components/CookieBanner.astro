@@ -140,7 +140,8 @@ import { categories } from "../lib/cookie-categories"
 		prefs.hidden = state.route !== "preferences"
 		for (const cb of checkboxes) {
 			const key = cb.dataset.category
-			if (key) cb.checked = state.decisions[key] ?? false
+			// PolicyStack 1.2 stages toggles in `draft` until save.
+			if (key) cb.checked = state.draft?.[key] ?? state.decisions[key] ?? false
 		}
 	}
 	store.subscribe(render)
