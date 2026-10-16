@@ -3,7 +3,7 @@
 import { useCategory, useConsent } from "@policystack/react/consent"
 import { Cookie as CookieIcon, X } from "lucide-react"
 import { Link } from "next-view-transitions"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/ui/button"
 
@@ -54,97 +54,107 @@ function CategoryRow({
 export function CookieBanner() {
   const { route, categories, acceptAll, acceptNecessary, setRoute, save } = useConsent()
   const modalRef = useRef<HTMLDialogElement>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
+  const prevRoute = useRef(route)
+  const [mounted, setMounted] = useState(false)
 
+  // Defer render until mounted so the banner/store don't flash during SSR hydration.
+  useEffect(() => setMounted(true), [])
+
+  // Drive the native <dialog> lifecycle from PolicyStack route state.
   useEffect(() => {
-    if (route !== "preferences") return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setRoute("cookie")
+    const dialog = modalRef.current
+    if (!dialog) return
+
+    if (route === "preferences" && !dialog.open) {
+      dialog.showModal()
     }
-    document.addEventListener("keydown", onKey)
-    const focusable = modalRef.current?.querySelector<HTMLElement>(
-      "button, [href], input, select, textarea",
-    )
-    focusable?.focus()
-    return () => document.removeEventListener("keydown", onKey)
-  }, [route, setRoute])
 
-  if (route === "cookie") {
-    return (
-      <section aria-label="Cookie consent" className="fixed inset-x-0 bottom-0 z-50 p-3 sm:p-4">
-        <div className="bg-card text-card-foreground mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-xl border p-4 shadow-lg sm:flex-row sm:items-center sm:gap-4 sm:p-5">
-          <CookieIcon className="size-5 shrink-0 text-muted-foreground sm:mt-0.5" />
-          <p className="min-w-0 flex-1 text-sm leading-relaxed">
-            We use cookies to keep the site running and improve your experience. See our{" "}
-            <Link
-              href="/cookie-policy"
-              className="text-foreground underline underline-offset-2 hover:opacity-80"
-            >
-              Cookie Policy
-            </Link>
-            .
-          </p>
-          <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
-            <Button variant="outline" size="sm" onClick={() => setRoute("preferences")}>
-              Customize
-            </Button>
-            <Button variant="ghost" size="sm" onClick={acceptNecessary}>
-              Necessary only
-            </Button>
-            <Button size="sm" onClick={acceptAll}>
-              Accept all
-            </Button>
-          </div>
-        </div>
-      </section>
-    )
+    // Restoring focus when leaving the preferences route.
+    if (prevRoute.current === "preferences" && route !== "preferences") {
+      if (dialog.open) dialog.close()
+      triggerRef.current?.focus()
+      triggerRef.current = null
+    }
+
+    prevRoute.current = route
+  }, [route])
+
+  const openPreferences = () => {
+    triggerRef.current = document.activeElement as HTMLElement
+    setRoute("preferences")
   }
 
-  if (route === "preferences") {
-    return (
-      <div className="fixed inset-0 z-50 flex items-end justify-center p-3 sm:items-center sm:p-4">
-        <div
-          className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
-          onClick={() => setRoute("cookie")}
-          aria-hidden="true"
-        />
-        <dialog
-          open
-          aria-label="Cookie preferences"
-          aria-modal="true"
-          ref={modalRef}
-          className="bg-card text-card-foreground relative flex w-full max-w-md flex-col gap-4 rounded-xl border p-5 shadow-xl"
-        >
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex flex-col gap-1">
-              <h2 className="font-semibold text-base">Cookie preferences</h2>
-              <p className="text-muted-foreground text-xs">Choose which categories to allow.</p>
+  if (!mounted) return null
+
+  return (
+    <>
+      {route === "cookie" && (
+        <section aria-label="Cookie consent" className="fixed inset-x-0 bottom-0 z-50 p-3 sm:p-4">
+          <div className="bg-card text-card-foreground mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-xl border p-4 shadow-lg sm:flex-row sm:items-center sm:gap-4 sm:p-5">
+            <CookieIcon className="size-5 shrink-0 text-muted-foreground sm:mt-0.5" />
+            <p className="min-w-0 flex-1 text-sm leading-relaxed">
+              We use cookies to keep the site running and improve your experience. See our{" "}
+              <Link
+                href="/cookie-policy"
+                className="text-foreground underline underline-offset-2 hover:opacity-80"
+              >
+                Cookie Policy
+              </Link>
+              .
+            </p>
+            <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
+              <Button variant="outline" size="sm" onClick={openPreferences}>
+                Customize
+              </Button>
+              <Button variant="ghost" size="sm" onClick={acceptNecessary}>
+                Necessary only
+              </Button>
+              <Button size="sm" onClick={acceptAll}>
+                Accept all
+              </Button>
             </div>
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={() => setRoute("cookie")}
-              aria-label="Close preferences"
-            >
-              <X className="size-4" />
-            </Button>
           </div>
-          <div className="flex flex-col gap-2">
-            {categories.map((category) => (
-              <CategoryRow key={category.key} category={category} />
-            ))}
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row-reverse">
-            <Button className="flex-1" onClick={save}>
-              Save preferences
-            </Button>
-            <Button variant="outline" className="flex-1" onClick={() => setRoute("cookie")}>
-              Cancel
-            </Button>
-          </div>
-        </dialog>
-      </div>
-    )
-  }
+        </section>
+      )}
 
-  return null
+      <dialog
+        ref={modalRef}
+        aria-label="Cookie preferences"
+        onCancel={(e) => {
+          e.preventDefault()
+          setRoute("cookie")
+        }}
+        className="bg-card text-card-foreground flex w-full max-w-md flex-col gap-4 rounded-xl border p-5 shadow-xl [&::backdrop]:bg-black/50 [&::backdrop]:backdrop-blur-[2px]"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-col gap-1">
+            <h2 className="font-semibold text-base">Cookie preferences</h2>
+            <p className="text-muted-foreground text-xs">Choose which categories to allow.</p>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => setRoute("cookie")}
+            aria-label="Close preferences"
+          >
+            <X className="size-4" />
+          </Button>
+        </div>
+        <div className="flex flex-col gap-2">
+          {categories.map((category) => (
+            <CategoryRow key={category.key} category={category} />
+          ))}
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row-reverse">
+          <Button className="flex-1" onClick={save}>
+            Save preferences
+          </Button>
+          <Button variant="outline" className="flex-1" onClick={() => setRoute("cookie")}>
+            Cancel
+          </Button>
+        </div>
+      </dialog>
+    </>
+  )
 }
