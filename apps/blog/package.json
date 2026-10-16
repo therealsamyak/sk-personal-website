@@ -17,17 +17,19 @@
     "@astrojs/react": "^7.1.7",
     "@emdash-cms/cloudflare": "1.4.0",
     "@emdash-cms/plugin-forms": "^0.2.12",
+    "@policystack/core": "^1.5.0",
+    "@policystack/sdk": "^1.5.0",
     "@tailwindcss/vite": "^4.3.4",
     "astro": "^7.4.10",
     "emdash": "1.4.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "tailwindcss": "^4.3.4",
-    "@policystack/core": "^1.0.1"
+    "tailwindcss": "^4.3.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@cloudflare/workers-types": "^5.20261104.1",
+    "@policystack/vite": "^1.5.0",
     "cf": "1.0.0-beta.27",
     "typescript": "^6.0.3",
     "wrangler": "^4.157.0"

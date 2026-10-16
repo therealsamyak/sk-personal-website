@@ -29,9 +29,9 @@ export default defineConfig({
   cookies: {
     used: { essential: true, analytics: true, marketing: true },
     context: {
-      essential: { lawfulBasis: LegalBases.LegalObligation },
-      analytics: { lawfulBasis: LegalBases.Consent },
-      marketing: { lawfulBasis: LegalBases.Consent },
+      essential: { lawfulBasis: LegalBases.LegalObligation, label: "Essential", description: "" },
+      analytics: { lawfulBasis: LegalBases.Consent, label: "Analytics", description: "" },
+      marketing: { lawfulBasis: LegalBases.Consent, label: "Marketing", description: "" },
     },
   },
   trackingTechnologies: ["local storage"],
