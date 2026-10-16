@@ -7,29 +7,29 @@
     "build": "astro check && astro build",
     "cf-build": "astro build",
     "dev": "portless",
-    "dev:app": "emdash dev --port ${PORT:-4321}",
+    "dev:app": "astro dev --port ${PORT:-4321}",
     "dev-r": "wrangler dev --remote",
     "cf-deploy": "wrangler deploy",
     "preview": "astro preview",
     "typegen": "emdash types --url https://blog.skakatur.dev"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.3.0",
-    "@astrojs/react": "^6.0.5",
-    "@emdash-cms/cloudflare": "0.36.0",
-    "@emdash-cms/plugin-forms": "^0.2.5",
+    "@astrojs/cloudflare": "^14.3.4",
+    "@astrojs/react": "^7.0.1",
+    "@emdash-cms/cloudflare": "1.2.0",
+    "@emdash-cms/plugin-forms": "^0.2.9",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.1",
-    "emdash": "0.36.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "astro": "^7.3.8",
+    "emdash": "1.2.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@cloudflare/workers-types": "^5.20260906.1",
+    "@cloudflare/workers-types": "^5.20261015.1",
     "typescript": "^6.0.3",
-    "wrangler": "^4.129.0"
+    "wrangler": "^4.151.0"
   },
   "portless": {
     "name": "blog",
