@@ -22,7 +22,8 @@
     "emdash": "1.4.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "tailwindcss": "^4.3.4"
+    "tailwindcss": "^4.3.4",
+    "@policystack/core": "^1.0.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
