@@ -2,7 +2,9 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import Script from "next/script"
 import { ViewTransitions } from "next-view-transitions"
+import { CookieBanner } from "@/components/CookieBanner"
 import { ThemeProvider } from "@/components/ThemeProvider"
+import { PolicyStackProvider } from "@/app/providers"
 import { cn } from "@/lib/utils"
 import "./globals.css"
 import type React from "react"
@@ -63,10 +65,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Script id="theme-script" strategy="beforeInteractive">
           {`(function(){try{var t=localStorage.getItem("theme");if(!t||t==="system"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t}catch(e){}})()`}
         </Script>
-        <Script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-          strategy="afterInteractive"
-        />
       </head>
       <body
         className={cn(
@@ -81,7 +79,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <PolicyStackProvider>
+              {children}
+              <CookieBanner />
+            </PolicyStackProvider>
           </ThemeProvider>
         </ViewTransitions>
       </body>
