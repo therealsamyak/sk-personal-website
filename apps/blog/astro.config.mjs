@@ -50,13 +50,5 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
-    // Pre-optimize this module so Vite does not re-optimize deps after the
-    // workerd sandbox runner has started. A late re-optimization deletes the
-    // hashed entrypoints file the runner still imports, crashing `emdash dev`.
-    ssr: {
-      optimizeDeps: {
-        include: ["astro/logger/console"],
-      },
-    },
   },
 })
