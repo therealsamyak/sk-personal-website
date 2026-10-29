@@ -20,6 +20,9 @@ cp apps/web/.env.example apps/web/.env.development
 cp apps/blog/.env.example apps/blog/.env.development
 ```
 
+Use pnpm 11.28.9 to install dependencies. The project pins Node.js 26.12.1 through `devEngines.runtime`.
+When your Node.js version differs, pnpm downloads the project runtime. Your global Node.js installation stays unchanged.
+
 Install dependencies:
 
 ```bash
@@ -33,7 +36,7 @@ pnpm run build
 pnpm run dev
 ```
 
-Dev servers are proxied through [Portless](https://github.com/vercel-labs/portless), giving each app a stable `.localhost` URL (`web.localhost`, `blog.localhost`) instead of raw port numbers. `pnpm dev` starts the proxy before Turborepo kicks in (one password prompt to start, another to stop on exit). If the proxy is already running, it's left untouched. Requires Node.js 24+.
+Dev servers are proxied through [Portless](https://github.com/vercel-labs/portless), giving each app a stable `.localhost` URL (`web.localhost`, `blog.localhost`) instead of raw port numbers. `pnpm dev` starts the proxy before Turborepo kicks in (one password prompt to start, another to stop on exit). If the proxy is already running, it's left untouched.
 
 ## Deployment
 

@@ -10,4 +10,14 @@ allowBuilds:
   workerd: true
 
 blockExoticSubdeps: true
-onlyBuiltDependencies: better-sqlite3
+
+# Apply security fixes within each transitive dependency's current major version.
+overrides:
+  # GHSA-w74x-v6f9-j3xg, GHSA-xhq7-xmqj-769h, GHSA-wjr9-j795-jxcr, GHSA-333x-w4r6-6crp
+  "fast-uri@>=3.0.0 <3.1.9": ^3.1.9
+  # GHSA-5j98-mcp5-4vw2
+  "glob@>=10.2.0 <10.5.0": ^10.5.0
+  # GHSA-4qv8-2p9j-2685, GHSA-f72v-6w45-q472, GHSA-xjj6-f33q-929c
+  "undici@>=7.0.0 <7.30.1": ^7.30.1
+  # GHSA-mrhx-c7xc-m3w5
+  "zod@>=4.0.0 <4.6.6": ^4.6.7
