@@ -1,0 +1,503 @@
+{
+  "baseline_commit": "6655e9eadb328141deb013bb98ec778baff95feb",
+  "viewport": [1920, 1080],
+  "pages": [
+    {
+      "page": "blog-home",
+      "before": {
+        "font_bytes": 34560,
+        "requests": [
+          {
+            "path": "/_astro/fonts/3fe3f5716e816c1c.woff2",
+            "bytes": 34560
+          }
+        ],
+        "dom_preloads": ["/_astro/fonts/3fe3f5716e816c1c.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/_astro/fonts/3fe3f5716e816c1c.woff2"]
+      },
+      "after": {
+        "font_bytes": 19868,
+        "requests": [
+          {
+            "path": "/fonts/3fe3f5716e816c1c-core.woff2",
+            "bytes": 19868
+          }
+        ],
+        "dom_preloads": ["/fonts/3fe3f5716e816c1c-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/3fe3f5716e816c1c-core.woff2"]
+      },
+      "saved_bytes": 14692
+    },
+    {
+      "page": "blog-post",
+      "before": {
+        "font_bytes": 34560,
+        "requests": [
+          {
+            "path": "/_astro/fonts/3fe3f5716e816c1c.woff2",
+            "bytes": 34560
+          }
+        ],
+        "dom_preloads": ["/_astro/fonts/3fe3f5716e816c1c.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/_astro/fonts/3fe3f5716e816c1c.woff2"]
+      },
+      "after": {
+        "font_bytes": 19868,
+        "requests": [
+          {
+            "path": "/fonts/3fe3f5716e816c1c-core.woff2",
+            "bytes": 19868
+          }
+        ],
+        "dom_preloads": ["/fonts/3fe3f5716e816c1c-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/3fe3f5716e816c1c-core.woff2"]
+      },
+      "saved_bytes": 14692
+    },
+    {
+      "page": "blog-search",
+      "before": {
+        "font_bytes": 34560,
+        "requests": [
+          {
+            "path": "/_astro/fonts/3fe3f5716e816c1c.woff2",
+            "bytes": 34560
+          }
+        ],
+        "dom_preloads": ["/_astro/fonts/3fe3f5716e816c1c.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/_astro/fonts/3fe3f5716e816c1c.woff2"]
+      },
+      "after": {
+        "font_bytes": 19868,
+        "requests": [
+          {
+            "path": "/fonts/3fe3f5716e816c1c-core.woff2",
+            "bytes": 19868
+          }
+        ],
+        "dom_preloads": ["/fonts/3fe3f5716e816c1c-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/3fe3f5716e816c1c-core.woff2"]
+      },
+      "saved_bytes": 14692
+    },
+    {
+      "page": "blog-404",
+      "before": {
+        "font_bytes": 34560,
+        "requests": [
+          {
+            "path": "/_astro/fonts/3fe3f5716e816c1c.woff2",
+            "bytes": 34560
+          }
+        ],
+        "dom_preloads": ["/_astro/fonts/3fe3f5716e816c1c.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/_astro/fonts/3fe3f5716e816c1c.woff2"]
+      },
+      "after": {
+        "font_bytes": 19868,
+        "requests": [
+          {
+            "path": "/fonts/3fe3f5716e816c1c-core.woff2",
+            "bytes": 19868
+          }
+        ],
+        "dom_preloads": ["/fonts/3fe3f5716e816c1c-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/3fe3f5716e816c1c-core.woff2"]
+      },
+      "saved_bytes": 14692
+    },
+    {
+      "page": "web-root",
+      "before": {
+        "font_bytes": 92876,
+        "requests": [
+          {
+            "path": "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+            "bytes": 23108
+          },
+          {
+            "path": "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2",
+            "bytes": 29288
+          },
+          {
+            "path": "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+            "bytes": 40480
+          }
+        ],
+        "dom_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ],
+        "http_preloads": [],
+        "html_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ]
+      },
+      "after": {
+        "font_bytes": 40448,
+        "requests": [
+          {
+            "path": "/fonts/web-jetbrains-core.woff2",
+            "bytes": 40448
+          }
+        ],
+        "dom_preloads": ["/fonts/web-jetbrains-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/web-jetbrains-core.woff2"]
+      },
+      "saved_bytes": 52428
+    },
+    {
+      "page": "web-home",
+      "before": {
+        "font_bytes": 92876,
+        "requests": [
+          {
+            "path": "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+            "bytes": 23108
+          },
+          {
+            "path": "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2",
+            "bytes": 29288
+          },
+          {
+            "path": "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+            "bytes": 40480
+          }
+        ],
+        "dom_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ],
+        "http_preloads": [],
+        "html_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ]
+      },
+      "after": {
+        "font_bytes": 40448,
+        "requests": [
+          {
+            "path": "/fonts/web-jetbrains-core.woff2",
+            "bytes": 40448
+          }
+        ],
+        "dom_preloads": ["/fonts/web-jetbrains-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/web-jetbrains-core.woff2"]
+      },
+      "saved_bytes": 52428
+    },
+    {
+      "page": "web-projects",
+      "before": {
+        "font_bytes": 92876,
+        "requests": [
+          {
+            "path": "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+            "bytes": 23108
+          },
+          {
+            "path": "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+            "bytes": 40480
+          },
+          {
+            "path": "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2",
+            "bytes": 29288
+          }
+        ],
+        "dom_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ],
+        "http_preloads": [],
+        "html_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ]
+      },
+      "after": {
+        "font_bytes": 40448,
+        "requests": [
+          {
+            "path": "/fonts/web-jetbrains-core.woff2",
+            "bytes": 40448
+          }
+        ],
+        "dom_preloads": ["/fonts/web-jetbrains-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/web-jetbrains-core.woff2"]
+      },
+      "saved_bytes": 52428
+    },
+    {
+      "page": "web-contact",
+      "before": {
+        "font_bytes": 92876,
+        "requests": [
+          {
+            "path": "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+            "bytes": 23108
+          },
+          {
+            "path": "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2",
+            "bytes": 29288
+          },
+          {
+            "path": "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+            "bytes": 40480
+          }
+        ],
+        "dom_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ],
+        "http_preloads": [],
+        "html_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ]
+      },
+      "after": {
+        "font_bytes": 40448,
+        "requests": [
+          {
+            "path": "/fonts/web-jetbrains-core.woff2",
+            "bytes": 40448
+          }
+        ],
+        "dom_preloads": ["/fonts/web-jetbrains-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/web-jetbrains-core.woff2"]
+      },
+      "saved_bytes": 52428
+    },
+    {
+      "page": "web-privacy",
+      "before": {
+        "font_bytes": 92876,
+        "requests": [
+          {
+            "path": "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+            "bytes": 23108
+          },
+          {
+            "path": "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+            "bytes": 40480
+          },
+          {
+            "path": "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2",
+            "bytes": 29288
+          }
+        ],
+        "dom_preloads": [],
+        "http_preloads": [],
+        "html_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ]
+      },
+      "after": {
+        "font_bytes": 40448,
+        "requests": [
+          {
+            "path": "/fonts/web-jetbrains-core.woff2",
+            "bytes": 40448
+          },
+          {
+            "path": "/fonts/web-jetbrains-core.woff2",
+            "bytes": 0
+          }
+        ],
+        "dom_preloads": ["/fonts/web-jetbrains-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/web-jetbrains-core.woff2"]
+      },
+      "saved_bytes": 52428
+    },
+    {
+      "page": "web-cookie-policy",
+      "before": {
+        "font_bytes": 92876,
+        "requests": [
+          {
+            "path": "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+            "bytes": 23108
+          },
+          {
+            "path": "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+            "bytes": 40480
+          },
+          {
+            "path": "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2",
+            "bytes": 29288
+          }
+        ],
+        "dom_preloads": [],
+        "http_preloads": [],
+        "html_preloads": [
+          "/_next/static/media/07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+          "/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+          "/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2"
+        ]
+      },
+      "after": {
+        "font_bytes": 40448,
+        "requests": [
+          {
+            "path": "/fonts/web-jetbrains-core.woff2",
+            "bytes": 40448
+          },
+          {
+            "path": "/fonts/web-jetbrains-core.woff2",
+            "bytes": 0
+          }
+        ],
+        "dom_preloads": ["/fonts/web-jetbrains-core.woff2"],
+        "http_preloads": [],
+        "html_preloads": ["/fonts/web-jetbrains-core.woff2"]
+      },
+      "saved_bytes": 52428
+    }
+  ],
+  "pixels": [
+    {
+      "before": "web-baseline-web-contact.png",
+      "after": "after-web-contact.png",
+      "width": 1905,
+      "height": 1080,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-after-web-contact.png"
+    },
+    {
+      "before": "web-baseline-web-cookie-policy.png",
+      "after": "after-web-cookie-policy.png",
+      "width": 1905,
+      "height": 1080,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-after-web-cookie-policy.png"
+    },
+    {
+      "before": "web-baseline-web-home.png",
+      "after": "after-web-home.png",
+      "width": 1905,
+      "height": 1793,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-after-web-home.png"
+    },
+    {
+      "before": "web-baseline-web-privacy.png",
+      "after": "after-web-privacy.png",
+      "width": 1905,
+      "height": 1632,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-after-web-privacy.png"
+    },
+    {
+      "before": "web-baseline-web-projects.png",
+      "after": "after-web-projects.png",
+      "width": 1905,
+      "height": 2593,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-after-web-projects.png"
+    },
+    {
+      "before": "web-baseline-web-root.png",
+      "after": "after-web-root.png",
+      "width": 1905,
+      "height": 1793,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-after-web-root.png"
+    },
+    {
+      "before": "prod-before-blog-404.png",
+      "after": "prod-after-blog-404.png",
+      "width": 1920,
+      "height": 1080,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-prod-after-blog-404.png"
+    },
+    {
+      "before": "prod-before-blog-home.png",
+      "after": "prod-after-blog-home.png",
+      "width": 1920,
+      "height": 1080,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-prod-after-blog-home.png"
+    },
+    {
+      "before": "prod-before-blog-post.png",
+      "after": "prod-after-blog-post.png",
+      "width": 1920,
+      "height": 1347,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-prod-after-blog-post.png"
+    },
+    {
+      "before": "prod-before-blog-search.png",
+      "after": "prod-after-blog-search.png",
+      "width": 1920,
+      "height": 1080,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-prod-after-blog-search.png"
+    },
+    {
+      "before": "before-blog-specimen.png",
+      "after": "after-blog-specimen.png",
+      "width": 1920,
+      "height": 1080,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-after-blog-specimen.png"
+    },
+    {
+      "before": "before-web-specimen.png",
+      "after": "after-web-specimen.png",
+      "width": 1905,
+      "height": 1080,
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "difference": "diff-after-web-specimen.png"
+    }
+  ],
+  "lazy_loading": {
+    "initial": ["/fonts/web-jetbrains-core.woff2"],
+    "cjk": ["/fonts/web-jetbrains-core.woff2"],
+    "extended": ["/fonts/web-jetbrains-core.woff2", "/fonts/web-jetbrains-extended.woff2"]
+  },
+  "rejected_glyph_subset": {
+    "core_bytes": 32832,
+    "extended_bytes": 16608,
+    "changed_accent_pixels": 29,
+    "maximum_channel_delta": 5
+  }
+}
