@@ -499,5 +499,19 @@
     "extended_bytes": 16608,
     "changed_accent_pixels": 29,
     "maximum_channel_delta": 5
-  }
+  },
+  "rejected_axis_restriction": [
+    {
+      "file": "web-jetbrains-core.woff2",
+      "current_bytes": 40448,
+      "restricted_bytes": 30516,
+      "changed_glyph_outlines_at_used_weights": 672
+    },
+    {
+      "file": "web-jetbrains-extended.woff2",
+      "current_bytes": 15232,
+      "restricted_bytes": 11396,
+      "changed_glyph_outlines_at_used_weights": 561
+    }
+  ]
 }

@@ -97,7 +97,8 @@ Its core uses 40,448 bytes, compared with 32,832 bytes in the rejected prototype
 This exception costs 7,616 bytes on pages that need only the core.
 
 Keep the original 100–800 portfolio axis, glyph names, font bounds, missing-glyph outline, and raster flags.
-Axis restriction and glyph-data reduction change tested rendering. No rendering change receives implicit approval.
+Axis restriction to 400–700 saves 13,768 bytes across both files but changes used glyph outlines.
+The report records each file and the changed-outline counts. Keep the original axis by default.
 Original public fonts contain zero glyph hint instruction bytes. The script removes hinting from blog derivatives.
 
 Blog derivatives use new internal names and keep copyright records and OFL notices.
