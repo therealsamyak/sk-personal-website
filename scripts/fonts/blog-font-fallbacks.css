@@ -1,0 +1,220 @@
+@font-face {
+  font-family: "Syne-2bffc54eb8bbb0c3 fallback: Arial";
+  src: local("Arial");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 98.4745%;
+  ascent-override: 93.933%;
+  descent-override: 27.926%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Syne-2bffc54eb8bbb0c3 fallback: Arial";
+  src: local("Arial");
+  font-display: swap;
+  font-weight: 500;
+  font-style: normal;
+  size-adjust: 98.4745%;
+  ascent-override: 93.933%;
+  descent-override: 27.926%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Syne-2bffc54eb8bbb0c3 fallback: Arial";
+  src: local("Arial");
+  font-display: swap;
+  font-weight: 600;
+  font-style: normal;
+  size-adjust: 98.4745%;
+  ascent-override: 93.933%;
+  descent-override: 27.926%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Syne-2bffc54eb8bbb0c3 fallback: Arial Bold";
+  src: local("Arial Bold");
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 91.4621%;
+  ascent-override: 101.1348%;
+  descent-override: 30.0671%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Syne-2bffc54eb8bbb0c3 fallback: Arial Bold";
+  src: local("Arial Bold");
+  font-display: swap;
+  font-weight: 800;
+  font-style: normal;
+  size-adjust: 91.4621%;
+  ascent-override: 101.1348%;
+  descent-override: 30.0671%;
+  line-gap-override: 0%;
+}
+:root {
+  --font-display:
+    Syne-2bffc54eb8bbb0c3, "Syne-2bffc54eb8bbb0c3 fallback: Arial",
+    "Syne-2bffc54eb8bbb0c3 fallback: Arial Bold", "'Helvetica Neue'", sans-serif;
+}
+
+@font-face {
+  font-family: "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman";
+  src: local("Times New Roman");
+  font-display: swap;
+  font-weight: 300;
+  font-style: italic;
+  size-adjust: 98.7077%;
+  ascent-override: 107.2865%;
+  descent-override: 46.9062%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman";
+  src: local("Times New Roman");
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+  size-adjust: 98.7077%;
+  ascent-override: 107.2865%;
+  descent-override: 46.9062%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman";
+  src: local("Times New Roman");
+  font-display: swap;
+  font-weight: 500;
+  font-style: italic;
+  size-adjust: 98.7077%;
+  ascent-override: 107.2865%;
+  descent-override: 46.9062%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman";
+  src: local("Times New Roman");
+  font-display: swap;
+  font-weight: 600;
+  font-style: italic;
+  size-adjust: 98.7077%;
+  ascent-override: 107.2865%;
+  descent-override: 46.9062%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman";
+  src: local("Times New Roman");
+  font-display: swap;
+  font-weight: 300;
+  font-style: normal;
+  size-adjust: 98.7077%;
+  ascent-override: 107.2865%;
+  descent-override: 46.9062%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman";
+  src: local("Times New Roman");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 98.7077%;
+  ascent-override: 107.2865%;
+  descent-override: 46.9062%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman";
+  src: local("Times New Roman");
+  font-display: swap;
+  font-weight: 500;
+  font-style: normal;
+  size-adjust: 98.7077%;
+  ascent-override: 107.2865%;
+  descent-override: 46.9062%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman";
+  src: local("Times New Roman");
+  font-display: swap;
+  font-weight: 600;
+  font-style: normal;
+  size-adjust: 98.7077%;
+  ascent-override: 107.2865%;
+  descent-override: 46.9062%;
+  line-gap-override: 0%;
+}
+:root {
+  --font-serif:
+    Spectral-0edc8d7a6c3d8f19, "Spectral-0edc8d7a6c3d8f19 fallback: Times New Roman",
+    "'Times New Roman'", serif;
+}
+
+@font-face {
+  font-family: "JetBrains Mono-d78a980240c178d6 fallback: Courier New";
+  src: local("Courier New");
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+  size-adjust: 99.9837%;
+  ascent-override: 102.0166%;
+  descent-override: 30.0049%;
+}
+@font-face {
+  font-family: "JetBrains Mono-d78a980240c178d6 fallback: Courier New";
+  src: local("Courier New");
+  font-display: swap;
+  font-weight: 500;
+  font-style: italic;
+  size-adjust: 99.9837%;
+  ascent-override: 102.0166%;
+  descent-override: 30.0049%;
+}
+@font-face {
+  font-family: "JetBrains Mono-d78a980240c178d6 fallback: Courier New";
+  src: local("Courier New");
+  font-display: swap;
+  font-weight: 600;
+  font-style: italic;
+  size-adjust: 99.9837%;
+  ascent-override: 102.0166%;
+  descent-override: 30.0049%;
+}
+@font-face {
+  font-family: "JetBrains Mono-d78a980240c178d6 fallback: Courier New";
+  src: local("Courier New");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 99.9837%;
+  ascent-override: 102.0166%;
+  descent-override: 30.0049%;
+}
+@font-face {
+  font-family: "JetBrains Mono-d78a980240c178d6 fallback: Courier New";
+  src: local("Courier New");
+  font-display: swap;
+  font-weight: 500;
+  font-style: normal;
+  size-adjust: 99.9837%;
+  ascent-override: 102.0166%;
+  descent-override: 30.0049%;
+}
+@font-face {
+  font-family: "JetBrains Mono-d78a980240c178d6 fallback: Courier New";
+  src: local("Courier New");
+  font-display: swap;
+  font-weight: 600;
+  font-style: normal;
+  size-adjust: 99.9837%;
+  ascent-override: 102.0166%;
+  descent-override: 30.0049%;
+}
+:root {
+  --font-mono:
+    "JetBrains Mono-d78a980240c178d6", "JetBrains Mono-d78a980240c178d6 fallback: Courier New",
+    ui-monospace, monospace;
+}
