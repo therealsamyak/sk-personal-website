@@ -1,0 +1,406 @@
+[
+  {
+    "app": "blog",
+    "family": "Syne",
+    "source": "3fe3f5716e816c1c",
+    "part": "extended",
+    "bytes": 12916,
+    "glyphs": 129,
+    "characters": 99,
+    "default_weight": 400,
+    "axes": {
+      "wght": [400.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark", "mkmk"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Syne",
+    "source": "3fe3f5716e816c1c",
+    "part": "core",
+    "bytes": 19868,
+    "glyphs": 139,
+    "characters": 108,
+    "default_weight": 400,
+    "axes": {
+      "wght": [400.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl", "tnum"],
+      "GPOS": ["kern", "mark", "mkmk"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral Light",
+    "source": "6d0b9eef42e44995",
+    "part": "extended",
+    "bytes": 5572,
+    "glyphs": 132,
+    "characters": 98,
+    "default_weight": 300,
+    "axes": {},
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral Light",
+    "source": "6d0b9eef42e44995",
+    "part": "core",
+    "bytes": 9352,
+    "glyphs": 133,
+    "characters": 108,
+    "default_weight": 300,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl"],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral",
+    "source": "36dac98fc001e6cd",
+    "part": "extended",
+    "bytes": 5400,
+    "glyphs": 132,
+    "characters": 98,
+    "default_weight": 400,
+    "axes": {},
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral",
+    "source": "36dac98fc001e6cd",
+    "part": "core",
+    "bytes": 8672,
+    "glyphs": 133,
+    "characters": 108,
+    "default_weight": 400,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl"],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral Medium",
+    "source": "cf35a39ba86636f3",
+    "part": "extended",
+    "bytes": 5596,
+    "glyphs": 132,
+    "characters": 98,
+    "default_weight": 500,
+    "axes": {},
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral Medium",
+    "source": "cf35a39ba86636f3",
+    "part": "core",
+    "bytes": 9512,
+    "glyphs": 133,
+    "characters": 108,
+    "default_weight": 500,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl"],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral SemiBold",
+    "source": "a52bab195f69abff",
+    "part": "extended",
+    "bytes": 5576,
+    "glyphs": 132,
+    "characters": 98,
+    "default_weight": 600,
+    "axes": {},
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral SemiBold",
+    "source": "a52bab195f69abff",
+    "part": "core",
+    "bytes": 9576,
+    "glyphs": 133,
+    "characters": 108,
+    "default_weight": 600,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl"],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral Light",
+    "source": "063b8b7e9d40d602",
+    "part": "extended",
+    "bytes": 5268,
+    "glyphs": 132,
+    "characters": 98,
+    "default_weight": 300,
+    "axes": {},
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral Light",
+    "source": "063b8b7e9d40d602",
+    "part": "core",
+    "bytes": 8676,
+    "glyphs": 133,
+    "characters": 108,
+    "default_weight": 300,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl"],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral",
+    "source": "504fc1101ab69463",
+    "part": "extended",
+    "bytes": 5136,
+    "glyphs": 132,
+    "characters": 98,
+    "default_weight": 400,
+    "axes": {},
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral",
+    "source": "504fc1101ab69463",
+    "part": "core",
+    "bytes": 8048,
+    "glyphs": 133,
+    "characters": 108,
+    "default_weight": 400,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl"],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral Medium",
+    "source": "c3188646690d809f",
+    "part": "extended",
+    "bytes": 5312,
+    "glyphs": 132,
+    "characters": 98,
+    "default_weight": 500,
+    "axes": {},
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral Medium",
+    "source": "c3188646690d809f",
+    "part": "core",
+    "bytes": 8824,
+    "glyphs": 133,
+    "characters": 108,
+    "default_weight": 500,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl"],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral SemiBold",
+    "source": "312b238865e5de6c",
+    "part": "extended",
+    "bytes": 5296,
+    "glyphs": 132,
+    "characters": 98,
+    "default_weight": 600,
+    "axes": {},
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "Spectral SemiBold",
+    "source": "312b238865e5de6c",
+    "part": "core",
+    "bytes": 8812,
+    "glyphs": 133,
+    "characters": 108,
+    "default_weight": 600,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "liga", "locl"],
+      "GPOS": ["kern", "mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "JetBrains Mono",
+    "source": "d767dad80444f27b",
+    "part": "extended",
+    "bytes": 7348,
+    "glyphs": 131,
+    "characters": 100,
+    "default_weight": 400,
+    "axes": {
+      "wght": [400.0, 400.0, 600.0]
+    },
+    "features": {
+      "GSUB": ["ccmp"],
+      "GPOS": ["mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "JetBrains Mono",
+    "source": "d767dad80444f27b",
+    "part": "core",
+    "bytes": 24536,
+    "glyphs": 261,
+    "characters": 108,
+    "default_weight": 400,
+    "axes": {
+      "wght": [400.0, 400.0, 600.0]
+    },
+    "features": {
+      "GSUB": ["calt", "ccmp", "locl"],
+      "GPOS": ["mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "JetBrains Mono",
+    "source": "d39725b5b6a6f2ec",
+    "part": "extended",
+    "bytes": 6700,
+    "glyphs": 131,
+    "characters": 100,
+    "default_weight": 400,
+    "axes": {
+      "wght": [400.0, 400.0, 600.0]
+    },
+    "features": {
+      "GSUB": ["ccmp"],
+      "GPOS": ["mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "blog",
+    "family": "JetBrains Mono",
+    "source": "d39725b5b6a6f2ec",
+    "part": "core",
+    "bytes": 23452,
+    "glyphs": 260,
+    "characters": 108,
+    "default_weight": 400,
+    "axes": {
+      "wght": [400.0, 400.0, 600.0]
+    },
+    "features": {
+      "GSUB": ["calt", "ccmp", "locl"],
+      "GPOS": ["mark"]
+    },
+    "raster_flags": {}
+  },
+  {
+    "app": "web",
+    "family": "JetBrains Mono",
+    "source": "web-jetbrains",
+    "part": "extended",
+    "bytes": 15232,
+    "glyphs": 261,
+    "characters": 190,
+    "default_weight": 400,
+    "axes": {
+      "wght": [100.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "locl"],
+      "GPOS": ["mark"]
+    },
+    "raster_flags": {
+      "65535": 15
+    }
+  },
+  {
+    "app": "web",
+    "family": "JetBrains Mono",
+    "source": "web-jetbrains",
+    "part": "core",
+    "bytes": 40448,
+    "glyphs": 394,
+    "characters": 230,
+    "default_weight": 400,
+    "axes": {
+      "wght": [100.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["calt", "ccmp", "frac", "locl"],
+      "GPOS": ["mark"]
+    },
+    "raster_flags": {
+      "65535": 15
+    }
+  }
+]
