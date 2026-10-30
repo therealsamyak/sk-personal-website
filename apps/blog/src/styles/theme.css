@@ -2,6 +2,8 @@
 
 :root {
   --font-size: 16px;
+  /* Keep current font rendering: these names use system fallback fonts.
+     Generated web font families have different names. See scripts/fonts/README.md. */
   --font-display: "Syne", "Helvetica Neue", sans-serif;
   --font-serif: "Spectral", "Times New Roman", serif;
   --font-body: "Spectral", "Times New Roman", serif;

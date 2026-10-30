@@ -1,0 +1,848 @@
+[
+  {
+    "app": "blog",
+    "path": "504fc1101ab69463.woff2",
+    "family": "Spectral",
+    "style": "Regular",
+    "size": 14028,
+    "glyphs": 300,
+    "chars": 230,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "63342f4e10d096aa.woff2",
+    "family": "Noto Sans",
+    "style": "Regular",
+    "size": 10836,
+    "glyphs": 261,
+    "chars": 237,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["dist", "kern"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "d581d51cd793384e.woff2",
+    "family": "Noto Sans",
+    "style": "Italic",
+    "size": 16488,
+    "glyphs": 140,
+    "chars": 115,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp"],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "190f8cf059e0f931.woff2",
+    "family": "Noto Sans",
+    "style": "Italic",
+    "size": 189124,
+    "glyphs": 1395,
+    "chars": 1137,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "locl"],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "a582ec5275b6220a.woff2",
+    "family": "Noto Sans",
+    "style": "Regular",
+    "size": 21812,
+    "glyphs": 159,
+    "chars": 125,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["locl"],
+      "GPOS": ["dist", "kern"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "c3188646690d809f.woff2",
+    "family": "Spectral Medium",
+    "style": "Regular",
+    "size": 15084,
+    "glyphs": 300,
+    "chars": 230,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 500
+  },
+  {
+    "app": "blog",
+    "path": "a9bea187e846fcc2.woff2",
+    "family": "Noto Sans",
+    "style": "Italic",
+    "size": 12852,
+    "glyphs": 261,
+    "chars": 237,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["dist", "kern"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "d39725b5b6a6f2ec.woff2",
+    "family": "JetBrains Mono",
+    "style": "Regular",
+    "size": 31340,
+    "glyphs": 394,
+    "chars": 229,
+    "axes": {
+      "wght": [400.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["calt", "ccmp", "frac", "locl"],
+      "GPOS": ["mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "08f0ea18cdf1ae81.woff2",
+    "family": "Noto Sans",
+    "style": "Italic",
+    "size": 81668,
+    "glyphs": 391,
+    "chars": 348,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "063b8b7e9d40d602.woff2",
+    "family": "Spectral Light",
+    "style": "Regular",
+    "size": 14872,
+    "glyphs": 300,
+    "chars": 230,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 300
+  },
+  {
+    "app": "blog",
+    "path": "6d0b9eef42e44995.woff2",
+    "family": "Spectral Light",
+    "style": "Italic",
+    "size": 15724,
+    "glyphs": 300,
+    "chars": 230,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 300
+  },
+  {
+    "app": "blog",
+    "path": "1d7aab50fda97bb3.woff2",
+    "family": "Noto Sans",
+    "style": "Italic",
+    "size": 39604,
+    "glyphs": 287,
+    "chars": 232,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "a52bab195f69abff.woff2",
+    "family": "Spectral SemiBold",
+    "style": "Italic",
+    "size": 16272,
+    "glyphs": 300,
+    "chars": 230,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 600
+  },
+  {
+    "app": "blog",
+    "path": "f52e1d65e1364c61.woff2",
+    "family": "Noto Sans",
+    "style": "Regular",
+    "size": 99252,
+    "glyphs": 642,
+    "chars": 142,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [
+        "abvs",
+        "akhn",
+        "blwf",
+        "blws",
+        "cjct",
+        "half",
+        "locl",
+        "nukt",
+        "pres",
+        "psts",
+        "rkrf",
+        "rphf"
+      ],
+      "GPOS": ["abvm", "blwm", "dist", "kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "1e5097bbf9c9d577.woff2",
+    "family": "Noto Sans",
+    "style": "Regular",
+    "size": 35856,
+    "glyphs": 281,
+    "chars": 232,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "ad35ff1453ab1728.woff2",
+    "family": "Noto Sans",
+    "style": "Regular",
+    "size": 168144,
+    "glyphs": 1399,
+    "chars": 1138,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "locl"],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "312b238865e5de6c.woff2",
+    "family": "Spectral SemiBold",
+    "style": "Regular",
+    "size": 15164,
+    "glyphs": 300,
+    "chars": 230,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 600
+  },
+  {
+    "app": "blog",
+    "path": "9593fbb8383eb01c.woff2",
+    "family": "Noto Sans",
+    "style": "Italic",
+    "size": 24964,
+    "glyphs": 128,
+    "chars": 106,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "locl"],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "6ed39b447c70fac7.woff2",
+    "family": "Noto Sans",
+    "style": "Regular",
+    "size": 14508,
+    "glyphs": 139,
+    "chars": 115,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp"],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "3fe3f5716e816c1c.woff2",
+    "family": "Syne",
+    "style": "Regular",
+    "size": 34560,
+    "glyphs": 298,
+    "chars": 223,
+    "axes": {
+      "wght": [400.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "lnum", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "84070159564df0be.woff2",
+    "family": "Noto Sans",
+    "style": "Italic",
+    "size": 24376,
+    "glyphs": 159,
+    "chars": 125,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["locl"],
+      "GPOS": ["dist", "kern"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "81fc65a9fa1b7533.woff2",
+    "family": "Noto Sans",
+    "style": "Regular",
+    "size": 70648,
+    "glyphs": 391,
+    "chars": 348,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "d767dad80444f27b.woff2",
+    "family": "JetBrains Mono",
+    "style": "Italic",
+    "size": 33096,
+    "glyphs": 394,
+    "chars": 229,
+    "axes": {
+      "wght": [400.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["calt", "ccmp", "frac", "locl"],
+      "GPOS": ["mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "cced06053f87829e.woff2",
+    "family": "Noto Sans",
+    "style": "Italic",
+    "size": 99576,
+    "glyphs": 642,
+    "chars": 142,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [
+        "abvs",
+        "akhn",
+        "blwf",
+        "blws",
+        "cjct",
+        "half",
+        "locl",
+        "nukt",
+        "pres",
+        "psts",
+        "rkrf",
+        "rphf"
+      ],
+      "GPOS": ["abvm", "blwm", "dist", "kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "1633c6c006fb5995.woff2",
+    "family": "Noto Sans",
+    "style": "Regular",
+    "size": 20028,
+    "glyphs": 123,
+    "chars": 106,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "locl"],
+      "GPOS": ["dist", "kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "blog",
+    "path": "cf35a39ba86636f3.woff2",
+    "family": "Spectral Medium",
+    "style": "Italic",
+    "size": 16212,
+    "glyphs": 300,
+    "chars": 230,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 500
+  },
+  {
+    "app": "blog",
+    "path": "36dac98fc001e6cd.woff2",
+    "family": "Spectral",
+    "style": "Italic",
+    "size": 14988,
+    "glyphs": 300,
+    "chars": 230,
+    "axes": {},
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "07a39a8a4660cc7c-s.p.0r6juujl39pe6.woff2",
+    "family": "Geist Mono",
+    "style": "Regular",
+    "size": 23108,
+    "glyphs": 264,
+    "chars": 225,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "locl", "numr"],
+      "GPOS": ["mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "6e342921ee4dcd9d-s.2tuy5pz7dlieh.woff2",
+    "family": "Geist Mono",
+    "style": "Regular",
+    "size": 12872,
+    "glyphs": 137,
+    "chars": 107,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "605ce01b664af129-s.p.0wgildi0cnwt9.woff2",
+    "family": "Geist",
+    "style": "Regular",
+    "size": 29288,
+    "glyphs": 288,
+    "chars": 225,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "dnom", "frac", "liga", "locl", "numr", "pnum", "tnum"],
+      "GPOS": ["kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "f58031ded4338640-s.390ncx5urfkfu.woff2",
+    "family": "Geist",
+    "style": "Regular",
+    "size": 7968,
+    "glyphs": 141,
+    "chars": 113,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "07935285219a259d-s.1qq4vpdcun5oj.woff2",
+    "family": "Geist",
+    "style": "Regular",
+    "size": 14900,
+    "glyphs": 138,
+    "chars": 107,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern", "mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "258bd0ab5fdd762a-s.2f7nqdagzwx2-.woff2",
+    "family": "JetBrains Mono",
+    "style": "Regular",
+    "size": 2020,
+    "glyphs": 15,
+    "chars": 10,
+    "axes": {
+      "wght": [100.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": []
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "b0c6b664fd57c2c6-s.31988l_ccedte.woff2",
+    "family": "Geist Mono",
+    "style": "Regular",
+    "size": 6204,
+    "glyphs": 52,
+    "chars": 40,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": []
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "77814b00d5ca94a4-s.21jp631_3pja2.woff2",
+    "family": "Geist",
+    "style": "Regular",
+    "size": 16540,
+    "glyphs": 233,
+    "chars": 175,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["locl"],
+      "GPOS": ["kern", "mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "9eb5a876700c0028-s.1uyisp29ctx0d.woff2",
+    "family": "Geist Mono",
+    "style": "Regular",
+    "size": 7728,
+    "glyphs": 141,
+    "chars": 113,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "954d21e04331b2ae-s.0vfdmo25voy_0.woff2",
+    "family": "JetBrains Mono",
+    "style": "Regular",
+    "size": 15204,
+    "glyphs": 261,
+    "chars": 190,
+    "axes": {
+      "wght": [100.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["ccmp", "locl"],
+      "GPOS": ["mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "2a04751c893bf294-s.1rgnod-3esatf.woff2",
+    "family": "Geist Mono",
+    "style": "Regular",
+    "size": 14712,
+    "glyphs": 232,
+    "chars": 173,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": ["locl"],
+      "GPOS": ["mark", "mkmk"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "53897e768d329f66-s.p.3t6q91iet4nsy.woff2",
+    "family": "JetBrains Mono",
+    "style": "Regular",
+    "size": 40480,
+    "glyphs": 394,
+    "chars": 229,
+    "axes": {
+      "wght": [100.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["calt", "ccmp", "frac", "locl"],
+      "GPOS": ["mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "44e0cb21b0d052b7-s.0bp8oijd_gu96.woff2",
+    "family": "JetBrains Mono",
+    "style": "Regular",
+    "size": 9084,
+    "glyphs": 114,
+    "chars": 83,
+    "axes": {
+      "wght": [100.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["ccmp"],
+      "GPOS": []
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "f9cd5a77d065db98-s.1fby2rem9ngyr.woff2",
+    "family": "JetBrains Mono",
+    "style": "Regular",
+    "size": 7468,
+    "glyphs": 155,
+    "chars": 115,
+    "axes": {
+      "wght": [100.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["ccmp"],
+      "GPOS": ["mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "99a2019bdfa8519b-s.176arc174-8zp.woff2",
+    "family": "JetBrains Mono",
+    "style": "Regular",
+    "size": 12064,
+    "glyphs": 132,
+    "chars": 102,
+    "axes": {
+      "wght": [100.0, 400.0, 800.0]
+    },
+    "features": {
+      "GSUB": ["ccmp"],
+      "GPOS": ["mark"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "4f6667dd39116621-s.3p2_lha1f2xer.woff2",
+    "family": "Geist",
+    "style": "Regular",
+    "size": 7252,
+    "glyphs": 53,
+    "chars": 40,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": ["kern"]
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  },
+  {
+    "app": "web",
+    "path": "2bb852295097cd96-s.2dbetqa9o8jxf.woff2",
+    "family": "Geist Mono",
+    "style": "Regular",
+    "size": 5892,
+    "glyphs": 168,
+    "chars": 165,
+    "axes": {
+      "wght": [100.0, 400.0, 900.0]
+    },
+    "features": {
+      "GSUB": [],
+      "GPOS": []
+    },
+    "hinting": ["gasp"],
+    "glyph_instruction_bytes": 0,
+    "default_weight": 400
+  }
+]

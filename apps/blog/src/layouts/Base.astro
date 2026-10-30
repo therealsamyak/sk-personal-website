@@ -8,7 +8,7 @@ import {
 } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
 import LiveSearch from "emdash/ui/search";
-import { Font } from "astro:assets";
+import "../styles/font-subsets.css";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
 import CookieBanner from "../components/CookieBanner.astro";
 import "../styles/index.css";
@@ -74,9 +74,7 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<Font cssVariable="--font-display" preload />
-		<Font cssVariable="--font-serif" />
-		<Font cssVariable="--font-mono" />
+		<link rel="preload" href="/fonts/3fe3f5716e816c1c-core.woff2" as="font" type="font/woff2" crossorigin />
 		<title>{fullTitle}</title>
 		{siteFavicon && <link rel="icon" href={siteFavicon} />}
 		<EmDashHead page={pageCtx} />
