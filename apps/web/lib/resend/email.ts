@@ -8,6 +8,7 @@ interface ContactFormData {
   message: string
 }
 
+// Send both contact emails concurrently and wait for both delivery requests.
 export const sendContactEmails = async (formData: ContactFormData) => {
   const { name, email, message } = formData
 
@@ -30,7 +31,7 @@ export const sendContactEmails = async (formData: ContactFormData) => {
       hour12: true,
     })
 
-    const confirmationEmail = await resend.emails.send({
+    const confirmationPromise = resend.emails.send({
       from: process.env.FROM_EMAIL,
       to: [email],
       subject: "Thanks for reaching out!",
@@ -70,7 +71,7 @@ export const sendContactEmails = async (formData: ContactFormData) => {
       `,
     })
 
-    const notificationEmail = await resend.emails.send({
+    const notificationPromise = resend.emails.send({
       from: process.env.FROM_EMAIL,
       to: [process.env.NOTIFICATION_EMAIL],
       subject: `New message from ${name}`,
@@ -117,10 +118,17 @@ export const sendContactEmails = async (formData: ContactFormData) => {
       `,
     })
 
+    const [confirmationEmail, notificationEmail] = await Promise.allSettled([
+      confirmationPromise,
+      notificationPromise,
+    ])
+    if (confirmationEmail.status === "rejected") throw confirmationEmail.reason
+    if (notificationEmail.status === "rejected") throw notificationEmail.reason
+
     return {
       success: true,
-      confirmationId: confirmationEmail.data?.id,
-      notificationId: notificationEmail.data?.id,
+      confirmationId: confirmationEmail.value.data?.id,
+      notificationId: notificationEmail.value.data?.id,
     }
   } catch (error) {
     console.error("Error sending emails:", error)
