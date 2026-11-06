@@ -54,71 +54,64 @@ import { categories } from "../lib/cookie-categories"
 </div>
 
 <!-- Preferences modal -->
-<div
+<dialog
 	data-policystack-prefs
-	hidden
-	class="fixed inset-0 z-[80] flex items-center justify-center bg-foreground/40 p-4"
+	aria-labelledby="policystack-prefs-title"
+	class="m-auto w-[calc(100%-2rem)] max-w-md max-h-[calc(100%-2rem)] overflow-y-auto border-2 border-foreground bg-background p-0 text-foreground backdrop:bg-foreground/40"
 >
-	<div
-		role="dialog"
-		aria-modal="true"
-		aria-labelledby="policystack-prefs-title"
-		class="w-full max-w-md border-2 border-foreground bg-background"
-	>
-		<div class="flex items-baseline justify-between gap-4 border-b-2 border-foreground px-5 py-4">
-			<h2 id="policystack-prefs-title" class="display text-lg font-extrabold leading-none tracking-tight">
-				Cookie preferences
-			</h2>
-			<span class="mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">Privacy</span>
-		</div>
-		<div class="px-5 py-4">
-			<p class="serif text-sm leading-relaxed text-muted-foreground">
-				Choose which categories of cookies to allow. Essential cookies are always on.
-			</p>
-			<div class="mt-4 flex flex-col">
-				{
-					categories.map((c) => (
-						<label class="ledger-row flex items-start justify-between gap-4 px-1 py-3">
-							<span class="flex flex-col gap-1">
-								<span class="mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground">
-									{c.label}
-									{c.locked && <span class="text-accent"> · Locked</span>}
-								</span>
-								{c.description && (
-									<span class="serif text-xs leading-relaxed text-muted-foreground">
-										{c.description}
-									</span>
-								)}
+	<div class="flex items-baseline justify-between gap-4 border-b-2 border-foreground px-5 py-4">
+		<h2 id="policystack-prefs-title" class="display text-lg font-extrabold leading-none tracking-tight">
+			Cookie preferences
+		</h2>
+		<span class="mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">Privacy</span>
+	</div>
+	<div class="px-5 py-4">
+		<p class="serif text-sm leading-relaxed text-muted-foreground">
+			Choose which categories of cookies to allow. Essential cookies are always on.
+		</p>
+		<div class="mt-4 flex flex-col">
+			{
+				categories.map((c) => (
+					<label class="ledger-row flex items-start justify-between gap-4 px-1 py-3">
+						<span class="flex flex-col gap-1">
+							<span class="mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground">
+								{c.label}
+								{c.locked && <span class="text-accent"> · Locked</span>}
 							</span>
-							<input
-								type="checkbox"
-								data-category={c.key}
-								disabled={c.locked}
-								class="mt-1 h-4 w-4 shrink-0 accent-accent disabled:opacity-50"
-							/>
-						</label>
-					))
-				}
-			</div>
-			<div class="mt-5 flex items-center justify-end gap-2 border-t border-border pt-4">
-				<button
-					type="button"
-					data-action="cancel"
-					class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-background text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background"
-				>
-					Cancel
-				</button>
-				<button
-					type="button"
-					data-action="save"
-					class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-foreground text-background transition-colors duration-200 hover:bg-accent hover:border-accent"
-				>
-					Save
-				</button>
-			</div>
+							{c.description && (
+								<span class="serif text-xs leading-relaxed text-muted-foreground">
+									{c.description}
+								</span>
+							)}
+						</span>
+						<input
+							type="checkbox"
+							data-category={c.key}
+							disabled={c.locked}
+							class="mt-1 h-4 w-4 shrink-0 accent-accent disabled:opacity-50"
+						/>
+					</label>
+				))
+			}
+		</div>
+		<div class="mt-5 flex items-center justify-end gap-2 border-t border-border pt-4">
+			<button
+				type="button"
+				data-action="cancel"
+				class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-background text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background"
+			>
+				Cancel
+			</button>
+			<button
+				type="button"
+				data-action="save"
+				class="mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-foreground text-background transition-colors duration-200 hover:bg-accent hover:border-accent"
+			>
+				Save
+			</button>
 		</div>
 	</div>
-</div>
+</dialog>
 
 <script>
 	import { createConsentStore, timezoneResolver } from "@policystack/core/consent"
@@ -132,15 +125,16 @@ import { categories } from "../lib/cookie-categories"
 	})
 
 	const banner = document.querySelector<HTMLElement>("[data-policystack-banner]")!
-	const prefs = document.querySelector<HTMLElement>("[data-policystack-prefs]")!
+	const prefs = document.querySelector<HTMLDialogElement>("[data-policystack-prefs]")!
 	const checkboxes = prefs.querySelectorAll<HTMLInputElement>("input[data-category]")
 
 	const render = (state: ReturnType<typeof store.getState>) => {
 		banner.hidden = state.route !== "cookie"
-		prefs.hidden = state.route !== "preferences"
+		if (state.route === "preferences" && !prefs.open) prefs.showModal()
+		if (state.route !== "preferences" && prefs.open) prefs.close()
 		for (const cb of checkboxes) {
 			const key = cb.dataset.category
-			// PolicyStack 1.2 stages toggles in `draft` until save.
+			// Stage cookie preferences until you save.
 			if (key) cb.checked = state.draft?.[key] ?? state.decisions[key] ?? false
 		}
 	}
@@ -163,17 +157,16 @@ import { categories } from "../lib/cookie-categories"
 
 	prefs
 		.querySelector<HTMLButtonElement>('[data-action="cancel"]')!
-		.addEventListener("click", () => store.setRoute("cookie"))
+		.addEventListener("click", () => store.setRoute(store.getState().decidedAt ? "closed" : "cookie"))
 	prefs
 		.querySelector<HTMLButtonElement>('[data-action="save"]')!
 		.addEventListener("click", () => store.save())
 
-	window.addEventListener("policystack:open", () => store.setRoute("cookie"))
+	document.querySelector<HTMLButtonElement>("[data-cookie-preferences]")!
+		.addEventListener("click", () => store.setRoute("preferences"))
 
-	// Dismiss the preferences modal on Escape.
-	document.addEventListener("keydown", (e) => {
-		if (e.key === "Escape" && !prefs.hidden) {
-			store.setRoute("cookie")
-		}
+	prefs.addEventListener("cancel", (event) => {
+		event.preventDefault()
+		store.setRoute(store.getState().decidedAt ? "closed" : "cookie")
 	})
 </script>
