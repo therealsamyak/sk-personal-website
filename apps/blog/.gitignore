@@ -4,4 +4,5 @@ dist
 uploads
 data.db
 emdash-env.d.ts
-worker-configuration.d.ts.emdash
+worker-configuration.d.ts
+.emdash/
