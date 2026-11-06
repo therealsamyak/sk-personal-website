@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CircleCheck, CircleX } from "lucide-react"
-import { useEffect, useReducer, useRef } from "react"
+import Script from "next/script"
+import { useCallback, useEffect, useReducer, useRef } from "react"
 import { Controller, useForm } from "react-hook-form"
 import type { z } from "zod"
 import { submitContactForm } from "@/lib/resend/actions"
@@ -74,61 +75,28 @@ export const ContactForm = () => {
   const watchedValues = form.watch()
   const isFormValid = clientContactFormSchema.safeParse(watchedValues).success
 
-  useEffect(() => {
+  const renderTurnstileWidget = useCallback(() => {
     const container = turnstileRef.current
-    if (!container) return
+    if (!container || !window.turnstile || widgetIdRef.current) return
+    widgetIdRef.current = window.turnstile.render(container, {
+      sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!,
+      theme: "auto",
+      callback: () => dispatch({ type: "SET_TURNSTILE", verified: true }),
+      "expired-callback": () => dispatch({ type: "SET_TURNSTILE", verified: false }),
+      "error-callback": () => dispatch({ type: "SET_TURNSTILE", verified: false }),
+    })
+  }, [])
 
-    let timeoutId: ReturnType<typeof setTimeout> | null = null
-    let aborted = false
-
-    const renderWidget = () => {
-      if (aborted) return
-      const el = turnstileRef.current
-      if (!el || !window.turnstile?.render) return
-      if (!document.body.contains(el)) return
-      if (el.querySelector("iframe, input")) return
-      widgetIdRef.current = window.turnstile.render(el, {
-        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!,
-        theme: "auto",
-        callback: () => dispatch({ type: "SET_TURNSTILE", verified: true }),
-        "error-callback": () => dispatch({ type: "SET_TURNSTILE", verified: false }),
-      })
-    }
-
-    const scheduleRender = () => {
-      // Delay to let ViewTransitions settle before rendering into the container
-      requestAnimationFrame(() => {
-        timeoutId = setTimeout(renderWidget, 50)
-      })
-    }
-
-    if (window.turnstile?.render) {
-      scheduleRender()
-    } else {
-      const script = document.querySelector('script[src*="challenges.cloudflare.com/turnstile"]')
-      if (script) {
-        script.addEventListener("load", scheduleRender)
-        return () => {
-          script.removeEventListener("load", scheduleRender)
-          aborted = true
-          if (timeoutId) clearTimeout(timeoutId)
-        }
-      }
-    }
-
+  useEffect(() => {
+    // Restore the Turnstile widget when Strict Mode repeats effect setup.
+    renderTurnstileWidget()
     return () => {
-      aborted = true
-      if (timeoutId) clearTimeout(timeoutId)
-      if (widgetIdRef.current && window.turnstile?.remove) {
-        try {
-          window.turnstile.remove(widgetIdRef.current)
-        } catch {
-          /* widget may already be removed */
-        }
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(widgetIdRef.current)
         widgetIdRef.current = null
       }
     }
-  }, [])
+  }, [renderTurnstileWidget])
 
   useEffect(() => {
     if (state.status !== "submitting") return
@@ -198,6 +166,11 @@ export const ContactForm = () => {
 
   return (
     <>
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+        strategy="afterInteractive"
+        onReady={renderTurnstileWidget}
+      />
       <svg
         style={{
           position: "absolute",
