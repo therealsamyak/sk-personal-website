@@ -51,9 +51,11 @@ function CategoryRow({
   )
 }
 
+// Show cookie consent and an accessible preferences dialog.
 export function CookieBanner() {
-  const { route, categories, acceptAll, acceptNecessary, setRoute, save } = useConsent()
+  const { route, categories, acceptAll, acceptNecessary, setRoute, save, decidedAt } = useConsent()
   const modalRef = useRef<HTMLDialogElement>(null)
+  const customizeRef = useRef<HTMLButtonElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const prevRoute = useRef(route)
 
@@ -69,7 +71,8 @@ export function CookieBanner() {
     // Restoring focus when leaving the preferences route.
     if (prevRoute.current === "preferences" && route !== "preferences") {
       if (dialog.open) dialog.close()
-      triggerRef.current?.focus()
+      if (triggerRef.current?.isConnected) triggerRef.current.focus()
+      else if (route === "cookie") customizeRef.current?.focus()
       triggerRef.current = null
     }
 
@@ -98,7 +101,7 @@ export function CookieBanner() {
               .
             </p>
             <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
-              <Button variant="outline" size="sm" onClick={openPreferences}>
+              <Button ref={customizeRef} variant="outline" size="sm" onClick={openPreferences}>
                 Customize
               </Button>
               <Button variant="ghost" size="sm" onClick={() => acceptNecessary()}>
@@ -117,7 +120,7 @@ export function CookieBanner() {
         aria-label="Cookie preferences"
         onCancel={(e) => {
           e.preventDefault()
-          setRoute("cookie")
+          setRoute(decidedAt ? "closed" : "cookie")
         }}
         className="bg-card text-card-foreground w-full max-w-md rounded-xl border p-5 shadow-xl [&::backdrop]:bg-black/50 [&::backdrop]:backdrop-blur-[2px]"
       >
@@ -130,7 +133,7 @@ export function CookieBanner() {
             <Button
               variant="ghost"
               size="icon-sm"
-              onClick={() => setRoute("cookie")}
+              onClick={() => setRoute(decidedAt ? "closed" : "cookie")}
               aria-label="Close preferences"
             >
               <X className="size-4" />
@@ -145,7 +148,11 @@ export function CookieBanner() {
             <Button className="flex-1" onClick={() => save()}>
               Save preferences
             </Button>
-            <Button variant="outline" className="flex-1" onClick={() => setRoute("cookie")}>
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => setRoute(decidedAt ? "closed" : "cookie")}
+            >
               Cancel
             </Button>
           </div>
