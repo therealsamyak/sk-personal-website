@@ -1,4 +1,10 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": ["src", ".astro/types.d.ts", "emdash-env.d.ts", "astro.config.ts"]
+  "include": [
+    "src",
+    ".astro/types.d.ts",
+    "emdash-env.d.ts",
+    "astro.config.ts",
+    "cloudflare.config.ts"
+  ]
 }

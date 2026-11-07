@@ -110,3 +110,6 @@ Blog Website UI Design/
 
 # opensrc - source code for packages
 opensrc/
+
+# Cloudflare build output and generated types
+.cloudflare/
