@@ -76,7 +76,7 @@ const CarouselTrack = ({ experiences, carousel, isPaused }: CarouselTrackProps) 
       >
         <div className="flex flex-col gap-2">
           <h5 className="font-medium">{experience.company}</h5>
-          {experience.division ? (
+          {"division" in experience && experience.division ? (
             <p className="text-zinc-500 text-sm">{experience.division}</p>
           ) : null}
           <p className="text-zinc-600 text-sm dark:text-zinc-400">{experience.title}</p>

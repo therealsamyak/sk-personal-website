@@ -6,7 +6,7 @@
     "dev": "bash scripts/dev.sh",
     "check": "oxlint --fix . && oxfmt .",
     "rebuild": "rm -rf .next dist .turbo .vercel node_modules apps/*/.next apps/*/dist apps/*/.turbo apps/*/.vercel apps/*/node_modules && pnpm install && pnpm build",
-    "cf-deploy-website": "pnpm --filter web cf-deploy",
+    "cf-deploy-website": "pnpm --filter web deploy",
     "cf-deploy-blog": "pnpm --filter blog cf-deploy",
     "prepare": "lefthook install"
   },
