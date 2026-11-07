@@ -1,0 +1,23 @@
+diff --git a/dist/index.js b/dist/index.js
+index 41ba06885ed234bc14ef6790ae9f023e3ee4886e..9cf98edea4431d6c00794d1dc2af96240b6f18d2 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -47,6 +47,18 @@ function useBrowserNativeTransitions() {
+                 pendingViewTransitionResolve
+             ]);
+         };
++        // Start history snapshots before synchronous router restoration.
++        const navigation = window.navigation;
++        if (navigation) {
++            const onNavigate = (event)=>{
++                if (event.navigationType !== 'traverse' || !event.destination.sameDocument) return;
++                const destination = new URL(event.destination.url);
++                if (destination.pathname === window.location.pathname && destination.hash === window.location.hash) return;
++                onPopState();
++            };
++            navigation.addEventListener('navigate', onNavigate);
++            return ()=>navigation.removeEventListener('navigate', onNavigate);
++        }
+         window.addEventListener('popstate', onPopState);
+         return ()=>{
+             window.removeEventListener('popstate', onPopState);
