@@ -125,6 +125,10 @@ export const sendContactEmails = async (formData: ContactFormData) => {
     if (confirmationEmail.status === "rejected") throw confirmationEmail.reason
     if (notificationEmail.status === "rejected") throw notificationEmail.reason
 
+    if (confirmationEmail.value.error || notificationEmail.value.error) {
+      return { success: false, error: "Contact email delivery failed" }
+    }
+
     return {
       success: true,
       confirmationId: confirmationEmail.value.data?.id,
