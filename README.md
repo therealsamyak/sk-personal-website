@@ -73,22 +73,3 @@ pnpm run cf-deploy-blog
 ```
 
 Ensure environment variables / secrets are set via the Cloudflare Dashboard under **Compute** --> **Workers & Pages** --> **(Worker Name)** --> **Settings** --> **Variables and Secrets**.
-
-## Verify the website locally
-
-Run these commands from the repository root:
-
-```bash
-pnpm install --frozen-lockfile
-pnpm --filter web build
-pnpm --filter web typecheck
-pnpm --filter blog build
-```
-
-Temporary verification loads the production artifact in Miniflare and blocks external requests.
-It mocks Turnstile and both Resend requests. It checks static-cache hits, routing, action validation, delivery failures, and CSRF rejection.
-Use `NEXT_PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA` when building for browser tests.
-Use the Turnstile test secret `1x0000000000000000000000000000000AA` for local verification.
-Do not use production secrets or send real email during tests.
-
-This migration does not deploy or change Cloudflare account settings. Deployment and merge require your separate decision.
