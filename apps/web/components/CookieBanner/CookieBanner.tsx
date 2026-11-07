@@ -94,10 +94,10 @@ export function CookieBanner() {
               We use browser storage for essential preferences. Analytics stays off until you allow
               it. See our{" "}
               <Link
-                href="/cookie-policy"
+                href="/privacy"
                 className="text-foreground underline underline-offset-2 hover:opacity-80"
               >
-                Cookie Policy
+                privacy policy
               </Link>
               .
             </p>

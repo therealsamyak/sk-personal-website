@@ -13,12 +13,6 @@ export const Footer = () => (
         >
           Privacy
         </Link>
-        <Link
-          href="/cookie-policy"
-          className="text-zinc-500 transition-colors hover:text-foreground dark:text-zinc-400"
-        >
-          Cookies
-        </Link>
         <CookiePreferencesButton />
       </nav>
     </div>
