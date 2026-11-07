@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import Script from "next/script"
 import { ViewTransitions } from "next-view-transitions"
 import { CookieBanner } from "@/components/CookieBanner"
+import { Footer } from "@/components/Footer"
+import { Header } from "@/components/Header"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { PolicyStackProvider } from "@/app/providers"
 import "./globals.css"
@@ -66,7 +68,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             disableTransitionOnChange
           >
             <PolicyStackProvider>
-              {children}
+              <div className="flex min-h-screen flex-col bg-background">
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+              </div>
               <CookieBanner />
             </PolicyStackProvider>
           </ThemeProvider>
