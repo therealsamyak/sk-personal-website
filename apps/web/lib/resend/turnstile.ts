@@ -1,10 +1,14 @@
+import { env } from "cloudflare:workers"
+import { z } from "zod"
+
 interface TurnstileVerifyResult {
   success: boolean
   error?: string
 }
 
+// Verify the contact CAPTCHA before requesting email delivery.
 export const verifyTurnstileToken = async (token: string): Promise<TurnstileVerifyResult> => {
-  const secretKey = process.env.TURNSTILE_SECRET_KEY
+  const secretKey = env.TURNSTILE_SECRET_KEY
 
   if (!secretKey) {
     return {
@@ -23,7 +27,7 @@ export const verifyTurnstileToken = async (token: string): Promise<TurnstileVeri
       body: formData,
     })
 
-    const result = await response.json()
+    const result = z.object({ success: z.boolean() }).parse(await response.json())
 
     if (result.success) {
       return { success: true }
