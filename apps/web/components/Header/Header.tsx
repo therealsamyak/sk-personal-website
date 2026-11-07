@@ -4,17 +4,31 @@ import { ExternalLink, Menu, X } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Link } from "next-view-transitions"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { siGithub, siX } from "simple-icons"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon"
 import { navigation, personalInfo } from "@/config/site"
 import { Button } from "@/ui/button"
 
+// Render website navigation and dismiss the mobile menu with Escape.
 export const Header = () => {
   const pathname = usePathname()
   const isSubPage = pathname !== "/"
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const dismissMobileMenu = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return
+      setMobileMenuOpen(false)
+      mobileMenuButtonRef.current?.focus()
+    }
+    document.addEventListener("keydown", dismissMobileMenu)
+    return () => document.removeEventListener("keydown", dismissMobileMenu)
+  }, [mobileMenuOpen])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -115,6 +129,9 @@ export const Header = () => {
           <Button
             variant="ghost"
             size="icon"
+            ref={mobileMenuButtonRef}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
             className="sm:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -137,7 +154,7 @@ export const Header = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t bg-background sm:hidden">
+        <div id="mobile-navigation" className="border-t bg-background sm:hidden">
           <div className="flex flex-col gap-3 px-4 py-3">
             {navigation.map((item) => {
               const isActive = pathname === item.href

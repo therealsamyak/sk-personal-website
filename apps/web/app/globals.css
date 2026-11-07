@@ -208,7 +208,15 @@ html > body[data-scroll-locked] {
   }
 }
 
-/* Reduced motion support for scanner animation and error shake */
+.form-scan-clip {
+  animation: formScanClip 800ms ease-in-out forwards;
+}
+
+.loading-appear {
+  animation: loadingAppear 800ms ease-in-out forwards;
+}
+
+/* Reduced motion keeps submission feedback visible without an animation callback. */
 @media (prefers-reduced-motion: reduce) {
   .scanner-overlay,
   .scanner-line,
@@ -217,12 +225,9 @@ html > body[data-scroll-locked] {
     animation: none !important;
   }
 
+  .scanner-overlay,
   .form-scan-clip {
-    animation: formScanClip 2s ease-in-out forwards;
-  }
-
-  .loading-appear {
-    animation: loadingAppear 2s ease-in-out forwards;
+    visibility: hidden;
   }
 
   .form-error-shake {
@@ -358,4 +363,65 @@ html > body[data-scroll-locked] {
 ::view-transition-new(theme-switch) {
   /* Apply the reveal animation */
   animation: reveal 0.4s ease-in-out forwards;
+}
+
+/* Policy documents share the website's typography, spacing, and color tokens. */
+[data-op-policy] {
+  @apply mx-auto max-w-4xl px-6 py-10 leading-7 wrap-anywhere;
+}
+
+[data-op-policy] h1 {
+  @apply text-3xl font-bold leading-tight;
+}
+
+[data-op-policy] h2 {
+  @apply mt-8 text-2xl font-semibold leading-7;
+}
+
+[data-op-policy] h3 {
+  @apply mt-6 text-lg font-semibold;
+}
+
+[data-op-policy] :is(p, ul, ol, .policy-table-scroll) {
+  @apply mt-4;
+}
+
+[data-op-policy] :is(ul, ol) {
+  @apply pl-6;
+}
+
+[data-op-policy] ul {
+  @apply list-disc;
+}
+
+[data-op-policy] ol {
+  @apply list-decimal;
+}
+
+[data-op-policy] li + li {
+  @apply mt-2;
+}
+
+[data-op-policy] a {
+  @apply text-primary underline underline-offset-4;
+}
+
+.policy-table-scroll {
+  @apply max-w-full overflow-x-auto rounded-lg border border-border;
+}
+
+.policy-table-scroll:focus-visible {
+  @apply outline-2 outline-offset-2 outline-ring;
+}
+
+[data-op-table] {
+  @apply w-full min-w-160 border-collapse text-left;
+}
+
+[data-op-table] :is(th, td) {
+  @apply border-b border-border px-4 py-3 align-top;
+}
+
+[data-op-table] th {
+  @apply bg-muted font-semibold;
 }
