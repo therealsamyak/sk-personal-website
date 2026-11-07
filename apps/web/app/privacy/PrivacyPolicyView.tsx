@@ -1,7 +1,6 @@
 "use client"
 
 import { PrivacyPolicy } from "@policystack/react/policy"
-import { Link } from "next-view-transitions"
 import { PolicyStackTable } from "@/components/PolicyPolicy/PolicyStackTable"
 import config from "@/policystack"
 
@@ -41,13 +40,7 @@ export function PrivacyPolicyView() {
           </a>{" "}
           with analytics or privacy questions.
         </p>
-        <p>
-          Read the{" "}
-          <Link href="/cookie-policy" className="underline underline-offset-2">
-            cookie policy
-          </Link>{" "}
-          for storage controls.
-        </p>
+        <p>Use Cookie preferences in the footer to change your analytics choice.</p>
       </section>
     </div>
   )
