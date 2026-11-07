@@ -7,7 +7,7 @@ import config from "@/policystack"
 
 export function PrivacyPolicyView() {
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-12">
+    <div className="mx-auto w-full max-w-3xl">
       <PrivacyPolicy config={config} components={{ Table: PolicyStackTable }} />
       <section aria-labelledby="analytics-and-local-storage" className="mt-12 space-y-4">
         <h1 id="analytics-and-local-storage" className="text-2xl font-semibold">
@@ -49,6 +49,6 @@ export function PrivacyPolicyView() {
           for storage controls.
         </p>
       </section>
-    </main>
+    </div>
   )
 }
