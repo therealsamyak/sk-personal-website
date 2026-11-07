@@ -6,19 +6,26 @@
     "dev": "bash scripts/dev.sh",
     "check": "oxlint --fix . && oxfmt .",
     "rebuild": "rm -rf .next dist .turbo .vercel node_modules apps/*/.next apps/*/dist apps/*/.turbo apps/*/.vercel apps/*/node_modules && pnpm install && pnpm build",
-    "cf-deploy-website": "pnpm --filter web cf-deploy",
+    "cf-deploy-website": "pnpm --filter web deploy",
     "cf-deploy-blog": "pnpm --filter blog cf-deploy",
     "prepare": "lefthook install"
   },
   "devDependencies": {
-    "lefthook": "^2.1.10",
-    "oxfmt": "^0.62.0",
-    "oxlint": "^1.77.0",
-    "portless": "^0.14.0",
-    "turbo": "^2.10.9"
+    "lefthook": "^2.2.2",
+    "oxfmt": "^0.76.0",
+    "oxlint": "^1.91.0",
+    "portless": "^0.15.13",
+    "turbo": "^2.11.10"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26.13.0",
+      "onFail": "download"
+    }
   },
   "engines": {
-    "node": ">=24"
+    "node": "^26.13.0"
   },
-  "packageManager": "pnpm@11.5.0"
+  "packageManager": "pnpm@11.28.10"
 }
