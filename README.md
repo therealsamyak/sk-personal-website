@@ -29,6 +29,10 @@ Install dependencies:
 pnpm install
 ```
 
+The blog checker requires generated EmDash schema types. Run `pnpm --filter blog dev:app` once before the first build.
+Wait for `emdash-env.d.ts` to appear, then stop the development server. The generated file stays ignored.
+The blog uses TypeScript 6 because Astro checking requires the TypeScript programmatic API.
+
 Run the build and dev commands to get started:
 
 ```bash
@@ -39,6 +43,13 @@ pnpm run dev
 Dev servers are proxied through [Portless](https://github.com/vercel-labs/portless), giving each app a stable `.localhost` URL (`web.localhost`, `blog.localhost`) instead of raw port numbers. `pnpm dev` starts the proxy before Turborepo kicks in (one password prompt to start, another to stop on exit). If the proxy is already running, it's left untouched.
 
 ## Deployment
+
+Both apps use `cloudflare.config.ts` with the pinned `cf` beta CLI. Run CLI commands through pnpm with Node.js 26.13.0. Bun cannot run `cf`.
+The blog uses the Cloudflare adapter 15 beta, which reads the new configuration through the Cloudflare Vite plugin.
+The web app uses OpenNext and Wrangler as its build backend. Its `cf-build` script emits Cloudflare Build Output, and `cf-deploy` uploads that output with `cf deploy --prebuilt`.
+Use `pnpm --filter web deploy` to build and deploy together. Use `pnpm --filter web preview` to build and preview locally.
+Direct `cf build` and `cf dev` in the web app detect plain Next.js commands; use the package scripts instead.
+The web configuration preserves dashboard variables and secrets through Worker upload metadata.
 
 Both apps deploy to Cloudflare Workers. Each app has its own `.env.production` with the necessary secrets and config.
 
