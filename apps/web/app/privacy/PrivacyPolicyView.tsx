@@ -34,7 +34,14 @@ export function PrivacyPolicyView() {
         </p>
         <p>
           Cloudflare hosts this site and the future analytics tunnel. It processes limited technical
-          request data, including IP addresses, for delivery and security. You can contact{" "}
+          request data, including IP addresses, for delivery and security. See{" "}
+          <a
+            href="https://www.cloudflare.com/privacypolicy/"
+            className="underline underline-offset-2"
+          >
+            Cloudflare&apos;s privacy policy
+          </a>{" "}
+          for more information. You can contact{" "}
           <a href="mailto:therealsamyak@gmail.com" className="underline underline-offset-2">
             therealsamyak@gmail.com
           </a>{" "}
