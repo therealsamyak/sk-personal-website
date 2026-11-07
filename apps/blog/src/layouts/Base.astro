@@ -10,6 +10,7 @@ import { createPublicPageContext } from "emdash/page";
 import LiveSearch from "emdash/ui/search";
 import { Font } from "astro:assets";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import CookieBanner from "../components/CookieBanner.astro";
 import "../styles/index.css";
 
 interface Props {
@@ -238,6 +239,7 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 						Syne · Spectral · JetBrains Mono
 					</div>
 				</div>
+				<button type="button" data-cookie-preferences class="mono mt-4 text-[11px] underline underline-offset-4 hover:text-accent">Cookie preferences</button>
 				<WidgetArea name="footer" />
 			</div>
 		</footer>
@@ -380,5 +382,7 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 		</script>
 
 		<EmDashBodyEnd page={pageCtx} />
+
+		<CookieBanner />
 	</body>
 </html>
