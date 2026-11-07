@@ -1,6 +1,6 @@
-import { Resend } from "resend"
+import { env } from "cloudflare:workers"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+import { Resend } from "resend"
 
 interface ContactFormData {
   name: string
@@ -11,12 +11,13 @@ interface ContactFormData {
 // Send both contact emails concurrently and wait for both delivery requests.
 export const sendContactEmails = async (formData: ContactFormData) => {
   const { name, email, message } = formData
+  const resend = new Resend(env.RESEND_API_KEY)
 
-  if (!process.env.NOTIFICATION_EMAIL) {
+  if (!env.NOTIFICATION_EMAIL) {
     throw new Error("NOTIFICATION_EMAIL environment variable is not set")
   }
 
-  if (!process.env.FROM_EMAIL) {
+  if (!env.FROM_EMAIL) {
     throw new Error("FROM_EMAIL environment variable is not set")
   }
 
@@ -32,7 +33,7 @@ export const sendContactEmails = async (formData: ContactFormData) => {
     })
 
     const confirmationPromise = resend.emails.send({
-      from: process.env.FROM_EMAIL,
+      from: env.FROM_EMAIL,
       to: [email],
       subject: "Thanks for reaching out!",
       html: `
@@ -72,8 +73,8 @@ export const sendContactEmails = async (formData: ContactFormData) => {
     })
 
     const notificationPromise = resend.emails.send({
-      from: process.env.FROM_EMAIL,
-      to: [process.env.NOTIFICATION_EMAIL],
+      from: env.FROM_EMAIL,
+      to: [env.NOTIFICATION_EMAIL],
       subject: `New message from ${name}`,
       html: `
         <!DOCTYPE html>
