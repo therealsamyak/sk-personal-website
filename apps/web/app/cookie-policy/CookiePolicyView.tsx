@@ -2,12 +2,13 @@
 
 import { CookiePolicy } from "@policystack/react/policy"
 import { Link } from "next-view-transitions"
+import { PolicyStackTable } from "@/components/PolicyPolicy/PolicyStackTable"
 import config from "@/policystack"
 
 export function CookiePolicyView() {
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
-      <CookiePolicy config={config} />
+      <CookiePolicy config={config} components={{ Table: PolicyStackTable }} />
       <section aria-labelledby="umami-and-storage" className="mt-12 space-y-4">
         <h1 id="umami-and-storage" className="text-2xl font-semibold">
           Umami and storage

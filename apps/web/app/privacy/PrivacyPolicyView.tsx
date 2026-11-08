@@ -2,12 +2,13 @@
 
 import { PrivacyPolicy } from "@policystack/react/policy"
 import { Link } from "next-view-transitions"
+import { PolicyStackTable } from "@/components/PolicyPolicy/PolicyStackTable"
 import config from "@/policystack"
 
 export function PrivacyPolicyView() {
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
-      <PrivacyPolicy config={config} />
+      <PrivacyPolicy config={config} components={{ Table: PolicyStackTable }} />
       <section aria-labelledby="analytics-and-local-storage" className="mt-12 space-y-4">
         <h1 id="analytics-and-local-storage" className="text-2xl font-semibold">
           Analytics and local storage
