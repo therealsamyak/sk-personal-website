@@ -7,7 +7,7 @@
  import { umamiAnalyticsConfig } from "../lib/umami-analytics"
 
  type UmamiTracker = {
-   track: () => Promise<void>
+   track: (trackEvent?: (properties: Record<string, unknown>) => Record<string, unknown>) => Promise<void>
  }
 
  declare global {
@@ -21,7 +21,7 @@
 
  function trackCurrentUmamiPageView() {
    try {
-     void window.umami?.track()
+   void window.umami?.track((properties) => ({ ...properties, url: location.href }))
    } catch {
      // Umami failures must not affect navigation or the blog.
    }
