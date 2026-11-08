@@ -5,7 +5,9 @@ import { useEffect } from "react"
 import { umamiAnalyticsConfig } from "@/lib/umami-analytics"
 
 type UmamiTracker = {
-  track: () => Promise<void>
+  track: (
+    trackEvent?: (properties: Record<string, unknown>) => Record<string, unknown>,
+  ) => Promise<void>
 }
 
 declare global {
@@ -19,7 +21,7 @@ let routeTrackingInstalled = false
 
 function trackCurrentUmamiPageView() {
   try {
-    void window.umami?.track()
+    void window.umami?.track((properties) => ({ ...properties, url: window.location.href }))
   } catch {
     // Umami failures must not affect navigation or the application.
   }
