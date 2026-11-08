@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "@cloudflare/workers-types": "^5.20261106.1",
+    "@cloudflare/workers-types": "^5.20261107.1",
     "@policystack/vite": "^1.5.0",
     "cf": "1.0.0-beta.28",
     "typescript": "^6.0.3",
