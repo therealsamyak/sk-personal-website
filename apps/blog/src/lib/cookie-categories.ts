@@ -5,16 +5,11 @@ export const categories: Category[] = [
     key: "essential",
     label: "Essential",
     locked: true,
-    description: "Required for the site to work.",
+    description: "Stores your theme cookie and consent preferences in this browser.",
   },
   {
     key: "analytics",
     label: "Analytics",
-    description: "Helps us understand how the site is used.",
-  },
-  {
-    key: "marketing",
-    label: "Marketing",
-    description: "Used to personalize content and campaigns.",
+    description: "Loads the operator-run Umami script after you consent.",
   },
 ]

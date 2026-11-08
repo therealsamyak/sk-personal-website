@@ -45,6 +45,25 @@ Dev servers are proxied through [Portless](https://github.com/vercel-labs/portle
 
 ## Deployment
 
+### Umami analytics
+
+Both apps use the operator-run, self-hosted Umami service. Each app has its own Umami website ID:
+
+```bash
+# apps/web/.env.production
+NEXT_PUBLIC_UMAMI_BASE_URL=https://analytics.example.com
+NEXT_PUBLIC_UMAMI_WEBSITE_ID=00000000-0000-4000-8000-000000000000
+
+# apps/blog/.env.production
+PUBLIC_UMAMI_BASE_URL=https://analytics.example.com
+PUBLIC_UMAMI_WEBSITE_ID=00000000-0000-4000-8000-000000000001
+```
+
+The examples are shape placeholders. Supply the real HTTPS origin and UUIDs only in the production environment after the Umami service is live.
+The base URL must be an HTTPS origin with no path, query, fragment, username, or password.
+HTTP is accepted only for loopback browser checks. Empty or invalid values disable analytics without an error; production builds must supply valid values.
+Umami loads only after analytics consent and never receives contact-form data.
+
 Both apps use `cloudflare.config.ts` with the pinned `cf` beta CLI. Run CLI commands through pnpm with Node.js 26.13.0. Bun cannot run `cf`.
 The blog uses the Cloudflare adapter 15 beta, which reads the new configuration through the Cloudflare Vite plugin.
 The web app uses OpenNext and Wrangler as its build backend. Its `cf-build` script emits Cloudflare Build Output, and `cf-deploy` uploads that output with `cf deploy --prebuilt`.
