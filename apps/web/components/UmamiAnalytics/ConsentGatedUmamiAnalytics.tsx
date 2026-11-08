@@ -87,7 +87,7 @@ export function ConsentGatedUmamiAnalytics() {
       { once: true },
     )
 
-    document.head.append(script)
+    document.head.appendChild(script)
 
     return () => {
       consentPeriodActive = false
