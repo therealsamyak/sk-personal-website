@@ -44,7 +44,6 @@
    if (document.querySelector(UMAMI_SCRIPT_SELECTOR)) return
 
    const script = document.createElement("script")
-   let consentPeriodActive = true
 
    script.src = umamiAnalyticsConfig.scriptUrl
    script.async = true
@@ -56,7 +55,7 @@
    script.addEventListener(
      "load",
    () => {
-     if (consentPeriodActive && script.isConnected) trackCurrentUmamiPageView()
+		 if (script.isConnected) trackCurrentUmamiPageView()
    },
    { once: true },
   )
@@ -71,14 +70,6 @@
   )
 
    document.head.append(script)
-
-   const unsubscribe = sharedConsentStore.subscribe((nextState) => {
-     if (nextState.decisions.analytics === true) return
-     consentPeriodActive = false
-     script.remove()
-     delete window.umami
-     unsubscribe()
-   })
  }
 
  const unsubscribeInitial = sharedConsentStore.subscribe(syncUmamiScript)

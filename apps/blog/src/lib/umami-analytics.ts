@@ -27,6 +27,7 @@ function resolveUmamiAnalyticsConfig(): UmamiAnalyticsConfig | null {
   const allowedHttpOrigin =
     parsedBaseUrl.protocol === "http:" && isLoopbackHostname(parsedBaseUrl.hostname)
   if (!allowedHttpOrigin && parsedBaseUrl.protocol !== "https:") return null
+  if (!allowedHttpOrigin && !parsedBaseUrl.hostname.includes(".")) return null
   if (parsedBaseUrl.username || parsedBaseUrl.password) return null
   if (parsedBaseUrl.pathname !== "/" || parsedBaseUrl.search || parsedBaseUrl.hash) return null
 
