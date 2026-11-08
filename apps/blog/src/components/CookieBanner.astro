@@ -24,7 +24,7 @@ import { categories } from "../lib/cookie-categories"
 				aria-hidden="true"
 			></span>
 			<p class="serif max-w-xl text-sm leading-relaxed text-foreground">
-				We use cookies to keep the press running. Choose what you'll allow.
+				We use browser storage for essential preferences. Analytics stays off until you allow it.
 			</p>
 		</div>
 		<div class="flex flex-wrap items-center gap-2">
@@ -67,7 +67,7 @@ import { categories } from "../lib/cookie-categories"
 	</div>
 	<div class="px-5 py-4">
 		<p class="serif text-sm leading-relaxed text-muted-foreground">
-			Choose which categories of cookies to allow. Essential cookies are always on.
+			Choose which storage categories to allow. Essential storage is always on.
 		</p>
 		<div class="mt-4 flex flex-col">
 			{
@@ -114,15 +114,7 @@ import { categories } from "../lib/cookie-categories"
 </dialog>
 
 <script>
-	import { createConsentStore, timezoneResolver } from "@policystack/core/consent"
-	import { localStorageAdapter } from "@policystack/core/consent/storage/local-storage"
-	import { categories } from "../lib/cookie-categories"
-
-	const store = createConsentStore({
-		categories,
-		adapter: localStorageAdapter(),
-		jurisdictionResolver: timezoneResolver(),
-	})
+	import { sharedConsentStore as store } from "../lib/consent-store"
 
 	const banner = document.querySelector<HTMLElement>("[data-policystack-banner]")!
 	const prefs = document.querySelector<HTMLDialogElement>("[data-policystack-prefs]")!

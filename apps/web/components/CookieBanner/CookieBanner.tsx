@@ -91,7 +91,8 @@ export function CookieBanner() {
           <div className="bg-card text-card-foreground mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-xl border p-4 shadow-lg sm:flex-row sm:items-center sm:gap-4 sm:p-5">
             <CookieIcon className="size-5 shrink-0 text-muted-foreground sm:mt-0.5" />
             <p className="min-w-0 flex-1 text-sm leading-relaxed">
-              We use cookies to keep the site running and improve your experience. See our{" "}
+              We use browser storage for essential preferences. Analytics stays off until you allow
+              it. See our{" "}
               <Link
                 href="/cookie-policy"
                 className="text-foreground underline underline-offset-2 hover:opacity-80"

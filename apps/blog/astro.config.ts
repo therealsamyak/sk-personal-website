@@ -51,6 +51,6 @@ export default defineConfig({
     provider: memoryCache(),
   },
   vite: {
-    plugins: [policyStack({ consent: { mode: "warn" } }), tailwindcss()],
+    plugins: [policyStack({ consent: { mode: "error" } }), tailwindcss()],
   },
 })
