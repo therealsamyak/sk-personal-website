@@ -47,22 +47,11 @@ Dev servers are proxied through [Portless](https://github.com/vercel-labs/portle
 
 ### Umami analytics
 
-Both apps use the operator-run, self-hosted Umami service. Each app has its own Umami website ID:
+Both apps use the operator-run, self-hosted Umami service. Their committed public client defaults identify the public Umami origin and the correct website record for each app.
 
-```bash
-# apps/web/.env.production
-NEXT_PUBLIC_UMAMI_BASE_URL=https://analytics.example.com
-NEXT_PUBLIC_UMAMI_WEBSITE_ID=00000000-0000-4000-8000-000000000000
+The production defaults are public browser configuration. Environment variables can override either origin or website ID. Set both override keys to empty strings to disable analytics for local checks. Invalid values also disable analytics without an application error.
 
-# apps/blog/.env.production
-PUBLIC_UMAMI_BASE_URL=https://analytics.example.com
-PUBLIC_UMAMI_WEBSITE_ID=00000000-0000-4000-8000-000000000001
-```
-
-The examples are shape placeholders. Supply the real HTTPS origin and UUIDs only in the production environment after the Umami service is live.
-The base URL must be an HTTPS origin with no path, query, fragment, username, or password.
-HTTP is accepted only for loopback browser checks. Empty or invalid values disable analytics without an error; production builds must supply valid values.
-Umami loads only after analytics consent and never receives contact-form data.
+Do not commit Umami administrator credentials or API tokens. The admin dashboard is private and the browser collection endpoint is public.
 
 Both apps use `cloudflare.config.ts` with the pinned `cf` beta CLI. Run CLI commands through pnpm with Node.js 26.13.0. Bun cannot run `cf`.
 The blog uses the Cloudflare adapter 15 beta, which reads the new configuration through the Cloudflare Vite plugin.
