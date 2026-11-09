@@ -14,7 +14,7 @@
     "cf-build": "vite build",
     "cf-preview": "vite preview",
     "cf-deploy": "cf deploy --prebuilt",
-    "typecheck": "tsrs --noEmit --fast"
+    "typecheck": "pnpm run cf-typegen && tsrs --noEmit --fast"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.5",
