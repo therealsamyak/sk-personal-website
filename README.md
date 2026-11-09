@@ -29,8 +29,9 @@ Install dependencies:
 pnpm install
 ```
 
-The blog checker requires generated EmDash schema types. Run `pnpm --filter blog dev:app` once before the first build.
-Wait for `emdash-env.d.ts` to appear, then stop the development server. The generated file stays ignored.
+The blog's generated EmDash schema types are committed in `apps/blog/emdash-env.d.ts`.
+Builds use this file without a running CMS or access to the production database.
+When the local CMS regenerates this file after schema changes, commit the updated declarations with those changes.
 The blog uses TypeScript 6 because Astro checking requires the TypeScript programmatic API.
 
 Run the build and dev commands to get started:
