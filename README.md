@@ -20,7 +20,7 @@ cp apps/web/.env.example apps/web/.env.development
 cp apps/blog/.env.example apps/blog/.env.development
 ```
 
-Use pnpm 11.28.10 to install dependencies. The project pins Node.js 26.13.0 through `devEngines.runtime`.
+Use pnpm 12.18.0 to install dependencies. The project pins Node.js 26.13.0 through `devEngines.runtime`.
 When your Node.js version differs, pnpm downloads the project runtime. Your global Node.js installation stays unchanged.
 
 Install dependencies:
