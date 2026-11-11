@@ -12,7 +12,8 @@
     "cf-typegen": "cf workers types",
     "cf-build": "opennextjs-cloudflare build --skipWranglerConfigCheck && wrangler build --experimental-new-config --experimental-cf-build-output",
     "cf-preview": "wrangler dev --experimental-new-config",
-    "cf-deploy": "cf deploy --prebuilt"
+    "cf-deploy": "cf deploy --prebuilt",
+    "typecheck": "tsrs --noEmit --fast"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.5",

@@ -7,3 +7,6 @@ pre-commit:
     format:
       run: pnpm exec oxfmt --no-error-on-unmatched-pattern {staged_files}
       stage_fixed: true
+    typecheck:
+      glob: "*.{ts,tsx,mts,cts,js,jsx,mjs,cjs,astro,json,yml,yaml}"
+      run: pnpm run typecheck

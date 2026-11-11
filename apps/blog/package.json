@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "astro check && astro build",
+    "build": "pnpm run typecheck && astro build",
     "cf-build": "cf build",
     "dev": "portless",
     "dev:app": "astro dev --port ${PORT:-4321}",
     "cf-deploy": "cf deploy",
     "preview": "astro preview",
-    "typegen": "emdash types --url https://blog.skakatur.dev"
+    "typegen": "emdash types --url https://blog.skakatur.dev",
+    "typecheck": "astro check"
   },
   "dependencies": {
     "@astrojs/cloudflare": "15.0.0-beta.5",
