@@ -1,0 +1,6 @@
+/ai-privacy-policy
+  Content-Security-Policy: default-src 'none'; script-src https://analytics.azurlaneecgc.com; style-src 'unsafe-inline'; connect-src https://analytics.azurlaneecgc.com; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
