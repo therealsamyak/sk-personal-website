@@ -4,17 +4,19 @@
   "scripts": {
     "build": "turbo build",
     "dev": "bash scripts/dev.sh",
-    "check": "oxlint --fix . && oxfmt .",
+    "check": "oxlint --fix . && oxfmt . && pnpm run typecheck",
     "rebuild": "rm -rf .next dist .turbo .vercel node_modules apps/*/.next apps/*/dist apps/*/.turbo apps/*/.vercel apps/*/node_modules && pnpm install && pnpm build",
     "cf-deploy-website": "pnpm --filter web deploy",
     "cf-deploy-blog": "pnpm --filter blog cf-deploy",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "typecheck": "pnpm --filter web typecheck && pnpm --filter blog typecheck"
   },
   "devDependencies": {
     "lefthook": "^2.2.2",
     "oxfmt": "^0.78.0",
     "oxlint": "^1.93.0",
     "portless": "^0.17.0",
+    "tsrs": "0.23.0-ts7.1.0-beta",
     "turbo": "^2.11.10"
   },
   "devEngines": {
