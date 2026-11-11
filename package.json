@@ -12,9 +12,9 @@
   },
   "devDependencies": {
     "lefthook": "^2.2.2",
-    "oxfmt": "^0.77.0",
-    "oxlint": "^1.92.0",
-    "portless": "^0.16.0",
+    "oxfmt": "^0.78.0",
+    "oxlint": "^1.93.0",
+    "portless": "^0.17.0",
     "turbo": "^2.11.10"
   },
   "devEngines": {
