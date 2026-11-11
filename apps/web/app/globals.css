@@ -415,7 +415,8 @@ html > body[data-scroll-locked] {
 }
 
 [data-op-table] {
-  @apply w-full min-w-160 border-collapse text-left;
+  @apply w-full min-w-192 border-collapse text-left;
+  overflow-wrap: normal;
 }
 
 [data-op-table] :is(th, td) {
@@ -423,5 +424,5 @@ html > body[data-scroll-locked] {
 }
 
 [data-op-table] th {
-  @apply bg-muted font-semibold;
+  @apply bg-muted font-semibold whitespace-nowrap;
 }
