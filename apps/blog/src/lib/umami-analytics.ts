@@ -43,5 +43,5 @@ function resolveUmamiAnalyticsConfig(): UmamiAnalyticsConfig | null {
   }
 }
 
-// Public build-time configuration for the consent-gated Umami browser script.
+// Public build-time configuration for the cookieless Umami browser script.
 export const umamiAnalyticsConfig = resolveUmamiAnalyticsConfig()
