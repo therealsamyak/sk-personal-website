@@ -1,5 +1,4 @@
 import { Link } from "next-view-transitions"
-import { CookiePreferencesButton } from "@/components/CookieBanner/CookiePreferencesButton"
 import { personalInfo } from "@/config/site"
 
 export const Footer = () => (
@@ -13,7 +12,6 @@ export const Footer = () => (
         >
           Privacy
         </Link>
-        <CookiePreferencesButton />
       </nav>
     </div>
   </footer>

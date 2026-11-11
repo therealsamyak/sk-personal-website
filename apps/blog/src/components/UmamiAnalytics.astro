@@ -1,0 +1,10 @@
+---
+// Track every public blog page, including new posts, through the shared layout.
+---
+
+<script>
+  import { loadUmamiAnalytics } from "../../../../shared/umami-browser"
+  import { umamiAnalyticsConfig } from "../lib/umami-analytics"
+
+  if (umamiAnalyticsConfig) loadUmamiAnalytics(umamiAnalyticsConfig)
+</script>
