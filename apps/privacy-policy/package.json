@@ -1,0 +1,20 @@
+{
+  "name": "privacy-policy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "portless",
+    "dev:app": "node privacy-dev.js",
+    "typecheck": "node --check .cloudflare/output/v0/workers/default/bundle/index.js && node --check privacy-dev.js",
+    "cf-deploy": "cf deploy --prebuilt --no-provision"
+  },
+  "devDependencies": {
+    "cf": "1.0.0-beta.28",
+    "miniflare": "5.20261104.0-beta"
+  },
+  "portless": {
+    "name": "privacy-policy",
+    "script": "dev:app"
+  }
+}
