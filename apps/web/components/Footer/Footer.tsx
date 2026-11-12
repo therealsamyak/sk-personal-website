@@ -1,4 +1,4 @@
-import { Link } from "next-view-transitions"
+import Link from "next/link"
 import { personalInfo } from "@/config/site"
 
 export const Footer = () => (

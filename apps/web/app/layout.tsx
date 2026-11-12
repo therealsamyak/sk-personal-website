@@ -1,13 +1,12 @@
 import type { Metadata } from "next"
 import Script from "next/script"
-import { ViewTransitions } from "next-view-transitions"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { UmamiAnalytics } from "@/components/UmamiAnalytics/UmamiAnalytics"
 import "./globals.css"
 import "./font-subsets.css"
-import { Suspense, type ReactNode } from "react"
+import { Suspense, ViewTransition, type ReactNode } from "react"
 
 export const metadata: Metadata = {
   title: "SK - Software Engineer",
@@ -59,23 +58,23 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         </Script>
       </head>
       <body className="min-h-screen min-w-[300px] bg-background font-sans antialiased">
-        <ViewTransitions>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ViewTransition name="page" default="none" update="auto">
             <div className="flex min-h-screen flex-col bg-background">
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
-            <Suspense fallback={null}>
-              <UmamiAnalytics />
-            </Suspense>
-          </ThemeProvider>
-        </ViewTransitions>
+          </ViewTransition>
+          <Suspense fallback={null}>
+            <UmamiAnalytics />
+          </Suspense>
+        </ThemeProvider>
       </body>
     </html>
   )

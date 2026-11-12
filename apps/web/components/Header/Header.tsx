@@ -3,8 +3,8 @@
 import { ExternalLink, Menu, X } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Link } from "next-view-transitions"
-import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
+import { ViewTransition, useEffect, useRef, useState } from "react"
 import { siGithub, siX } from "simple-icons"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { LinkedInIcon } from "@/components/icons/LinkedInIcon"
@@ -38,61 +38,67 @@ export const Header = () => {
           <Link className="mr-2 flex min-w-0 items-center gap-1.5 sm:mr-3 sm:gap-2" href="/">
             {/* Desktop: Show PFP on sub-pages, Mobile: Always show PFP on sub-pages */}
             {isSubPage && personalInfo.profileImage && (
-              <div
-                className="relative size-8 shrink-0 overflow-hidden rounded-full"
-                style={{ viewTransitionName: "profile-image" }}
-              >
-                <Image
-                  src={personalInfo.profileImage}
-                  alt={personalInfo.name}
-                  fill
-                  sizes="32px"
-                  className="object-cover"
-                />
-              </div>
+              <ViewTransition name="profile-image" default="none" share="auto">
+                <div
+                  className="relative size-8 shrink-0 overflow-hidden rounded-full"
+                  style={{ contain: "layout size" }}
+                >
+                  <Image
+                    src={personalInfo.profileImage}
+                    alt={personalInfo.name}
+                    fill
+                    sizes="32px"
+                    className="object-cover"
+                  />
+                </div>
+              </ViewTransition>
             )}
             {isSubPage && (
-              <span
-                className="whitespace-nowrap font-bold text-sm sm:text-base"
-                style={{ viewTransitionName: "profile-name" }}
-              >
-                {personalInfo.name}
-              </span>
+              <ViewTransition name="profile-name" default="none" share="auto">
+                <span
+                  className="whitespace-nowrap font-bold text-sm sm:text-base"
+                  style={{ contain: "layout" }}
+                >
+                  {personalInfo.name}
+                </span>
+              </ViewTransition>
             )}
           </Link>
 
           {/* Desktop: Social links on sub-pages, Mobile: Hidden */}
           {isSubPage && (
-            <div
-              className="ml-2 hidden shrink-0 items-center gap-2 lg:flex"
-              style={{ viewTransitionName: "social-links" }}
-            >
-              {personalInfo.socialLinks.map((social) => (
-                <Link
-                  key={social.platform}
-                  href={social.url}
-                  target="_blank"
-                  className="opacity-70 transition-opacity hover:opacity-100"
-                >
-                  <Button variant="ghost" size="icon" className="size-7">
-                    {social.icon === "siGithub" && (
-                      <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
-                        <title>GitHub</title>
-                        <path d={siGithub.path} />
-                      </svg>
-                    )}
-                    {social.icon === "siLinkedin" && <LinkedInIcon className="size-3" />}
-                    {social.icon === "siX" && (
-                      <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
-                        <title>X (Twitter)</title>
-                        <path d={siX.path} />
-                      </svg>
-                    )}
-                    <span className="sr-only">{social.platform}</span>
-                  </Button>
-                </Link>
-              ))}
-            </div>
+            <ViewTransition name="social-links" default="none" share="auto">
+              <div
+                className="ml-2 hidden shrink-0 items-center gap-2 lg:flex"
+                style={{ contain: "layout" }}
+              >
+                {personalInfo.socialLinks.map((social) => (
+                  <Link
+                    key={social.platform}
+                    href={social.url}
+                    target="_blank"
+                    className="opacity-70 transition-opacity hover:opacity-100"
+                  >
+                    <Button variant="ghost" size="icon" className="size-7">
+                      {social.icon === "siGithub" && (
+                        <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
+                          <title>GitHub</title>
+                          <path d={siGithub.path} />
+                        </svg>
+                      )}
+                      {social.icon === "siLinkedin" && <LinkedInIcon className="size-3" />}
+                      {social.icon === "siX" && (
+                        <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
+                          <title>X (Twitter)</title>
+                          <path d={siX.path} />
+                        </svg>
+                      )}
+                      <span className="sr-only">{social.platform}</span>
+                    </Button>
+                  </Link>
+                ))}
+              </div>
+            </ViewTransition>
           )}
         </div>
 
