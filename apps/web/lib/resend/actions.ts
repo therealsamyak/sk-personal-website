@@ -16,9 +16,9 @@ export const submitContactForm = async (formData: FormData) => {
     throw new Error("Server fail. Refresh the page and try again later.")
   }
 
-  const token = formData.get("cf-turnstile-response") as string | null
+  const token = formData.get("cf-turnstile-response")
 
-  if (!token) {
+  if (typeof token !== "string" || !token) {
     throw new Error("Server fail. Refresh the page and try again later.")
   }
 
