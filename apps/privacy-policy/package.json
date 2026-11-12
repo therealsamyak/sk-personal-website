@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "portless",
-    "dev:app": "cf dev --port ${PORT:-8788}",
+    "dev:app": "PRIVACY_POLICY_DOMAIN=localhost cf dev --port ${PORT:-8788}",
     "typecheck": "node --check public/ai-privacy-policy.js",
     "cf-deploy": "cf deploy --no-provision"
   },
