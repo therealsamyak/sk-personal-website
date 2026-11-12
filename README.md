@@ -20,7 +20,7 @@ cp apps/web/.env.example apps/web/.env.development
 cp apps/blog/.env.example apps/blog/.env.development
 ```
 
-Use pnpm 12.18.0 to install dependencies. The project pins Node.js 26.13.0 through `devEngines.runtime`.
+Use pnpm 12.18.0 to install dependencies. The project pins Node.js 26.13.1 through `devEngines.runtime`.
 When your Node.js version differs, pnpm downloads the project runtime. Your global Node.js installation stays unchanged.
 
 Install dependencies:
@@ -57,9 +57,9 @@ The production defaults are public browser configuration. Environment variables 
 
 Do not commit Umami administrator credentials or API tokens. The admin dashboard is private and the browser collection endpoint is public.
 
-Both apps use `cloudflare.config.ts` with the pinned `cf` beta CLI. Run CLI commands through pnpm with Node.js 26.13.0. Bun cannot run `cf`.
+Both apps use `cloudflare.config.ts` with the pinned `cf` beta CLI. Run CLI commands through pnpm with Node.js 26.13.1. Bun cannot run `cf`.
 The blog uses the Cloudflare adapter 15 beta, which reads the new configuration through the Cloudflare Vite plugin.
-The web app uses Vinext 1.4.4 with Cloudflare Vite plugin v2 (pinned beta) and the Static Assets cache adapter.
+The web app uses Vinext 1.4.5 with Cloudflare Vite plugin v2 (pinned beta) and the Static Assets cache adapter.
 Both `build` and `cf-build` emit Cloudflare Build Output under `apps/web/.cloudflare/output`.
 Pages and RSC payloads are prerendered into the ASSETS binding; contact POST actions still execute in the Worker.
 The private cache directory routes through the Worker. JavaScript and CSS assets bypass it.
