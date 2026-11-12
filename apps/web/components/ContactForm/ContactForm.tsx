@@ -3,8 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CircleCheck, CircleX } from "lucide-react"
 import Script from "next/script"
-import { useCallback, useEffect, useReducer, useRef } from "react"
-import { Controller, useForm } from "react-hook-form"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { Controller, useForm, useWatch } from "react-hook-form"
 import type { z } from "zod"
 import { submitContactForm } from "@/lib/resend/actions"
 import { clientContactFormSchema } from "@/lib/resend/validation"
@@ -24,64 +24,56 @@ declare global {
   }
 }
 
-type FormState = {
-  status: "idle" | "submitting" | "success" | "error"
-  turnstileVerified: boolean
-  dotCount: number
-}
+type ContactFormStatus = "idle" | "submitting" | "success" | "error"
 
-type FormAction =
-  | { type: "SET_STATUS"; status: FormState["status"] }
-  | { type: "SET_TURNSTILE"; verified: boolean }
-  | { type: "TICK_DOT" }
-  | { type: "RESET_AFTER_SUCCESS" }
+function ContactLoadingIndicator() {
+  const [dotCount, setDotCount] = useState(1)
 
-function formReducer(state: FormState, action: FormAction): FormState {
-  switch (action.type) {
-    case "SET_STATUS":
-      return { ...state, status: action.status }
-    case "SET_TURNSTILE":
-      return { ...state, turnstileVerified: action.verified }
-    case "TICK_DOT":
-      return { ...state, dotCount: (state.dotCount + 1) % 3 }
-    case "RESET_AFTER_SUCCESS":
-      return { ...state, status: "success", turnstileVerified: false }
-    default:
-      return state
-  }
+  useEffect(() => {
+    const intervalId = window.setInterval(() => setDotCount((count) => (count % 3) + 1), 400)
+    return () => window.clearInterval(intervalId)
+  }, [])
+
+  return (
+    <div
+      aria-live="polite"
+      className="loading-appear [grid-area:1/1] flex min-h-[300px] items-center justify-center"
+    >
+      <p className="text-muted-foreground text-sm">
+        Loading<span aria-hidden="true">{".".repeat(dotCount)}</span>
+      </p>
+    </div>
+  )
 }
 
 // Render the contact form and report the server submission result.
 export const ContactForm = () => {
-  const [state, dispatch] = useReducer(formReducer, {
-    status: "idle",
-    turnstileVerified: false,
-    dotCount: 0,
-  })
+  const [status, setStatus] = useState<ContactFormStatus>("idle")
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
 
   const turnstileRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
 
-  const dots = ".".repeat(state.dotCount + 1)
-
   const form = useForm<z.infer<typeof clientContactFormSchema>>({
     resolver: zodResolver(clientContactFormSchema),
     defaultValues: { name: "", email: "", message: "" },
-    mode: "onBlur",
+    // Clear corrected errors while typing so the submit button does not move on blur.
+    mode: "onTouched",
   })
 
-  const watchedValues = form.watch()
+  const watchedValues = useWatch({ control: form.control })
   const isFormValid = clientContactFormSchema.safeParse(watchedValues).success
 
   const renderTurnstileWidget = useCallback(() => {
     const container = turnstileRef.current
-    if (!container || !window.turnstile || widgetIdRef.current) return
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+    if (!container || !window.turnstile || widgetIdRef.current || !siteKey) return
     widgetIdRef.current = window.turnstile.render(container, {
-      sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!,
+      sitekey: siteKey,
       theme: "auto",
-      callback: () => dispatch({ type: "SET_TURNSTILE", verified: true }),
-      "expired-callback": () => dispatch({ type: "SET_TURNSTILE", verified: false }),
-      "error-callback": () => dispatch({ type: "SET_TURNSTILE", verified: false }),
+      callback: (token: string) => setTurnstileToken(token),
+      "expired-callback": () => setTurnstileToken(null),
+      "error-callback": () => setTurnstileToken(null),
     })
   }, [])
 
@@ -96,14 +88,8 @@ export const ContactForm = () => {
     }
   }, [renderTurnstileWidget])
 
-  useEffect(() => {
-    if (state.status !== "submitting") return
-    const id = setInterval(() => dispatch({ type: "TICK_DOT" }), 400)
-    return () => clearInterval(id)
-  }, [state.status])
-
   const onSubmit = async (data: z.infer<typeof clientContactFormSchema>) => {
-    dispatch({ type: "SET_STATUS", status: "submitting" })
+    setStatus("submitting")
 
     try {
       const formData = new FormData()
@@ -111,20 +97,17 @@ export const ContactForm = () => {
       formData.append("email", data.email)
       formData.append("message", data.message)
 
-      const turnstileInput = turnstileRef.current?.querySelector<HTMLInputElement>(
-        'input[name="cf-turnstile-response"]',
-      )
-
-      if (turnstileInput?.value) {
-        formData.append("cf-turnstile-response", turnstileInput.value)
+      if (turnstileToken) {
+        formData.append("cf-turnstile-response", turnstileToken)
       }
 
       await submitContactForm(formData)
-      dispatch({ type: "RESET_AFTER_SUCCESS" })
+      setStatus("success")
+      setTurnstileToken(null)
       form.reset()
     } catch {
       // Report rejected contact submissions without showing premature success.
-      dispatch({ type: "SET_STATUS", status: "error" })
+      setStatus("error")
     }
   }
 
@@ -164,7 +147,7 @@ export const ContactForm = () => {
         <div
           aria-live="polite"
           className="flex min-h-[300px] flex-col items-center justify-center gap-4"
-          style={{ display: state.status === "success" ? "flex" : "none" }}
+          style={{ display: status === "success" ? "flex" : "none" }}
         >
           <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
           <p className="text-center text-green-600 dark:text-green-400">
@@ -175,7 +158,7 @@ export const ContactForm = () => {
         <div
           role="alert"
           className="flex min-h-[300px] flex-col items-center justify-center gap-4"
-          style={{ display: state.status === "error" ? "flex" : "none" }}
+          style={{ display: status === "error" ? "flex" : "none" }}
         >
           <CircleX className="size-12 text-red-600 dark:text-red-400" />
           <p className="text-center text-red-600 dark:text-red-400">
@@ -185,22 +168,15 @@ export const ContactForm = () => {
 
         <div
           style={{
-            display: state.status === "success" || state.status === "error" ? "none" : undefined,
+            display: status === "success" || status === "error" ? "none" : undefined,
           }}
         >
-          <div style={{ display: state.status === "submitting" ? "grid" : undefined }}>
-            {state.status === "submitting" && (
-              <div
-                aria-live="polite"
-                className="loading-appear [grid-area:1/1] flex min-h-[300px] items-center justify-center"
-              >
-                <p className="text-muted-foreground text-sm">Loading{dots}</p>
-              </div>
-            )}
+          <div style={{ display: status === "submitting" ? "grid" : undefined }}>
+            {status === "submitting" && <ContactLoadingIndicator />}
             <div
-              className={state.status === "submitting" ? "form-scan-clip [grid-area:1/1]" : ""}
+              className={status === "submitting" ? "form-scan-clip [grid-area:1/1]" : ""}
               style={
-                state.status === "submitting"
+                status === "submitting"
                   ? {
                       backgroundColor: "var(--card)",
                     }
@@ -248,15 +224,15 @@ export const ContactForm = () => {
                 <Button
                   type="submit"
                   className="w-full"
-                  disabled={state.status !== "idle" || !isFormValid || !state.turnstileVerified}
+                  disabled={status !== "idle" || !isFormValid || !turnstileToken}
                 >
-                  {state.status === "submitting" ? "Sending..." : "Send Message"}
+                  {status === "submitting" ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </div>
           </div>
         </div>
-        {state.status === "submitting" && (
+        {status === "submitting" && (
           <div className="scanner-overlay">
             <div className="scanner-line" />
           </div>
