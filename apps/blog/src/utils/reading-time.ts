@@ -45,14 +45,16 @@ export const extractText = (blocks: PortableTextBlock[] | undefined): string => 
 }
 
 /**
- * Calculate reading time in minutes from Portable Text content
+ * Calculate reading time and word count with one Portable Text extraction.
  */
-export const getReadingTime = (content: PortableTextBlock[] | undefined): number => {
+export const getReadingStats = (content: PortableTextBlock[] | undefined) => {
   const text = extractText(content)
   const cjkCharacterCount = countCjkCharacters(text)
-  const wordCount = countWords(text.replace(CJK_CHARACTER_REGEX, " "))
+  const wordCount = countWords(text)
+  const readingWordCount =
+    cjkCharacterCount === 0 ? wordCount : countWords(text.replace(CJK_CHARACTER_REGEX, " "))
   const minutes = Math.ceil(
-    wordCount / WORDS_PER_MINUTE + cjkCharacterCount / CJK_CHARACTERS_PER_MINUTE,
+    readingWordCount / WORDS_PER_MINUTE + cjkCharacterCount / CJK_CHARACTERS_PER_MINUTE,
   )
-  return Math.max(1, minutes)
+  return { readingTime: Math.max(1, minutes), wordCount }
 }

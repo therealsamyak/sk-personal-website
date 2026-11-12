@@ -3,23 +3,24 @@ export const prerender = false;
 
 import { getEmDashCollection } from "emdash";
 import Base from "../layouts/Base.astro";
-import { getReadingTime, extractText } from "../utils/reading-time";
+import { getReadingStats, extractText } from "../utils/reading-time";
 
 const query = Astro.url.searchParams.get("q")?.trim() || "";
 
-const { entries: allPosts } = await getEmDashCollection("posts");
+const { entries: allPosts } = query
+	? await getEmDashCollection("posts")
+	: { entries: [] };
+const normalizedQuery = query.toLowerCase();
 
 // Simple search: match query against title, excerpt, and content
 function matchesQuery(post: (typeof allPosts)[0], q: string): boolean {
 	if (!q) return false;
-	const lower = q.toLowerCase();
 	const title = (post.data.title || "").toLowerCase();
 	const excerpt = (post.data.excerpt || "").toLowerCase();
+	if (title.includes(q) || excerpt.includes(q)) return true;
 	// Extract plain text from portable text blocks (avoids matching on _type, _key, etc.)
 	const content = extractText(post.data.content).toLowerCase();
-	return (
-		title.includes(lower) || excerpt.includes(lower) || content.includes(lower)
-	);
+	return content.includes(q);
 }
 
 function formatDate(date: Date | undefined): string {
@@ -31,7 +32,9 @@ function formatDate(date: Date | undefined): string {
 	});
 }
 
-const results = query ? allPosts.filter((p) => matchesQuery(p, query)) : [];
+const results = allPosts
+	.filter((post) => matchesQuery(post, normalizedQuery))
+	.map((post) => ({ post, readingTime: getReadingStats(post.data.content).readingTime }));
 ---
 
 <Base
@@ -71,7 +74,7 @@ const results = query ? allPosts.filter((p) => matchesQuery(p, query)) : [];
 		{
 			results.length > 0 && (
 				<div class="flex flex-col gap-8">
-					{results.map((post) => (
+					{results.map(({ post, readingTime }) => (
 						<a
 							href={`/posts/${post.id}`}
 							class="ledger-row block p-4 -mx-4 no-underline"
@@ -86,8 +89,8 @@ const results = query ? allPosts.filter((p) => matchesQuery(p, query)) : [];
 							)}
 							<span class="mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
 								{formatDate(post.data.publishedAt ?? undefined)}
-								{getReadingTime(post.data.content) && (
-									<> · {getReadingTime(post.data.content)}</>
+								{readingTime && (
+									<> · {readingTime}</>
 								)}
 							</span>
 						</a>

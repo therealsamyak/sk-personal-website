@@ -1,40 +1,48 @@
 ---
 import {
 	getEmDashCollection,
-	getEntryTerms,
+	getTermsForEntries,
 	getSiteSettings,
-	getTaxonomyTerms,
+	getTaxonomyTermsWithCacheHint,
 } from "emdash";
 import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
-import { getReadingTime, extractText } from "../utils/reading-time";
+import { getReadingStats } from "../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
 
 const categoryParam = Astro.url.searchParams.get("category");
-const categories = await getTaxonomyTerms("category");
+const [
+	{ data: categories, cacheHint: taxonomyCacheHint },
+	{ entries: allPosts, cacheHint },
+	siteSettings,
+] = await Promise.all([
+	getTaxonomyTermsWithCacheHint("category", { includeCounts: false }),
+	getEmDashCollection("posts", { orderBy: { published_at: "desc" } }),
+	getSiteSettings(),
+]);
 const activeTerm = categoryParam
 	? categories.find(
 			(t) => t.label.toLowerCase() === categoryParam.toLowerCase(),
 		)
 	: null;
 
-const queryOpts: Record<string, unknown> = {
-	orderBy: { published_at: "desc" },
-};
-if (activeTerm) {
-	queryOpts.where = { category: activeTerm.slug };
-}
-
-const { entries: posts, cacheHint } = await getEmDashCollection(
+// EmDash hydrates entry terms with the collection; reuse those cached terms.
+const termsByPost = await getTermsForEntries(
 	"posts",
-	queryOpts,
+	allPosts.map((post) => post.data.id),
+	"category",
 );
+const posts = activeTerm
+	? allPosts.filter((post) =>
+			termsByPost.get(post.data.id)?.some((term) => term.slug === activeTerm.slug),
+		)
+	: allPosts;
+const { siteTitle, siteTagline } = resolveBlogSiteIdentity(siteSettings);
 
-const { siteTitle, siteTagline } = resolveBlogSiteIdentity(
-	await getSiteSettings(),
-);
-
-Astro.cache.set(cacheHint);
+Astro.cache.set({
+	...cacheHint,
+	tags: [...(cacheHint.tags ?? []), ...(taxonomyCacheHint.tags ?? [])],
+});
 
 const sortedPosts = posts.toSorted((a, b) => {
 	const dateA = a.data.publishedAt?.getTime() ?? 0;
@@ -42,32 +50,31 @@ const sortedPosts = posts.toSorted((a, b) => {
 	return dateB - dateA;
 });
 
-const enrichedPosts = await Promise.all(
-	sortedPosts.map(async (post) => {
-		const terms = await getEntryTerms("posts", post.data.id, "category");
-		const bylines = post.data.bylines ?? [];
-		const wordCount = extractText(post.data.content)
-			.split(/\s+/)
-			.filter(Boolean).length;
-		return {
-			post,
-			categories: terms.map((t) => ({ slug: t.slug, label: t.label })),
-			bylines,
-			readTime: getReadingTime(post.data.content),
-			wordCount,
-		};
-	}),
-);
+const enrichedPosts = sortedPosts.map((post) => {
+	const terms = termsByPost.get(post.data.id) ?? [];
+	const bylines = post.data.bylines ?? [];
+	const { readingTime, wordCount } = getReadingStats(post.data.content);
+	return {
+		post,
+		categories: terms.map((t) => ({ slug: t.slug, label: t.label })),
+		bylines,
+		readTime: readingTime,
+		wordCount,
+	};
+});
 
-const { entries: allPosts } = await getEmDashCollection("posts");
-
+// Count only the posts already loaded for this request, including preview visibility.
+const countsBySlug = new Map<string, number>();
+for (const post of allPosts) {
+	const slugs = new Set((termsByPost.get(post.data.id) ?? []).map((term) => term.slug));
+	for (const slug of slugs) {
+		countsBySlug.set(slug, (countsBySlug.get(slug) ?? 0) + 1);
+	}
+}
 const categoryCounts = new Map<string, number>();
 categoryCounts.set("All", allPosts.length);
 for (const cat of categories) {
-	const { entries: catPosts } = await getEmDashCollection("posts", {
-		where: { category: cat.slug },
-	});
-	categoryCounts.set(cat.label, catPosts.length);
+	categoryCounts.set(cat.label, countsBySlug.get(cat.slug) ?? 0);
 }
 
 const [featured, ...rest] = enrichedPosts;

@@ -2,14 +2,17 @@ import type { APIRoute } from "astro"
 import { getEmDashCollection, getSiteSettings } from "emdash"
 import { resolveBlogSiteIdentity } from "../utils/site-identity"
 
+// Generate the RSS feed from independent post and site settings reads.
 export const GET: APIRoute = async ({ site, url }) => {
   const siteUrl = site?.toString() || url.origin
-  const { siteTitle, siteTagline } = resolveBlogSiteIdentity(await getSiteSettings())
-
-  const { entries: posts } = await getEmDashCollection("posts", {
-    orderBy: { published_at: "desc" },
-    limit: 20,
-  })
+  const [siteSettings, { entries: posts }] = await Promise.all([
+    getSiteSettings(),
+    getEmDashCollection("posts", {
+      orderBy: { published_at: "desc" },
+      limit: 20,
+    }),
+  ])
+  const { siteTitle, siteTagline } = resolveBlogSiteIdentity(siteSettings)
 
   const items = posts
     .flatMap((post) => {

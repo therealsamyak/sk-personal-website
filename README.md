@@ -20,7 +20,7 @@ cp apps/web/.env.example apps/web/.env.development
 cp apps/blog/.env.example apps/blog/.env.development
 ```
 
-Use pnpm 11.28.10 to install dependencies. The project pins Node.js 26.13.0 through `devEngines.runtime`.
+Use pnpm 12.18.0 to install dependencies. The project pins Node.js 26.13.0 through `devEngines.runtime`.
 When your Node.js version differs, pnpm downloads the project runtime. Your global Node.js installation stays unchanged.
 
 Install dependencies:
@@ -33,6 +33,10 @@ The blog's generated EmDash schema types are committed in `apps/blog/emdash-env.
 Builds use this file without a running CMS or access to the production database.
 When the local CMS regenerates this file after schema changes, commit the updated declarations with those changes.
 The blog uses TypeScript 6 because Astro checking requires the TypeScript programmatic API.
+
+Run `pnpm typecheck` to check both applications. The website uses Oxc tsrs; the blog uses Astro checking for `.astro` templates.
+`pnpm check` and the Lefthook pre-commit hook also run these project checks.
+The tsrs version respects the existing release-age policy; no package-age exclusions are added.
 
 Run the build and dev commands to get started:
 

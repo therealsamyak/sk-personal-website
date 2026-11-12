@@ -12,7 +12,7 @@ import {
 } from "emdash/ui";
 import { Comments, CommentForm } from "emdash/ui/comments";
 import Base from "../../layouts/Base.astro";
-import { getReadingTime, extractText } from "../../utils/reading-time";
+import { getReadingStats } from "../../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../../utils/site-identity";
 
 const slug = decodeSlug(Astro.params.slug);
@@ -48,7 +48,12 @@ function getImageUrl(img: unknown): string | undefined {
 	return undefined;
 }
 const featuredImageUrl = getImageUrl(post.data.featured_image);
-const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
+// post.data.id is the database ULID; post.id is the slug.
+const [siteSettings, categories] = await Promise.all([
+	getSiteSettings(),
+	getEntryTerms("posts", post.data.id, "category"),
+]);
+const { siteTitle } = resolveBlogSiteIdentity(siteSettings);
 
 // Generate SEO meta from content
 const seo = getSeoMeta(post, {
@@ -58,15 +63,11 @@ const seo = getSeoMeta(post, {
 	defaultOgImage: featuredImageUrl,
 });
 
-// Note: post.id is the slug, post.data.id is the database ULID
-const categories = await getEntryTerms("posts", post.data.id, "category");
 const category = categories[0];
 
 const authorName = (post.data.bylines ?? []).map((c: { byline: { displayName: string } }) => c.byline.displayName).join(", ") || "SK";
 
-const readingTime = getReadingTime(post.data.content);
-const plainText = extractText(post.data.content);
-const wordCount = plainText ? plainText.split(/\s+/).filter(Boolean).length : 0;
+const { readingTime, wordCount } = getReadingStats(post.data.content);
 const wordsFormatted = wordCount.toLocaleString("en-US");
 
 const publishDate =
