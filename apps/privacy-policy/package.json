@@ -10,7 +10,7 @@
     "cf-deploy": "cf deploy --no-provision"
   },
   "devDependencies": {
-    "cf": "1.0.0-beta.28",
+    "cf": "1.0.0-beta.29",
     "wrangler": "^4.160.0"
   },
   "portless": {
