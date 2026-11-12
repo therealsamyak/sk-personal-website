@@ -158,23 +158,9 @@ html > body[data-scroll-locked] {
 
 /* View Transitions - Prevent Layout Shift */
 @layer utilities {
-  /* Ensure consistent sizing for transitioning elements */
-  [style*="view-transition-name: profile-image"] {
-    flex-shrink: 0;
-    contain: layout size;
-  }
-
-  [style*="view-transition-name: profile-name"] {
-    contain: layout;
-  }
-
-  [style*="view-transition-name: social-links"] {
-    contain: layout;
-  }
-
-  /* Smooth view transitions */
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
+  /* Smooth page transitions */
+  ::view-transition-old(page),
+  ::view-transition-new(page) {
     animation-duration: 0.3s;
     animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
@@ -218,6 +204,13 @@ html > body[data-scroll-locked] {
 
 /* Reduced motion keeps submission feedback visible without an animation callback. */
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
   .scanner-overlay,
   .scanner-line,
   .form-scan-clip,

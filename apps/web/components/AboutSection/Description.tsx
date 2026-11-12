@@ -1,4 +1,4 @@
-import { Link } from "next-view-transitions"
+import Link from "next/link"
 
 export const Description = () => (
   <p className="mx-auto max-w-[700px] text-zinc-500 text-sm md:text-base dark:text-zinc-400">

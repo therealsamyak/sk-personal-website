@@ -37,26 +37,10 @@ export const ThemeToggle = () => {
       return
     }
 
-    const profileTransitionNames = ["profile-image", "profile-name", "social-links"]
-    const savedStyles: Array<{ element: HTMLElement; name: string }> = []
-
-    profileTransitionNames.forEach((name) => {
-      const elements = document.querySelectorAll(`[style*="view-transition-name: ${name}"]`)
-      elements.forEach((element) => {
-        const htmlElement = element as HTMLElement
-        savedStyles.push({ element: htmlElement, name })
-        htmlElement.style.viewTransitionName = ""
-      })
-    })
-
     root.style.viewTransitionName = "theme-switch"
 
     // oxlint-disable-next-line react-doctor/no-document-start-view-transition
     document.startViewTransition(callback).finished.then(() => {
-      savedStyles.forEach(({ element, name }) => {
-        element.style.viewTransitionName = name
-      })
-
       root.style.viewTransitionName = ""
     })
   }
