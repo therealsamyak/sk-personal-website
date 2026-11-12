@@ -57,7 +57,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           {`(function(){try{var t=localStorage.getItem("theme");if(!t||t==="system"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t}catch(e){}})()`}
         </Script>
       </head>
-      <body className="min-h-screen min-w-[300px] bg-background font-sans antialiased">
+      <body className="min-h-dvh min-w-[300px] bg-background font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -65,7 +65,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           disableTransitionOnChange
         >
           <ViewTransition name="page" default="none" update="auto">
-            <div className="flex min-h-screen flex-col bg-background">
+            <div className="flex min-h-dvh flex-col bg-background">
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />
