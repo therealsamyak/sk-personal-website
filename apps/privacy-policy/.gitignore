@@ -1,15 +1,2 @@
-# This app's hand-authored Cloudflare deployment files are source, not build output.
-!.cloudflare/
-.cloudflare/*
-!.cloudflare/output/
-.cloudflare/output/*
-!.cloudflare/output/v0/
-.cloudflare/output/v0/*
-!.cloudflare/output/v0/config.json
-!.cloudflare/output/v0/workers/
-.cloudflare/output/v0/workers/*
-!.cloudflare/output/v0/workers/default/
-.cloudflare/output/v0/workers/default/*
-!.cloudflare/output/v0/workers/default/worker.config.json
-!.cloudflare/output/v0/workers/default/assets/
-!.cloudflare/output/v0/workers/default/bundle/
+node_modules/
+.cloudflare/
