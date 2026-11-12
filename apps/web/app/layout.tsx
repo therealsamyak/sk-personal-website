@@ -1,28 +1,12 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google"
 import Script from "next/script"
 import { ViewTransitions } from "next-view-transitions"
 import { CookieBanner } from "@/components/CookieBanner"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { PolicyStackProvider } from "@/app/providers"
-import { cn } from "@/lib/utils"
 import "./globals.css"
+import "./font-subsets.css"
 import type React from "react"
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-})
 
 export const metadata: Metadata = {
   title: "SK - Software Engineer",
@@ -60,18 +44,20 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en" suppressHydrationWarning className={jetbrainsMono.variable}>
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <link
+          rel="preload"
+          href="/fonts/web-jetbrains-core.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <Script id="theme-script" strategy="beforeInteractive">
           {`(function(){try{var t=localStorage.getItem("theme");if(!t||t==="system"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t}catch(e){}})()`}
         </Script>
       </head>
-      <body
-        className={cn(
-          "min-h-screen min-w-[300px] bg-background font-sans antialiased",
-          `${geistSans.variable} ${geistMono.variable}`,
-        )}
-      >
+      <body className="min-h-screen min-w-[300px] bg-background font-sans antialiased">
         <ViewTransitions>
           <ThemeProvider
             attribute="class"
