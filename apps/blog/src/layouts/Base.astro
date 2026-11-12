@@ -10,8 +10,7 @@ import { createPublicPageContext } from "emdash/page";
 import LiveSearch from "emdash/ui/search";
 import "../styles/font-subsets.css";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
-import CookieBanner from "../components/CookieBanner.astro";
-	import ConsentGatedUmamiAnalytics from "../components/ConsentGatedUmamiAnalytics.astro";
+import UmamiAnalytics from "../components/UmamiAnalytics.astro";
 import "../styles/index.css";
 
 interface Props {
@@ -240,8 +239,6 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 				</div>
 				<div class="flex flex-wrap items-center gap-4">
 					<a href="/privacy" class="mono mt-4 text-[11px] underline underline-offset-4 hover:text-accent">Privacy</a>
-					<a href="/cookie-policy" class="mono mt-4 text-[11px] underline underline-offset-4 hover:text-accent">Cookies</a>
-					<button type="button" data-cookie-preferences class="mono mt-4 text-[11px] underline underline-offset-4 hover:text-accent">Cookie preferences</button>
 				</div>
 				<WidgetArea name="footer" />
 			</div>
@@ -386,7 +383,6 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 
 		<EmDashBodyEnd page={pageCtx} />
 
-		<ConsentGatedUmamiAnalytics />
-		<CookieBanner />
+		<UmamiAnalytics />
 	</body>
 </html>

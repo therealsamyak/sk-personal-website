@@ -158,23 +158,9 @@ html > body[data-scroll-locked] {
 
 /* View Transitions - Prevent Layout Shift */
 @layer utilities {
-  /* Ensure consistent sizing for transitioning elements */
-  [style*="view-transition-name: profile-image"] {
-    flex-shrink: 0;
-    contain: layout size;
-  }
-
-  [style*="view-transition-name: profile-name"] {
-    contain: layout;
-  }
-
-  [style*="view-transition-name: social-links"] {
-    contain: layout;
-  }
-
-  /* Smooth view transitions */
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
+  /* Smooth page transitions */
+  ::view-transition-old(page),
+  ::view-transition-new(page) {
     animation-duration: 0.3s;
     animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
@@ -208,8 +194,23 @@ html > body[data-scroll-locked] {
   }
 }
 
-/* Reduced motion support for scanner animation and error shake */
+.form-scan-clip {
+  animation: formScanClip 800ms ease-in-out forwards;
+}
+
+.loading-appear {
+  animation: loadingAppear 800ms ease-in-out forwards;
+}
+
+/* Reduced motion keeps submission feedback visible without an animation callback. */
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
   .scanner-overlay,
   .scanner-line,
   .form-scan-clip,
@@ -217,12 +218,9 @@ html > body[data-scroll-locked] {
     animation: none !important;
   }
 
+  .scanner-overlay,
   .form-scan-clip {
-    animation: formScanClip 2s ease-in-out forwards;
-  }
-
-  .loading-appear {
-    animation: loadingAppear 2s ease-in-out forwards;
+    visibility: hidden;
   }
 
   .form-error-shake {
@@ -358,4 +356,45 @@ html > body[data-scroll-locked] {
 ::view-transition-new(theme-switch) {
   /* Apply the reveal animation */
   animation: reveal 0.4s ease-in-out forwards;
+}
+
+/* Policy documents share the website's typography, spacing, and color tokens. */
+[data-privacy-policy] {
+  @apply mx-auto max-w-4xl px-6 py-10 leading-7 wrap-anywhere;
+}
+
+[data-privacy-policy] h1 {
+  @apply text-3xl font-bold leading-tight;
+}
+
+[data-privacy-policy] h2 {
+  @apply mt-8 text-2xl font-semibold leading-7;
+}
+
+[data-privacy-policy] h3 {
+  @apply mt-6 text-lg font-semibold;
+}
+
+[data-privacy-policy] :is(p, ul, ol) {
+  @apply mt-4;
+}
+
+[data-privacy-policy] :is(ul, ol) {
+  @apply pl-6;
+}
+
+[data-privacy-policy] ul {
+  @apply list-disc;
+}
+
+[data-privacy-policy] ol {
+  @apply list-decimal;
+}
+
+[data-privacy-policy] li + li {
+  @apply mt-2;
+}
+
+[data-privacy-policy] a {
+  @apply text-primary underline underline-offset-4;
 }

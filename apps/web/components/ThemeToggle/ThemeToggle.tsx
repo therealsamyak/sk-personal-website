@@ -3,11 +3,12 @@
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
+// Toggle between the resolved light and dark themes.
 export const ThemeToggle = () => {
-  const { setTheme, theme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
 
   const setRippleCoordinates = (event: React.MouseEvent) => {
-    const rect = (event.target as HTMLElement).getBoundingClientRect()
+    const rect = event.currentTarget.getBoundingClientRect()
     const coords = {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2,
@@ -21,38 +22,25 @@ export const ThemeToggle = () => {
   }
 
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light"
+    const newTheme = resolvedTheme === "light" ? "dark" : "light"
     setTheme(newTheme)
   }
 
   const handleViewTransition = (callback: () => void) => {
     const root = document.documentElement
 
-    if (!document.startViewTransition) {
+    if (
+      !document.startViewTransition ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       callback()
       return
     }
-
-    const profileTransitionNames = ["profile-image", "profile-name", "social-links"]
-    const savedStyles: Array<{ element: HTMLElement; name: string }> = []
-
-    profileTransitionNames.forEach((name) => {
-      const elements = document.querySelectorAll(`[style*="view-transition-name: ${name}"]`)
-      elements.forEach((element) => {
-        const htmlElement = element as HTMLElement
-        savedStyles.push({ element: htmlElement, name })
-        htmlElement.style.viewTransitionName = ""
-      })
-    })
 
     root.style.viewTransitionName = "theme-switch"
 
     // oxlint-disable-next-line react-doctor/no-document-start-view-transition
     document.startViewTransition(callback).finished.then(() => {
-      savedStyles.forEach(({ element, name }) => {
-        element.style.viewTransitionName = name
-      })
-
       root.style.viewTransitionName = ""
     })
   }

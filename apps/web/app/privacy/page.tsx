@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { PrivacyPolicyView } from "./PrivacyPolicyView"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - SK",
+  title: "Privacy - SK",
 }
 
 export default function PrivacyPolicyPage() {

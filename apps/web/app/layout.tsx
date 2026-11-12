@@ -1,12 +1,12 @@
 import type { Metadata } from "next"
 import Script from "next/script"
-import { ViewTransitions } from "next-view-transitions"
-import { CookieBanner } from "@/components/CookieBanner"
+import { Footer } from "@/components/Footer"
+import { Header } from "@/components/Header"
 import { ThemeProvider } from "@/components/ThemeProvider"
-import { PolicyStackProvider } from "@/app/providers"
+import { UmamiAnalytics } from "@/components/UmamiAnalytics/UmamiAnalytics"
 import "./globals.css"
 import "./font-subsets.css"
-import type React from "react"
+import { Suspense, ViewTransition, type ReactNode } from "react"
 
 export const metadata: Metadata = {
   title: "SK - Software Engineer",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
 }
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -58,19 +58,23 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         </Script>
       </head>
       <body className="min-h-screen min-w-[300px] bg-background font-sans antialiased">
-        <ViewTransitions>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <PolicyStackProvider>
-              {children}
-              <CookieBanner />
-            </PolicyStackProvider>
-          </ThemeProvider>
-        </ViewTransitions>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ViewTransition name="page" default="none" update="auto">
+            <div className="flex min-h-screen flex-col bg-background">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </ViewTransition>
+          <Suspense fallback={null}>
+            <UmamiAnalytics />
+          </Suspense>
+        </ThemeProvider>
       </body>
     </html>
   )

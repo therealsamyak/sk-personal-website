@@ -7,7 +7,6 @@ node_modules/
 coverage
 
 # Next.js
-.open-next/
 .next/
 out/
 
@@ -113,3 +112,6 @@ opensrc/
 
 # Cloudflare build output and generated types
 .cloudflare/
+
+# Vinext generated build metadata
+.vinext/

@@ -13,11 +13,6 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "@/*": ["./*"],
       "@/components/*": ["./components/*"],
@@ -25,15 +20,10 @@
       "@/hooks/*": ["./hooks/*"],
       "@/ui/*": ["./components/ui/*"],
       "@/config/*": ["./config/*"]
-    }
+    },
+    "types": ["vinext/types", "vite/client"],
+    "allowImportingTsExtensions": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.mts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
+  "include": ["**/*.ts", "**/*.mts", "**/*.tsx", ".cloudflare/types/**/*.d.ts"],
   "exclude": ["node_modules", "opensrc"]
 }

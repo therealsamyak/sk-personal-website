@@ -9,8 +9,18 @@ const sanitizeInput = (input: string): string => {
     .join("")
 }
 
+// Escape contact text for HTML email bodies without changing plain-text subjects.
+export const escapeContactHtml = (input: string): string =>
+  input
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;")
+
+// Sanitize contact text without applying output-specific HTML encoding.
 export const sanitizeContactData = (data: { name: string; email: string; message: string }) => ({
   name: sanitizeInput(data.name),
-  email: sanitizeInput(data.email),
+  email: data.email.trim(),
   message: sanitizeInput(data.message),
 })

@@ -51,6 +51,7 @@ function formReducer(state: FormState, action: FormAction): FormState {
   }
 }
 
+// Render the contact form and report the server submission result.
 export const ContactForm = () => {
   const [state, dispatch] = useReducer(formReducer, {
     status: "idle",
@@ -60,9 +61,6 @@ export const ContactForm = () => {
 
   const turnstileRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
-  const formAreaRef = useRef<HTMLDivElement>(null)
-  const successViewRef = useRef<HTMLDivElement>(null)
-  const errorViewRef = useRef<HTMLDivElement>(null)
 
   const dots = ".".repeat(state.dotCount + 1)
 
@@ -122,45 +120,11 @@ export const ContactForm = () => {
       }
 
       await submitContactForm(formData)
+      dispatch({ type: "RESET_AFTER_SUCCESS" })
+      form.reset()
     } catch {
-      // Instant DOM swap — bypass React re-render delay
-      if (formAreaRef.current) formAreaRef.current.style.display = "none"
-      if (errorViewRef.current) errorViewRef.current.style.display = "flex"
+      // Report rejected contact submissions without showing premature success.
       dispatch({ type: "SET_STATUS", status: "error" })
-    }
-  }
-
-  const stateRef = useRef(state.status)
-  stateRef.current = state.status
-
-  const handleScanComplete = () => {
-    if (stateRef.current !== "submitting") return
-
-    // Instant DOM swap — bypass React re-render delay
-    if (formAreaRef.current) formAreaRef.current.style.display = "none"
-    if (successViewRef.current) successViewRef.current.style.display = "flex"
-
-    dispatch({ type: "RESET_AFTER_SUCCESS" })
-    form.reset()
-
-    if (window.turnstile) {
-      if (widgetIdRef.current) {
-        try {
-          window.turnstile.remove(widgetIdRef.current)
-        } catch {
-          /* widget may already be removed */
-        }
-        widgetIdRef.current = null
-      }
-      const container = turnstileRef.current
-      if (container && window.turnstile.render) {
-        widgetIdRef.current = window.turnstile.render(container, {
-          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!,
-          theme: "auto",
-          callback: () => dispatch({ type: "SET_TURNSTILE", verified: true }),
-          "error-callback": () => dispatch({ type: "SET_TURNSTILE", verified: false }),
-        })
-      }
     }
   }
 
@@ -198,7 +162,7 @@ export const ContactForm = () => {
       </svg>
       <Card className="p-6 relative overflow-hidden">
         <div
-          ref={successViewRef}
+          aria-live="polite"
           className="flex min-h-[300px] flex-col items-center justify-center gap-4"
           style={{ display: state.status === "success" ? "flex" : "none" }}
         >
@@ -209,7 +173,7 @@ export const ContactForm = () => {
         </div>
 
         <div
-          ref={errorViewRef}
+          role="alert"
           className="flex min-h-[300px] flex-col items-center justify-center gap-4"
           style={{ display: state.status === "error" ? "flex" : "none" }}
         >
@@ -220,7 +184,6 @@ export const ContactForm = () => {
         </div>
 
         <div
-          ref={formAreaRef}
           style={{
             display: state.status === "success" || state.status === "error" ? "none" : undefined,
           }}
@@ -228,18 +191,17 @@ export const ContactForm = () => {
           <div style={{ display: state.status === "submitting" ? "grid" : undefined }}>
             {state.status === "submitting" && (
               <div
-                className="[grid-area:1/1] flex min-h-[300px] items-center justify-center"
-                style={{ animation: "loadingAppear 800ms ease-in-out forwards" }}
+                aria-live="polite"
+                className="loading-appear [grid-area:1/1] flex min-h-[300px] items-center justify-center"
               >
                 <p className="text-muted-foreground text-sm">Loading{dots}</p>
               </div>
             )}
             <div
-              className={state.status === "submitting" ? "[grid-area:1/1]" : ""}
+              className={state.status === "submitting" ? "form-scan-clip [grid-area:1/1]" : ""}
               style={
                 state.status === "submitting"
                   ? {
-                      animation: "formScanClip 800ms ease-in-out forwards",
                       backgroundColor: "var(--card)",
                     }
                   : undefined
@@ -296,7 +258,7 @@ export const ContactForm = () => {
         </div>
         {state.status === "submitting" && (
           <div className="scanner-overlay">
-            <div className="scanner-line" onAnimationEnd={handleScanComplete} />
+            <div className="scanner-line" />
           </div>
         )}
       </Card>
