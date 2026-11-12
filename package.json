@@ -9,7 +9,8 @@
     "cf-deploy-website": "pnpm --filter web deploy",
     "cf-deploy-blog": "pnpm --filter blog cf-deploy",
     "prepare": "lefthook install",
-    "typecheck": "pnpm --filter web typecheck && pnpm --filter blog typecheck"
+    "typecheck": "pnpm --filter web typecheck && pnpm --filter blog typecheck && pnpm --filter privacy-policy typecheck",
+    "cf-deploy-privacy": "pnpm --filter privacy-policy cf-deploy"
   },
   "devDependencies": {
     "lefthook": "^2.2.2",

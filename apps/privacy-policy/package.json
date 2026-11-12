@@ -1,0 +1,20 @@
+{
+  "name": "privacy-policy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "portless",
+    "dev:app": "PRIVACY_POLICY_DOMAIN=localhost cf dev --port ${PORT:-8788}",
+    "typecheck": "node --check public/ai-privacy-policy.js",
+    "cf-deploy": "cf deploy --no-provision"
+  },
+  "devDependencies": {
+    "cf": "1.0.0-beta.29",
+    "wrangler": "^4.160.0"
+  },
+  "portless": {
+    "name": "privacy-policy",
+    "script": "dev:app"
+  }
+}
