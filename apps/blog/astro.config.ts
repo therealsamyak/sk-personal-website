@@ -6,6 +6,7 @@ import { defineConfig, fontProviders, memoryCache } from "astro/config"
 import emdash from "emdash/astro"
 import tailwindcss from "@tailwindcss/vite"
 
+// Configure the Astro blog with EmDash and Cloudflare.
 export default defineConfig({
   output: "server",
   adapter: cloudflare({ imageService: { build: "compile", runtime: "cloudflare-binding" } }),
@@ -19,9 +20,6 @@ export default defineConfig({
       database: d1({ binding: "DB", session: "auto" }),
       storage: r2({ binding: "MEDIA" }),
       plugins: [formsPlugin()],
-      // auth: access({
-      //   teamDomain: "samheart564.cloudflareaccess.com",
-      // }),
     }),
   ],
   fonts: [
