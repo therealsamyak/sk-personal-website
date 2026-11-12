@@ -16,7 +16,7 @@
     "oxfmt": "^0.78.0",
     "oxlint": "^1.93.0",
     "portless": "^0.17.0",
-    "tsrs": "0.23.0-ts7.1.0-beta",
+    "tsrs": "0.24.0-ts7.1.0-beta",
     "turbo": "^2.11.10"
   },
   "devEngines": {
