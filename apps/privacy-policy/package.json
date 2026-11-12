@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "portless",
-    "dev:app": "node privacy-dev.js",
-    "typecheck": "node --check .cloudflare/output/v0/workers/default/bundle/index.js && node --check privacy-dev.js",
-    "cf-deploy": "cf deploy --prebuilt --no-provision"
+    "dev:app": "cf dev --port ${PORT:-8788}",
+    "typecheck": "node --check public/ai-privacy-policy.js",
+    "cf-deploy": "cf deploy --no-provision"
   },
   "devDependencies": {
     "cf": "1.0.0-beta.28",
-    "miniflare": "5.20261104.0-beta"
+    "wrangler": "^4.160.0"
   },
   "portless": {
     "name": "privacy-policy",

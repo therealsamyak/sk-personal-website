@@ -5,8 +5,5 @@
   "trailingComma": "all",
   "useTabs": false,
   "tabWidth": 2,
-  "endOfLine": "lf",
-  "ignorePatterns": [
-    "apps/privacy-policy/.cloudflare/output/v0/workers/default/assets/ai-privacy-policy.html"
-  ]
+  "endOfLine": "lf"
 }
