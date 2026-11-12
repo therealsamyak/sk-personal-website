@@ -1,7 +1,7 @@
-import { Linkedin } from "lucide-react"
 import Image from "next/image"
 import { Link } from "next-view-transitions"
 import { siGithub, siX } from "simple-icons"
+import { LinkedInIcon } from "@/components/icons/LinkedInIcon"
 import { personalInfo } from "@/config/site"
 import { Button } from "@/ui/button"
 
@@ -52,7 +52,7 @@ export const AboutSection = () => (
                   <path d={siGithub.path} />
                 </svg>
               )}
-              {social.icon === "siLinkedin" && <Linkedin className="size-3 sm:mr-2" />}
+              {social.icon === "siLinkedin" && <LinkedInIcon className="size-3 sm:mr-2" />}
               {social.icon === "siX" && (
                 <svg className="size-3 sm:mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <title>X (Twitter)</title>

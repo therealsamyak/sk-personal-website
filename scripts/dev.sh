@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Use local .localhost domains for development.
+export PORTLESS_TAILSCALE=0
+export PORTLESS_FUNNEL=0
+
 # Start portless proxy, capturing output to determine if we started it.
 # If the proxy was already running (e.g. from `portless service install`),
 # we leave it alone on exit instead of killing it.

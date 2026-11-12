@@ -1,12 +1,13 @@
 "use client"
 
-import { ExternalLink, Linkedin, Menu, X } from "lucide-react"
+import { ExternalLink, Menu, X } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Link } from "next-view-transitions"
 import { useState } from "react"
 import { siGithub, siX } from "simple-icons"
 import { ThemeToggle } from "@/components/ThemeToggle"
+import { LinkedInIcon } from "@/components/icons/LinkedInIcon"
 import { navigation, personalInfo } from "@/config/site"
 import { Button } from "@/ui/button"
 
@@ -66,7 +67,7 @@ export const Header = () => {
                         <path d={siGithub.path} />
                       </svg>
                     )}
-                    {social.icon === "siLinkedin" && <Linkedin className="size-3" />}
+                    {social.icon === "siLinkedin" && <LinkedInIcon className="size-3" />}
                     {social.icon === "siX" && (
                       <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
                         <title>X (Twitter)</title>
