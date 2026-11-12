@@ -27,6 +27,13 @@ export const verifyTurnstileToken = async (token: string): Promise<TurnstileVeri
       body: formData,
     })
 
+    if (!response.ok) {
+      return {
+        success: false,
+        error: "Bot detected. Refresh page and try again.",
+      }
+    }
+
     const result = z.object({ success: z.boolean() }).parse(await response.json())
 
     if (result.success) {

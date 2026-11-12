@@ -31,12 +31,12 @@ export const AboutSection = () => (
       )}
       <div className="flex flex-col gap-4 px-4">
         <ViewTransition name="profile-name" default="none" share="auto">
-          <h3
+          <h1
             className="text-center font-semibold text-3xl tracking-tight sm:text-5xl"
             style={{ contain: "layout" }}
           >
             {personalInfo.name}
-          </h3>
+          </h1>
         </ViewTransition>
         <Description />
       </div>
@@ -46,12 +46,14 @@ export const AboutSection = () => (
           style={{ contain: "layout" }}
         >
           {personalInfo.socialLinks.map((social) => (
-            <Link key={social.platform} href={social.url} target="_blank">
-              <Button
-                variant="outline"
-                size="lg"
-                className="duolingo-button -translate-y-[4px] transform-gpu shadow-[0px_4px_var(--button-shadow)] transition-all duration-100 ease-out hover:bg-primary/90 active:translate-y-0 active:animate-duolingoButtonPress active:shadow-[0px_0px_var(--button-shadow)]"
-              >
+            <Button
+              asChild
+              key={social.platform}
+              variant="outline"
+              size="lg"
+              className="duolingo-button -translate-y-[4px] transform-gpu shadow-[0px_4px_var(--button-shadow)] transition-[translate,transform,background-color,color,box-shadow,border-color] duration-100 ease-out hover:bg-primary/90 active:translate-y-0 active:animate-duolingoButtonPress active:shadow-[0px_0px_var(--button-shadow)]"
+            >
+              <Link href={social.url} target="_blank" rel="noopener noreferrer">
                 {social.icon === "siGithub" && (
                   <svg className="size-3 sm:mr-2" fill="currentColor" viewBox="0 0 24 24">
                     <title>GitHub</title>
@@ -67,8 +69,8 @@ export const AboutSection = () => (
                 )}
                 <span className="hidden sm:inline">{social.platform}</span>
                 <span className="sr-only">{social.platform}</span>
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           ))}
         </div>
       </ViewTransition>

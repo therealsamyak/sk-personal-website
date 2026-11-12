@@ -7,7 +7,7 @@ export const ExperienceSection = () => (
     <div className="grid gap-8 md:grid-cols-2">
       {/* Education Section */}
       <div className="flex flex-col gap-4">
-        <h4 className="text-center font-semibold text-lg">Education</h4>
+        <h2 className="text-center font-semibold text-lg">Education</h2>
         <div className="flex flex-1 flex-col gap-3">
           <div className="flex-1 rounded-lg border p-4">
             <div className="flex items-center gap-4">
@@ -20,7 +20,7 @@ export const ExperienceSection = () => (
                 className="shrink-0 rounded bg-white object-contain"
               />
               <div className="flex-1 flex flex-col gap-2 text-right">
-                <h5 className="font-medium">University of California, Los Angeles</h5>
+                <h3 className="font-medium">University of California, Los Angeles</h3>
                 <p className="text-zinc-600 text-sm dark:text-zinc-400">
                   Masters of Engineering - IoT Systems
                 </p>
@@ -39,7 +39,7 @@ export const ExperienceSection = () => (
                 className="shrink-0 rounded bg-white object-contain"
               />
               <div className="flex-1 flex flex-col gap-2 text-right">
-                <h5 className="font-medium">University of California, Riverside</h5>
+                <h3 className="font-medium">University of California, Riverside</h3>
                 <p className="text-zinc-600 text-sm dark:text-zinc-400">
                   Bachelor's of Science - Computer Science
                 </p>
@@ -52,7 +52,7 @@ export const ExperienceSection = () => (
 
       {/* Work Experience Section */}
       <div className="flex flex-col gap-4">
-        <h4 className="text-center font-semibold text-lg">Work Experience</h4>
+        <h2 className="text-center font-semibold text-lg">Work Experience</h2>
         <WorkExperienceCarousel />
       </div>
     </div>

@@ -35,25 +35,25 @@ export const Header = () => {
       <div className="relative mx-auto flex h-14 w-full max-w-full items-center justify-between px-4 md:px-6">
         {/* Left: Logo/Profile */}
         <div className="flex shrink-0 items-center">
-          <Link className="mr-2 flex min-w-0 items-center gap-1.5 sm:mr-3 sm:gap-2" href="/">
-            {/* Desktop: Show PFP on sub-pages, Mobile: Always show PFP on sub-pages */}
-            {isSubPage && personalInfo.profileImage && (
-              <ViewTransition name="profile-image" default="none" share="auto">
-                <div
-                  className="relative size-8 shrink-0 overflow-hidden rounded-full"
-                  style={{ contain: "layout size" }}
-                >
-                  <Image
-                    src={personalInfo.profileImage}
-                    alt={personalInfo.name}
-                    fill
-                    sizes="32px"
-                    className="object-cover"
-                  />
-                </div>
-              </ViewTransition>
-            )}
-            {isSubPage && (
+          {isSubPage && (
+            <Link className="mr-2 flex min-w-0 items-center gap-1.5 sm:mr-3 sm:gap-2" href="/">
+              {/* Desktop: Show PFP on sub-pages, Mobile: Always show PFP on sub-pages */}
+              {personalInfo.profileImage && (
+                <ViewTransition name="profile-image" default="none" share="auto">
+                  <div
+                    className="relative size-8 shrink-0 overflow-hidden rounded-full"
+                    style={{ contain: "layout size" }}
+                  >
+                    <Image
+                      src={personalInfo.profileImage}
+                      alt={personalInfo.name}
+                      fill
+                      sizes="32px"
+                      className="object-cover"
+                    />
+                  </div>
+                </ViewTransition>
+              )}
               <ViewTransition name="profile-name" default="none" share="auto">
                 <span
                   className="whitespace-nowrap font-bold text-sm sm:text-base"
@@ -62,8 +62,8 @@ export const Header = () => {
                   {personalInfo.name}
                 </span>
               </ViewTransition>
-            )}
-          </Link>
+            </Link>
+          )}
 
           {/* Desktop: Social links on sub-pages, Mobile: Hidden */}
           {isSubPage && (
@@ -73,13 +73,19 @@ export const Header = () => {
                 style={{ contain: "layout" }}
               >
                 {personalInfo.socialLinks.map((social) => (
-                  <Link
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-7"
+                    asChild
                     key={social.platform}
-                    href={social.url}
-                    target="_blank"
-                    className="opacity-70 transition-opacity hover:opacity-100"
                   >
-                    <Button variant="ghost" size="icon" className="size-7">
+                    <Link
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="opacity-70 transition-opacity hover:opacity-100"
+                    >
                       {social.icon === "siGithub" && (
                         <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
                           <title>GitHub</title>
@@ -94,8 +100,8 @@ export const Header = () => {
                         </svg>
                       )}
                       <span className="sr-only">{social.platform}</span>
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 ))}
               </div>
             </ViewTransition>
@@ -147,12 +153,10 @@ export const Header = () => {
 
           <ThemeToggle />
           {personalInfo.resumeUrl && (
-            <Button
-              variant="default"
-              onClick={() => window.open(personalInfo.resumeUrl, "_blank")}
-              className="hidden cursor-pointer sm:inline-flex"
-            >
-              Resume
+            <Button variant="default" asChild className="hidden cursor-pointer sm:inline-flex">
+              <a href={personalInfo.resumeUrl} target="_blank" rel="noopener noreferrer">
+                Resume
+              </a>
             </Button>
           )}
         </div>
@@ -188,15 +192,15 @@ export const Header = () => {
               <ExternalLink className="size-3.5" />
             </a>
             {personalInfo.resumeUrl && (
-              <Button
-                variant="default"
-                onClick={() => {
-                  window.open(personalInfo.resumeUrl, "_blank")
-                  setMobileMenuOpen(false)
-                }}
-                className="w-full cursor-pointer"
-              >
-                Resume
+              <Button variant="default" asChild className="w-full cursor-pointer">
+                <a
+                  href={personalInfo.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Resume
+                </a>
               </Button>
             )}
           </div>
