@@ -1,11 +1,11 @@
 # [skakatur.dev](https://skakatur.dev)
 
-My personal website and blog. Built with Next.js, Astro (EmDash CMS), TypeScript, Tailwind CSS, and shadcn/ui. Hosted on Cloudflare Workers free tier.
+My personal website and blog. Built with Vinext (Next.js App Router), Astro (EmDash CMS), TypeScript, Tailwind CSS, and shadcn/ui. Hosted on Cloudflare Workers free tier.
 
 ## Tech Stack
 
 - **Web (Portfolio)** ([apps/web](apps/web))
-  - Next.js, deployed to Cloudflare Workers via [OpenNext](https://github.com/opennextjs/opennextjs-cloudflare)
+  - [Vinext](https://vinext.dev/), built with Vite and deployed to Cloudflare Workers
 - **Blog** ([apps/blog](apps/blog))
   - Astro ([EmDash CMS](https://github.com/emdash-cms/emdash)), deployed to Cloudflare Workers
 
@@ -20,7 +20,7 @@ cp apps/web/.env.example apps/web/.env.development
 cp apps/blog/.env.example apps/blog/.env.development
 ```
 
-Use pnpm 12.18.0 to install dependencies. The project pins Node.js 26.13.0 through `devEngines.runtime`.
+Use pnpm 12.18.0 to install dependencies. The project pins Node.js 26.13.1 through `devEngines.runtime`.
 When your Node.js version differs, pnpm downloads the project runtime. Your global Node.js installation stays unchanged.
 
 Install dependencies:
@@ -57,11 +57,18 @@ The production defaults are public browser configuration. Environment variables 
 
 Do not commit Umami administrator credentials or API tokens. The admin dashboard is private and the browser collection endpoint is public.
 
-Both apps use `cloudflare.config.ts` with the pinned `cf` beta CLI. Run CLI commands through pnpm with Node.js 26.13.0. Bun cannot run `cf`.
+Both apps use `cloudflare.config.ts` with the pinned `cf` beta CLI. Run CLI commands through pnpm with Node.js 26.13.1. Bun cannot run `cf`.
 The blog uses the Cloudflare adapter 15 beta, which reads the new configuration through the Cloudflare Vite plugin.
-The web app uses OpenNext and Wrangler as its build backend. Its `cf-build` script emits Cloudflare Build Output, and `cf-deploy` uploads that output with `cf deploy --prebuilt`.
+The web app uses Vinext 1.4.5 with Cloudflare Vite plugin v2 (pinned beta) and the Static Assets cache adapter.
+Both `build` and `cf-build` emit Cloudflare Build Output under `apps/web/.cloudflare/output`.
+Pages and RSC payloads are prerendered into the ASSETS binding; contact POST actions still execute in the Worker.
+The private cache directory routes through the Worker. JavaScript and CSS assets bypass it.
+No KV, Response Store, or Images binding is required. The blog retains its independent Cloudflare tooling.
+The `cf-deploy` script uploads the built output with `cf deploy --prebuilt`.
 Use `pnpm --filter web deploy` to build and deploy together. Use `pnpm --filter web preview` to build and preview locally.
-Direct `cf build` and `cf dev` in the web app detect plain Next.js commands; use the package scripts instead.
+Use the web package scripts for Vite development, builds, and local Workers previews.
+`NEXT_PUBLIC_*` values are compiled into the client bundle. Shell variables override `.env` files and source defaults.
+Set the public Turnstile key before building. Server secrets use `cloudflare:workers` runtime bindings; rebuilds are unnecessary for secret changes.
 The web configuration preserves dashboard variables and secrets through Worker upload metadata.
 
 Both apps deploy to Cloudflare Workers. Each app has its own `.env.production` with the necessary secrets and config.
