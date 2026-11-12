@@ -1,5 +1,10 @@
 import { defineConfig } from "cf/config"
 
+const privacyPolicyDomain = process.env.PRIVACY_POLICY_DOMAIN
+if (!privacyPolicyDomain) {
+  throw new Error("Set PRIVACY_POLICY_DOMAIN in the private deployment environment")
+}
+
 // Preserve the existing privacy Worker and its domain routing.
 export default defineConfig({
   worker: {
@@ -12,8 +17,8 @@ export default defineConfig({
     triggers: [
       {
         type: "fetch",
-        pattern: "privacy-policy.example.com/*",
-        zone: "privacy-policy.example.com",
+        pattern: `${privacyPolicyDomain}/*`,
+        zone: privacyPolicyDomain,
       },
     ],
     workersDev: false,
