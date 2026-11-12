@@ -1,0 +1,39 @@
+---
+import Base from "../layouts/Base.astro"
+---
+
+<Base title="Cookies" description="Cookie, storage, and analytics controls for this blog.">
+	<div class="max-w-3xl mx-auto px-6 py-10">
+		<h1 class="display text-4xl font-extrabold tracking-tight mb-6">Cookies</h1>
+		<div class="serif space-y-5 text-foreground leading-relaxed">
+			<p>
+				This blog uses only essential and analytics categories. Essential storage keeps your theme
+				and consent choices. Analytics is optional and remains off until you allow it.
+			</p>
+
+			<h2 class="display text-2xl font-bold">Umami</h2>
+			<p>
+				Umami does not set or read cookies. After analytics consent, the site loads Umami’s browser
+				script and sends page-view events. When you withdraw consent, the script is removed and
+				analytics stops.
+			</p>
+
+			<h2 class="display text-2xl font-bold">Browser storage</h2>
+			<p>
+				Consent preferences use browser local storage. The blog theme uses a first-party browser
+				cookie. These values stay on the current device and do not sync between devices.
+			</p>
+
+			<h2 class="display text-2xl font-bold">Cloudflare</h2>
+			<p>
+				Cloudflare performs necessary technical hosting and security processing for every request.
+				This processing is not an analytics consent category.
+			</p>
+
+			<p>
+				Read the <a href="/privacy" class="acid-link">privacy notice</a> for details. You can change
+				your choice at any time with the Cookie preferences control in the footer.
+			</p>
+		</div>
+	</div>
+</Base>
