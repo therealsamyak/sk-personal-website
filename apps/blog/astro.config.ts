@@ -3,6 +3,7 @@ import react from "@astrojs/react"
 import { d1, r2 } from "@emdash-cms/cloudflare"
 import { formsPlugin } from "@emdash-cms/plugin-forms"
 import { defineConfig, fontProviders, memoryCache } from "astro/config"
+import { policyStack } from "@policystack/vite"
 import emdash from "emdash/astro"
 import tailwindcss from "@tailwindcss/vite"
 
@@ -50,6 +51,6 @@ export default defineConfig({
     provider: memoryCache(),
   },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [policyStack({ consent: { mode: "error" } }), tailwindcss()],
   },
 })

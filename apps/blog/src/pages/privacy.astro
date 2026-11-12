@@ -1,0 +1,50 @@
+---
+import policyStackConfig from "../../policystack"
+import Base from "../layouts/Base.astro"
+---
+
+<Base title="Privacy" description="How this blog handles storage, hosting, and analytics.">
+	<div class="max-w-3xl mx-auto px-6 py-10">
+		<h1 class="display text-4xl font-extrabold tracking-tight mb-6">Privacy</h1>
+		<div class="serif space-y-5 text-foreground leading-relaxed">
+			<p>
+				{policyStackConfig.company.name} operates this blog and its self-hosted Umami analytics
+				service. Analytics runs only after you allow it. If you decline or withdraw consent, core blog
+				features continue to work.
+			</p>
+
+			<h2 class="display text-2xl font-bold">Analytics</h2>
+			<p>With analytics consent, Umami processes:</p>
+			<ul class="list-disc pl-6 space-y-1">
+				<li>Page views, URLs, referrers, and visit times.</li>
+				<li>Browser, device, language, and screen information.</li>
+				<li>IP-derived pseudonymous session and aggregate data.</li>
+			</ul>
+			<p>
+				Umami does not use cookies and does not track you across separate Umami website IDs. It
+				processes the request IP address to derive session and aggregate values. The Umami script is
+				removed when consent is withdrawn, and no form content is sent to Umami.
+			</p>
+
+			<h2 class="display text-2xl font-bold">Storage</h2>
+			<p>
+				Consent preferences use browser local storage. The blog theme uses a first-party browser
+				cookie. These values stay on the current device and do not sync between devices.
+			</p>
+
+			<h2 class="display text-2xl font-bold">Cloudflare</h2>
+			<p>
+				Cloudflare hosts this blog and the future analytics tunnel. It processes limited technical
+				request data, including IP addresses, for delivery and security.
+			</p>
+
+			<h2 class="display text-2xl font-bold">Contact</h2>
+			<p>
+				Send analytics or privacy questions to
+				<a href={`mailto:${policyStackConfig.company.contact.email}`} class="acid-link">
+					{policyStackConfig.company.contact.email}
+				</a>.
+			</p>
+		</div>
+	</div>
+</Base>
