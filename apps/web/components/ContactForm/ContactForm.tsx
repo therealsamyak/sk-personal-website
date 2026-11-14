@@ -142,7 +142,7 @@ export const ContactForm = () => {
           ref={successScopeRef}
           pageEffect={false}
           direction="btt"
-          sweepMs={700}
+          sweepMs={1200}
           palette={contactSuccessPalette}
           brightness={0.65}
           peakAlpha={0.65}

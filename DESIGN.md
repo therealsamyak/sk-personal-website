@@ -35,7 +35,7 @@ Errors retain the existing alert and refresh instruction.
 ## Motion and interaction
 
 The approved GlimmScope interaction is the motion reference: https://glimm.dev/llms-full.txt.
-After server success, play one bottom-to-top sweep with a 700ms duration.
+After server success, play one bottom-to-top sweep with a 1,200ms duration.
 Use `pageEffect={false}`, brightness 0.65, peak alpha 0.65, and no depth swell.
 Keep the effect inside the card. Do not change navigation or distort HTML in a canvas.
 Glimm commits confirmation immediately under reduced motion or without WebGL.
