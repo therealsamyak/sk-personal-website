@@ -7,7 +7,6 @@ interface SocialLink {
 interface PersonalInfo {
   name: string
   title: string
-  email?: string
   profileImage?: string
   resumeUrl?: string
   icon?: string
@@ -17,7 +16,6 @@ interface PersonalInfo {
 export const personalInfo: PersonalInfo = {
   name: "Samyak Kakatur",
   title: "Software Engineer & IoT Specialist",
-  email: "removed@example.invalid",
   profileImage: "/pfp.jpeg",
   resumeUrl: "https://tinyurl.com/samyak-kakatur-resume", // Optional: set your resume URL here
   socialLinks: [
