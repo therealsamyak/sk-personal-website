@@ -1,17 +1,11 @@
 ---
 import { getSiteSettings } from "emdash";
-import {
-	WidgetArea,
-	EmDashHead,
-	EmDashBodyStart,
-	EmDashBodyEnd,
-} from "emdash/ui";
+import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
-import LiveSearch from "emdash/ui/search";
-import "../styles/font-subsets.css";
-import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import UmamiAnalytics from "../components/UmamiAnalytics.astro";
-import "../styles/index.css";
+import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import "../styles/blog.css";
 
 interface Props {
 	title: string;
@@ -62,11 +56,6 @@ const pageCtx = createPublicPageContext({
 	articleMeta: { publishedTime, modifiedTime, author },
 	siteName: siteTitle,
 });
-
-const now = new Date();
-const ribbonDate = now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }).toUpperCase();
-const ribbonDateShort = `${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")}/${String(now.getFullYear()).slice(-2)}`;
-const ribbonTime = now.toUTCString().slice(17, 25);
 ---
 
 <!doctype html>
@@ -74,312 +63,39 @@ const ribbonTime = now.toUTCString().slice(17, 25);
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="preload" href="/fonts/3fe3f5716e816c1c-core.woff2" as="font" type="font/woff2" crossorigin />
 		<title>{fullTitle}</title>
 		{siteFavicon && <link rel="icon" href={siteFavicon} />}
 		<EmDashHead page={pageCtx} />
-		<style>
-			.theme-icon { display: none; }
-			[data-theme-icon="light"] .theme-icon-light { display: initial; }
-			[data-theme-icon="dark"] .theme-icon-dark { display: initial; }
-		</style>
 		<script is:inline>
-			// Apply theme immediately to prevent flash
+			// Apply the stored theme, or the system preference, before the first paint.
 			(function () {
-				var c = document.cookie;
-				var i = c.indexOf("theme=");
-				var theme = i >= 0 ? c.slice(i + 6).split(";")[0] : null;
-				if (theme === "dark" || theme === "light") {
-					document.documentElement.classList.add(theme);
-					document.documentElement.setAttribute("data-theme-icon", theme);
-				} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-					document.documentElement.classList.add("dark");
-					document.documentElement.setAttribute("data-theme-icon", "dark");
-				} else {
-					document.documentElement.classList.add("light");
-					document.documentElement.setAttribute("data-theme-icon", "light");
-				}
+				var match = document.cookie.match(/(?:^|; )theme=(dark|light)/);
+				var dark = match ? match[1] === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+				document.documentElement.classList.toggle("dark", dark);
 			})();
 		</script>
 	</head>
-	<body>
+	<body class="blog">
 		<EmDashBodyStart page={pageCtx} />
 
-		<header class="sticky top-0 z-50 bg-background border-b-2 border-foreground">
-			<!-- Info ribbon -->
-			<div class="border-b border-border">
-				<div class="max-w-[1400px] mx-auto px-4 md:px-6 h-7 grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground gap-2 md:gap-4 overflow-hidden">
-					<div class="flex items-center gap-2 md:gap-4 justify-self-start min-w-0">
-						<span class="w-1.5 h-1.5 rounded-full bg-accent live-dot shrink-0" />
-						<span class="hidden md:inline text-foreground">On press</span>
-						<span class="truncate">
-							<span class="md:hidden">{ribbonDateShort}</span>
-							<span class="hidden md:inline">{ribbonDate}</span>
-							· <span class="tabular-nums" id="header-clock">{ribbonTime}</span> UTC
-						</span>
-					</div>
-					<div class="hidden md:flex items-center gap-4 justify-self-center text-muted-foreground">
-						<span>Issue <span class="text-foreground">№ 564</span></span>
-						<span>Vol. <span class="text-foreground">VIII</span></span>
-						<span>Run <span class="text-foreground">1357 copies</span></span>
-					</div>
-					<div class="justify-self-end text-foreground truncate">
-						{pageTitle || "FRONT"}
-					</div>
-				</div>
-			</div>
-
-			<!-- Masthead -->
-			<div class="max-w-[1400px] mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-4 md:gap-6">
-				<a href="/" class="flex items-baseline gap-2 sm:gap-3">
-					<span class="display leading-none text-[1.85rem] font-extrabold tracking-[-0.04em]">
-						SK<span class="text-accent">/</span>DISPATCH
-					</span>
-					<span class="mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground hidden sm:inline">
-						My personal ramblings
-					</span>
-				</a>
-
-				<!-- Desktop nav -->
-				<nav class="hidden md:flex items-center gap-2">
-					<a href="/" class="acid-link mono text-[11px] tracking-[0.22em] uppercase">Front</a>
-					<span class="mono text-muted-foreground/50">·</span>
-					<a href="https://skakatur.dev" target="_blank" rel="noopener noreferrer" class="acid-link mono text-[11px] tracking-[0.22em] uppercase">About</a>
-					{isLoggedIn && (
-					<a
-							href="/_emdash/admin"
-							class="ml-3 mono text-[11px] tracking-[0.22em] uppercase px-3 py-1.5 border border-foreground bg-foreground text-background hover:bg-accent hover:border-accent transition-colors duration-200"
-						>
-							⌘ Admin
-						</a>
-					)}
-					<button type="button" class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
-						<svg class="theme-icon theme-icon-light" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
-						<svg class="theme-icon theme-icon-dark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
-					</button>
-					<button type="button" class="theme-toggle" id="search-trigger" aria-label="Search">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-					</button>
-				</nav>
-
-				<!-- Mobile hamburger -->
-				<button type="button" class="md:hidden display text-xl leading-none p-1 flex items-center justify-center" id="mobile-menu-toggle" aria-label="Open menu">☰</button>
-			</div>
+		<header class="blog-header">
+			<a href="/" class="blog-name">{siteTitle}</a>
+			<nav class="blog-nav">
+				<a href="/">Writing</a>
+				<a href="/about">About</a>
+				<a href="/rss.xml">RSS</a>
+				{isLoggedIn && <a href="/_emdash/admin">Admin</a>}
+				<ThemeToggle />
+			</nav>
 		</header>
-
-		<!-- Mobile menu overlay -->
-		<div id="mobile-menu" class="md:hidden fixed inset-0 z-[60] pointer-events-none">
-			<div class="absolute inset-0 bg-foreground/20 opacity-0 transition-opacity duration-300" id="mobile-menu-backdrop"></div>
-			<div class="absolute inset-x-0 top-0 bg-background border-b-2 border-foreground transform -translate-y-full transition-transform duration-300 ease-in-out pointer-events-auto" id="mobile-menu-panel">
-				<div class="max-w-[1400px] mx-auto px-4 py-4">
-					<div class="flex justify-end items-center mb-1">
-						<button type="button" class="display text-xl leading-none p-1" id="mobile-menu-close" aria-label="Close menu">✕</button>
-					</div>
-					<nav class="flex flex-col gap-0 mono text-[11px] tracking-[0.22em] uppercase">
-						<a href="/" class="py-3 border-b border-border block">Front</a>
-						<a href="https://skakatur.dev" target="_blank" rel="noopener noreferrer" class="py-3 border-b border-border block">About</a>
-						{isLoggedIn && <a href="/_emdash/admin" class="py-3 border-b border-border block">Admin ⌘</a>}
-						<div class="flex items-center gap-3 py-3 border-b border-border">
-							<button type="button" class="theme-toggle shrink-0" id="mobile-theme-toggle-btn" aria-label="Toggle theme">
-								<svg class="theme-icon theme-icon-light" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
-								<svg class="theme-icon theme-icon-dark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
-							</button>
-							<span class="text-muted-foreground leading-none">Theme</span>
-						</div>
-						<div class="py-3 border-b border-border">
-							<LiveSearch
-								placeholder="Search..."
-								class="relative w-full"
-								inputClass="site-search-input w-full border border-border bg-background text-foreground rounded px-3 py-2 mono text-[11px] tracking-wider focus:outline-none focus:border-accent"
-								resultsClass="site-search-results absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-lg shadow-lg max-h-80 overflow-y-auto z-50"
-								resultClass="site-search-result block px-4 py-3 no-underline text-foreground border-b border-border hover:bg-card transition-colors"
-								collections={["posts"]}
-							/>
-						</div>
-					</nav>
-				</div>
-			</div>
-		</div>
-
-		<!-- Search overlay (hidden by default, activated by ⌘K or icon click) -->
-		<div class="fixed top-20 right-4 md:right-6 z-[70] opacity-0 pointer-events-none transition-opacity duration-200" id="search-panel">
-			<LiveSearch
-				placeholder="Search..."
-				class="relative w-72 md:w-80"
-				inputClass="site-search-input w-full border border-border bg-background text-foreground rounded px-3 py-2 mono text-[11px] tracking-wider focus:outline-none focus:border-accent"
-				resultsClass="site-search-results absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-lg shadow-lg max-h-80 overflow-y-auto z-50"
-				resultClass="site-search-result block px-4 py-3 no-underline text-foreground border-b border-border hover:bg-card transition-colors"
-				collections={["posts"]}
-			/>
-		</div>
 
 		<main>
 			<slot />
 		</main>
 
-		<footer class="border-t-2 border-foreground mt-6">
-			<div class="max-w-[1400px] mx-auto px-4 md:px-6 py-6">
-				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
-					<div>
-						<div class="text-foreground font-medium">SK/DISPATCH</div>
-						est. mmxxvi · vol viii
-					</div>
-					<div>
-						<div class="text-foreground font-medium">Editorial</div>
-						S. Kakatur · Editor
-					</div>
-					<div>
-						<div class="text-foreground font-medium">Frequency</div>
-						Weekly · Long-form
-					</div>
-					<div class="md:text-right">
-						<div class="text-foreground font-medium">Colophon</div>
-						Syne · Spectral · JetBrains Mono
-					</div>
-				</div>
-				<div class="flex flex-wrap items-center gap-4">
-					<a href="/privacy" class="mono mt-4 text-[11px] underline underline-offset-4 hover:text-accent">Privacy</a>
-				</div>
-				<WidgetArea name="footer" />
-			</div>
+		<footer class="blog-footer">
+			<a href="/privacy">Privacy</a>
 		</footer>
-
-		<script>
-			// ── Theme toggle: cycles light → dark, cookie-persisted, defaults to system pref ──
-			const THEME_REGEX = /theme=([^;]+)/;
-			const root = document.documentElement;
-			const toggleBtns = document.querySelectorAll<HTMLButtonElement>("#theme-toggle-btn, #mobile-theme-toggle-btn");
-
-			function setCookie(name: string, value: string, maxAge: number = 31536000) {
-				const secure = location.protocol === "https:" ? "; Secure" : "";
-				document.cookie = value === ""
-					? `${name}=; path=/; max-age=0; SameSite=Lax${secure}`
-					: `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax${secure}`;
-			}
-
-			function getStoredTheme(): string {
-				const match = document.cookie.match(THEME_REGEX);
-				if (match) return match[1];
-				// Default to system preference
-				return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-			}
-
-			function setTheme(theme: string) {
-				setCookie("theme", theme);
-				root.classList.remove("light", "dark");
-				root.classList.add(theme);
-				updateIcons(theme);
-			}
-
-			function cycleTheme() {
-				const current = getStoredTheme();
-				setTheme(current === "light" ? "dark" : "light");
-			}
-
-			function updateIcons(theme: string) {
-				root.setAttribute("data-theme-icon", theme);
-			}
-
-			function setRippleCoordinates(event: MouseEvent) {
-				const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-				root.style.setProperty("--x", `${rect.left + rect.width / 2}px`);
-				root.style.setProperty("--y", `${rect.top + rect.height / 2}px`);
-			}
-
-			function handleViewTransition(callback: () => void) {
-				if (!document.startViewTransition) {
-					callback();
-					return;
-				}
-
-				root.style.viewTransitionName = "theme-switch";
-
-				document.startViewTransition(callback).finished.then(() => {
-					root.style.viewTransitionName = "";
-				});
-			}
-
-			updateIcons(getStoredTheme());
-			toggleBtns.forEach((btn) =>
-				btn.addEventListener("click", (e: MouseEvent) => {
-					setRippleCoordinates(e);
-					handleViewTransition(cycleTheme);
-				}),
-			);
-
-			// ── Live clock ──
-			const clockEl = document.getElementById("header-clock");
-			if (clockEl) {
-				setInterval(() => {
-					clockEl.textContent = new Date().toUTCString().slice(17, 25);
-				}, 1000);
-			}
-
-			// ── Search panel (⌘K / icon toggle) ──
-			const searchPanel = document.getElementById("search-panel");
-
-			function openSearch() {
-				searchPanel?.classList.remove("opacity-0", "pointer-events-none");
-				searchPanel?.classList.add("opacity-100", "pointer-events-auto");
-				const input = searchPanel?.querySelector(".site-search-input") as HTMLInputElement | null;
-				if (input) setTimeout(() => input.focus(), 50);
-			}
-
-			function closeSearch() {
-				searchPanel?.classList.add("opacity-0", "pointer-events-none");
-				searchPanel?.classList.remove("opacity-100", "pointer-events-auto");
-				const input = searchPanel?.querySelector(".site-search-input") as HTMLInputElement | null;
-				if (input) input.value = "";
-			}
-
-			document.addEventListener("keydown", (e) => {
-				if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-					e.preventDefault();
-					openSearch();
-				}
-				if (e.key === "Escape") closeSearch();
-			});
-
-			document.getElementById("search-trigger")?.addEventListener("click", openSearch);
-
-			// Close search on click outside
-			document.addEventListener("mousedown", (e) => {
-				if (!searchPanel) return;
-				const isHidden = searchPanel.classList.contains("pointer-events-none");
-				if (isHidden) return;
-				if (searchPanel.contains(e.target as Node)) return;
-				closeSearch();
-			});
-
-			// ── Mobile menu ──
-			const mobileMenu = document.getElementById("mobile-menu");
-			const mobileBackdrop = document.getElementById("mobile-menu-backdrop");
-			const mobilePanel = document.getElementById("mobile-menu-panel");
-
-			function openMobileMenu() {
-				mobileMenu?.classList.add("pointer-events-auto");
-				mobileMenu?.classList.remove("pointer-events-none");
-				mobilePanel?.classList.remove("-translate-y-full");
-				mobilePanel?.classList.add("translate-y-0");
-				mobileBackdrop?.classList.add("opacity-100");
-				mobileBackdrop?.classList.remove("opacity-0");
-			}
-
-			function closeMobileMenu() {
-				mobilePanel?.classList.add("-translate-y-full");
-				mobilePanel?.classList.remove("translate-y-0");
-				mobileBackdrop?.classList.remove("opacity-100");
-				mobileBackdrop?.classList.add("opacity-0");
-				setTimeout(() => {
-					mobileMenu?.classList.remove("pointer-events-auto");
-					mobileMenu?.classList.add("pointer-events-none");
-				}, 300);
-			}
-
-			document.getElementById("mobile-menu-toggle")?.addEventListener("click", openMobileMenu);
-			document.getElementById("mobile-menu-close")?.addEventListener("click", closeMobileMenu);
-			mobileBackdrop?.addEventListener("click", closeMobileMenu);
-		</script>
 
 		<EmDashBodyEnd page={pageCtx} />
 
