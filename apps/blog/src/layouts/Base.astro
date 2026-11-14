@@ -84,6 +84,7 @@ const pageCtx = createPublicPageContext({
 				<a href="/">Writing</a>
 				<a href="/about">About</a>
 				<a href="/rss.xml">RSS</a>
+				<a href="/privacy">Privacy</a>
 				{isLoggedIn && <a href="/_emdash/admin">Admin</a>}
 				<ThemeToggle />
 			</nav>
@@ -93,9 +94,6 @@ const pageCtx = createPublicPageContext({
 			<slot />
 		</main>
 
-		<footer class="blog-footer">
-			<a href="/privacy">Privacy</a>
-		</footer>
 
 		<EmDashBodyEnd page={pageCtx} />
 
