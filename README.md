@@ -85,4 +85,20 @@ pnpm run cf-deploy-website
 pnpm run cf-deploy-blog
 ```
 
+#### Blog access
+
+Set the dashboard Access application's session duration to `24h`. Check policy overrides for shorter durations.
+Expired Access sessions can redirect API requests to sign-in and cause `Failed to fetch` in the admin.
+
+Add each editor to the Cloudflare Access allow list. EmDash creates an Author account on first sign-in.
+Change account roles in **Users**. Existing administrator roles remain unchanged.
+EmDash's built-in invitation endpoints are unavailable with Cloudflare Access authentication.
+
+Create EmDash API tokens in **Settings → API tokens**. Select the required scopes before submitting.
+For remote automation, supply both the EmDash token and Cloudflare Access credentials.
+An EmDash token alone does not pass the Access application policy.
+
+Upgrade EmDash and `@emdash-cms/cloudflare` together. Back up D1 before applying production migrations.
+The deployment script applies migrations before uploading the Worker. EmDash 1.5 adds migrations 092–097.
+
 Ensure environment variables / secrets are set via the Cloudflare Dashboard under **Compute** --> **Workers & Pages** --> **(Worker Name)** --> **Settings** --> **Variables and Secrets**.
