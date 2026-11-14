@@ -288,46 +288,6 @@ body.blog .blog-body .emdash-code code {
   line-height: 1.55;
 }
 
-/* EmDash comments, themed through their CSS variables */
-
-.blog-comments {
-  margin-top: 4rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--rule);
-  --ec-comment-border: 1px solid var(--rule);
-  --ec-form-border: var(--rule);
-  --ec-form-bg: var(--bg);
-  --ec-form-color: var(--fg);
-  --ec-form-user-bg: var(--code-bg);
-  --ec-form-user-border: var(--rule);
-  --ec-form-user-bg-dark: var(--code-bg);
-  --ec-form-submit-bg: var(--fg);
-  --ec-form-submit-color: var(--bg);
-}
-
-/* Comments render nothing when they are off for the collection; hide the empty wrapper. */
-.blog-comments:not(:has(.ec-comments, .ec-comment-form)) {
-  display: none;
-}
-
-.blog-comments .ec-comments-heading {
-  margin: 0 0 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-/* EmDash sets its own dark input colors on the fields; this selector outranks them. */
-html.dark body.blog .blog-comments .ec-comment-form-field input,
-html.dark body.blog .blog-comments .ec-comment-form-field textarea {
-  --ec-form-bg: var(--bg);
-  --ec-form-border: var(--rule);
-  --ec-form-color: var(--fg);
-}
-
-.blog-comments .ec-comment-date {
-  color: var(--faint);
-}
-
 /* Theme change: the new theme grows as a circle from the toggle button. */
 
 ::view-transition-old(theme-switch),
