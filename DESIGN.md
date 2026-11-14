@@ -28,7 +28,7 @@ Keep document scrolling and the existing responsive page layout.
 Use the existing shadcn Card, Button, Field, Input, and Textarea primitives.
 Keep generated components unchanged.
 Contact states are idle, submitting, success, and error.
-Submission disables the button and preserves the existing scanner and loading indicator.
+Submission disables the button and shows loading text without a sweep.
 Success presents the existing checkmark and thank-you text.
 Errors retain the existing alert and refresh instruction.
 
@@ -36,6 +36,7 @@ Errors retain the existing alert and refresh instruction.
 
 The approved GlimmScope interaction is the motion reference: https://glimm.dev/llms-full.txt.
 After server success, play one bottom-to-top sweep with a 1,200ms duration.
+The pending state has no scanner or sweep animation.
 Use `pageEffect={false}`, brightness 0.65, peak alpha 0.65, and no depth swell.
 Keep the effect inside the card. Do not change navigation or distort HTML in a canvas.
 Glimm commits confirmation immediately under reduced motion or without WebGL.
