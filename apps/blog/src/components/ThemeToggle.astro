@@ -22,23 +22,28 @@
 		document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax${secure}`;
 	};
 
-	for (const button of document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")) {
-		button.addEventListener("click", () => {
-			const rect = button.getBoundingClientRect();
-			root.style.setProperty("--x", `${rect.left + rect.width / 2}px`);
-			root.style.setProperty("--y", `${rect.top + rect.height / 2}px`);
+	// The client router swaps the header on each navigation, so bind the new button after every page load.
+	const bindThemeToggle = () => {
+		for (const button of document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")) {
+			button.addEventListener("click", () => {
+				const rect = button.getBoundingClientRect();
+				root.style.setProperty("--x", `${rect.left + rect.width / 2}px`);
+				root.style.setProperty("--y", `${rect.top + rect.height / 2}px`);
 
-			if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-				toggleBlogTheme();
-				return;
-			}
+				if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+					toggleBlogTheme();
+					return;
+				}
 
-			root.style.viewTransitionName = "theme-switch";
-			document.startViewTransition(toggleBlogTheme).finished.then(() => {
-				root.style.viewTransitionName = "";
+				root.style.viewTransitionName = "theme-switch";
+				document.startViewTransition(toggleBlogTheme).finished.then(() => {
+					root.style.viewTransitionName = "";
+				});
 			});
-		});
-	}
+		}
+	};
+
+	document.addEventListener("astro:page-load", bindThemeToggle);
 </script>
 
 <style>
