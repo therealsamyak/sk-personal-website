@@ -8,7 +8,10 @@
     "cf-build": "cf build",
     "dev": "portless",
     "dev:app": "astro dev --port ${PORT:-4321}",
-    "cf-deploy": "cf deploy",
+    "cf-deploy": "pnpm run build && pnpm run db:migrate && cf deploy --prebuilt && pnpm run db:check",
+    "db:status": "emdash migrate --status --account-id \"$CLOUDFLARE_ACCOUNT_ID\" --d1 \"$D1_DATABASE_ID\"",
+    "db:migrate": "emdash migrate --account-id \"$CLOUDFLARE_ACCOUNT_ID\" --d1 \"$D1_DATABASE_ID\" --expected-target-fingerprint \"$EMDASH_TARGET_FINGERPRINT\"",
+    "db:check": "emdash migrate --check --account-id \"$CLOUDFLARE_ACCOUNT_ID\" --d1 \"$D1_DATABASE_ID\"",
     "preview": "astro preview",
     "typegen": "emdash types --url https://blog.skakatur.dev",
     "typecheck": "astro check"

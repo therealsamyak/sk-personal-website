@@ -8,7 +8,7 @@
   },
 
   "settings": {
-    "title": "SKB",
+    "title": "Samyak Kakatur",
     "tagline": "My personal ramblings"
   },
 
@@ -18,7 +18,7 @@
       "label": "Posts",
       "labelSingular": "Post",
       "supports": ["drafts", "revisions", "search", "seo"],
-      "commentsEnabled": true,
+      "commentsEnabled": false,
       "fields": [
         {
           "slug": "title",
