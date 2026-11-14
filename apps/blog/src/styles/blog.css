@@ -24,6 +24,8 @@ html.dark {
 
 html {
   background: var(--bg);
+  /* Reserve the scrollbar space on every page so short pages do not shift sideways. */
+  scrollbar-gutter: stable;
 }
 
 body {

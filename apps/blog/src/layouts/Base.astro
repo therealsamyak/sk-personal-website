@@ -2,6 +2,7 @@
 import { getSiteSettings } from "emdash";
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
+import { ClientRouter } from "astro:transitions";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import UmamiAnalytics from "../components/UmamiAnalytics.astro";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
@@ -66,12 +67,17 @@ const pageCtx = createPublicPageContext({
 		<title>{fullTitle}</title>
 		{siteFavicon && <link rel="icon" href={siteFavicon} />}
 		<EmDashHead page={pageCtx} />
+		<ClientRouter />
 		<script is:inline>
-			// Apply the stored theme, or the system preference, before the first paint.
+			// Apply the stored theme, or the system preference, before the first paint and after each page swap.
 			(function () {
-				var match = document.cookie.match(/(?:^|; )theme=(dark|light)/);
-				var dark = match ? match[1] === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-				document.documentElement.classList.toggle("dark", dark);
+				var applyBlogTheme = function () {
+					var match = document.cookie.match(/(?:^|; )theme=(dark|light)/);
+					var dark = match ? match[1] === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+					document.documentElement.classList.toggle("dark", dark);
+				};
+				applyBlogTheme();
+				document.addEventListener("astro:after-swap", applyBlogTheme);
 			})();
 		</script>
 	</head>
@@ -85,7 +91,7 @@ const pageCtx = createPublicPageContext({
 				<a href="/about">About</a>
 				<a href="/rss.xml">RSS</a>
 				<a href="/privacy">Privacy</a>
-				{isLoggedIn && <a href="/_emdash/admin">Admin</a>}
+				{isLoggedIn && <a href="/_emdash/admin" data-astro-reload>Admin</a>}
 				<ThemeToggle />
 			</nav>
 		</header>
