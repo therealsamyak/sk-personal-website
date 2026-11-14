@@ -1,6 +1,8 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import { accentPair } from "glimm"
+import { GlimmScope, type GlimmScopeHandle } from "glimm/react"
 import { CircleCheck, CircleX } from "lucide-react"
 import Script from "next/script"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -13,6 +15,9 @@ import { Card } from "@/ui/card"
 import { Field, FieldError, FieldLabel } from "@/ui/field"
 import { Input } from "@/ui/input"
 import { Textarea } from "@/ui/textarea"
+import { ContactLoadingIndicator, ContactScannerFilter } from "./ContactLoadingIndicator"
+
+const contactSuccessPalette = accentPair("#16899a", "#53bbc7")
 
 declare global {
   interface Window {
@@ -26,31 +31,14 @@ declare global {
 
 type ContactFormStatus = "idle" | "submitting" | "success" | "error"
 
-function ContactLoadingIndicator() {
-  const [dotCount, setDotCount] = useState(1)
-
-  useEffect(() => {
-    const intervalId = window.setInterval(() => setDotCount((count) => (count % 3) + 1), 400)
-    return () => window.clearInterval(intervalId)
-  }, [])
-
-  return (
-    <div
-      aria-live="polite"
-      className="loading-appear [grid-area:1/1] flex min-h-[300px] items-center justify-center"
-    >
-      <p className="text-muted-foreground text-sm">
-        Loading<span aria-hidden="true">{".".repeat(dotCount)}</span>
-      </p>
-    </div>
-  )
-}
-
 // Render the contact form and report the server submission result.
 export const ContactForm = () => {
   const [status, setStatus] = useState<ContactFormStatus>("idle")
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
 
+  const successScopeRef = useRef<GlimmScopeHandle>(null)
+  const confirmationRef = useRef<HTMLParagraphElement>(null)
+  const contactContentRef = useRef<HTMLDivElement>(null)
   const turnstileRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
 
@@ -88,7 +76,11 @@ export const ContactForm = () => {
     }
   }, [renderTurnstileWidget])
 
-  const onSubmit = async (data: z.infer<typeof clientContactFormSchema>) => {
+  useEffect(() => {
+    if (status === "success") confirmationRef.current?.focus({ preventScroll: true })
+  }, [status])
+
+  const submitContactMessage = async (data: z.infer<typeof clientContactFormSchema>) => {
     setStatus("submitting")
 
     try {
@@ -102,12 +94,35 @@ export const ContactForm = () => {
       }
 
       await submitContactForm(formData)
-      setStatus("success")
-      setTurnstileToken(null)
-      form.reset()
     } catch {
       // Report rejected contact submissions without showing premature success.
       setStatus("error")
+      return
+    }
+
+    const revealContactSuccess = () => {
+      setStatus("success")
+      setTurnstileToken(null)
+      form.reset()
+    }
+    try {
+      const content = contactContentRef.current
+      if (content) content.style.minHeight = content.getBoundingClientRect().height + "px"
+      // Remove the completed Turnstile iframe before Glimm clones the outgoing view.
+      const container = turnstileRef.current
+      if (container && widgetIdRef.current && window.turnstile) {
+        container.style.height = container.getBoundingClientRect().height + "px"
+        window.turnstile.remove(widgetIdRef.current)
+        widgetIdRef.current = null
+      }
+      if (successScopeRef.current) {
+        successScopeRef.current.play({ change: revealContactSuccess })
+      } else {
+        revealContactSuccess()
+      }
+    } catch {
+      // Animation failure cannot change a confirmed contact delivery into an error.
+      revealContactSuccess()
     }
   }
 
@@ -118,125 +133,130 @@ export const ContactForm = () => {
         strategy="afterInteractive"
         onReady={renderTurnstileWidget}
       />
-      <svg
-        style={{
-          position: "absolute",
-          width: 0,
-          height: 0,
-          overflow: "hidden",
-        }}
-        aria-hidden="true"
-      >
-        <defs>
-          <filter id="scannerGlow" colorInterpolationFilters="linearRGB">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur16" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur8" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur4" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur2" />
-            <feMerge>
-              <feMergeNode in="blur16" />
-              <feMergeNode in="blur8" />
-              <feMergeNode in="blur4" />
-              <feMergeNode in="blur2" />
-            </feMerge>
-            <feBlend in="SourceGraphic" mode="screen" />
-          </filter>
-        </defs>
-      </svg>
-      <Card className="p-6 relative overflow-hidden">
-        <div
-          aria-live="polite"
-          className="flex min-h-[300px] flex-col items-center justify-center gap-4"
-          style={{ display: status === "success" ? "flex" : "none" }}
+      <ContactScannerFilter />
+      <output className="sr-only" aria-live="polite">
+        {status === "success" ? "Thanks for your message! I'll get back to you soon." : ""}
+      </output>
+      <Card className="p-0 relative overflow-hidden">
+        <GlimmScope
+          ref={successScopeRef}
+          pageEffect={false}
+          direction="btt"
+          sweepMs={700}
+          palette={contactSuccessPalette}
+          brightness={0.65}
+          peakAlpha={0.65}
+          swellAmount={0}
         >
-          <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
-          <p className="text-center text-green-600 dark:text-green-400">
-            Thanks for your message! I&apos;ll get back to you soon.
-          </p>
-        </div>
-
-        <div
-          role="alert"
-          className="flex min-h-[300px] flex-col items-center justify-center gap-4"
-          style={{ display: status === "error" ? "flex" : "none" }}
-        >
-          <CircleX className="size-12 text-red-600 dark:text-red-400" />
-          <p className="text-center text-red-600 dark:text-red-400">
-            Something went wrong. Refresh the page and try again.
-          </p>
-        </div>
-
-        <div
-          style={{
-            display: status === "success" || status === "error" ? "none" : undefined,
-          }}
-        >
-          <div style={{ display: status === "submitting" ? "grid" : undefined }}>
-            {status === "submitting" && <ContactLoadingIndicator />}
+          <div ref={contactContentRef} className="relative grid p-6">
             <div
-              className={status === "submitting" ? "form-scan-clip [grid-area:1/1]" : ""}
-              style={
-                status === "submitting"
-                  ? {
-                      backgroundColor: "var(--card)",
-                    }
-                  : undefined
-              }
+              className="[grid-area:1/1] flex min-h-[300px] flex-col items-center justify-center gap-4"
+              style={{ display: status === "success" ? "flex" : "none" }}
             >
-              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                <Controller
-                  name="name"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="name">Name</FieldLabel>
-                      <Input {...field} id="name" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                <Controller
-                  name="email"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="email">Email</FieldLabel>
-                      <Input {...field} id="email" type="email" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                <Controller
-                  name="message"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="message">Message</FieldLabel>
-                      <Textarea {...field} id="message" aria-invalid={fieldState.invalid} />
-                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                    </Field>
-                  )}
-                />
-                {/* turnstile */}
-                <div className="flex justify-center">
-                  <div ref={turnstileRef} id="turnstile-container" />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={status !== "idle" || !isFormValid || !turnstileToken}
-                >
-                  {status === "submitting" ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
+              <CircleCheck className="size-12 text-green-600 dark:text-green-400" />
+              <p
+                ref={confirmationRef}
+                tabIndex={-1}
+                className="text-center text-green-600 dark:text-green-400"
+              >
+                Thanks for your message! I&apos;ll get back to you soon.
+              </p>
             </div>
+
+            <div
+              role="alert"
+              className="[grid-area:1/1] flex min-h-[300px] flex-col items-center justify-center gap-4"
+              style={{ display: status === "error" ? "flex" : "none" }}
+            >
+              <CircleX className="size-12 text-red-600 dark:text-red-400" />
+              <p className="text-center text-red-600 dark:text-red-400">
+                Something went wrong. Refresh the page and try again.
+              </p>
+            </div>
+
+            <div
+              className="[grid-area:1/1]"
+              inert={status === "success" || status === "error"}
+              style={{
+                visibility: status === "success" || status === "error" ? "hidden" : undefined,
+              }}
+            >
+              <div style={{ display: status === "submitting" ? "grid" : undefined }}>
+                {status === "submitting" && <ContactLoadingIndicator />}
+                <div
+                  className={status === "submitting" ? "form-scan-clip [grid-area:1/1]" : ""}
+                  style={
+                    status === "submitting"
+                      ? {
+                          backgroundColor: "var(--card)",
+                        }
+                      : undefined
+                  }
+                >
+                  <form
+                    onSubmit={(event) => form.handleSubmit(submitContactMessage)(event)}
+                    className="flex flex-col gap-4"
+                  >
+                    <Controller
+                      name="name"
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor="name">Name</FieldLabel>
+                          <Input {...field} id="name" aria-invalid={fieldState.invalid} />
+                          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                        </Field>
+                      )}
+                    />
+                    <Controller
+                      name="email"
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor="email">Email</FieldLabel>
+                          <Input
+                            {...field}
+                            id="email"
+                            type="email"
+                            aria-invalid={fieldState.invalid}
+                          />
+                          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                        </Field>
+                      )}
+                    />
+                    <Controller
+                      name="message"
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor="message">Message</FieldLabel>
+                          <Textarea {...field} id="message" aria-invalid={fieldState.invalid} />
+                          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                        </Field>
+                      )}
+                    />
+                    {/* turnstile */}
+                    <div className="flex justify-center">
+                      <div ref={turnstileRef} id="turnstile-container" />
+                    </div>
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={status !== "idle" || !isFormValid || !turnstileToken}
+                    >
+                      {status === "submitting" ? "Sending..." : "Send Message"}
+                    </Button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {status === "submitting" && (
+              <div className="scanner-overlay">
+                <div className="scanner-line" />
+              </div>
+            )}
           </div>
-        </div>
-        {status === "submitting" && (
-          <div className="scanner-overlay">
-            <div className="scanner-line" />
-          </div>
-        )}
+        </GlimmScope>
       </Card>
     </>
   )
