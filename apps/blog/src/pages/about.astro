@@ -1,0 +1,40 @@
+---
+import { getEmDashEntry } from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+
+// The About text is the EmDash page with the slug `about`. Without that page, only the links show.
+const { entry: aboutPage, cacheHint } = await getEmDashEntry("pages", "about");
+Astro.cache.set(cacheHint);
+
+/** Public profile links listed under the About text. */
+const aboutLinks = [
+	{ label: "Website", href: "https://skakatur.dev" },
+	{ label: "GitHub", href: "https://github.com/therealsamyak" },
+	{ label: "LinkedIn", href: "https://linkedin.com/in/samyakkakatur" },
+	{ label: "X", href: "https://x.com/skakatur_dev" },
+	{ label: "RSS", href: "/rss.xml" },
+];
+---
+
+<Base
+	title="About"
+	content={aboutPage ? { collection: "pages", id: aboutPage.data.id, slug: "about" } : undefined}
+>
+	{
+		aboutPage && (
+			<div class="blog-body">
+				<PortableText value={aboutPage.data.content} />
+			</div>
+		)
+	}
+	<ul class="blog-links">
+		{
+			aboutLinks.map((link) => (
+				<li>
+					<a href={link.href}>{link.label}</a>
+				</li>
+			))
+		}
+	</ul>
+</Base>
