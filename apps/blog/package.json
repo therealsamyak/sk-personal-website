@@ -18,20 +18,20 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "15.0.0-beta.5",
-    "@astrojs/react": "^7.1.7",
-    "@emdash-cms/cloudflare": "1.4.0",
-    "@emdash-cms/plugin-forms": "^0.2.12",
-    "astro": "^7.4.10",
-    "emdash": "1.4.0",
+    "@astrojs/react": "^7.1.8",
+    "@emdash-cms/cloudflare": "1.5.0",
+    "@emdash-cms/plugin-forms": "^0.2.13",
+    "astro": "^7.4.11",
+    "emdash": "1.5.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "@cloudflare/workers-types": "^5.20261110.1",
-    "cf": "1.0.0-beta.29",
+    "@cloudflare/workers-types": "^5.20261113.1",
+    "cf": "1.0.0-beta.31",
     "typescript": "^6.0.3",
-    "wrangler": "^4.160.0"
+    "wrangler": "^4.162.0"
   },
   "portless": {
     "name": "blog",
