@@ -1,7 +1,6 @@
 ---
 import { decodeSlug, getEmDashCollection, getEmDashEntry, getEntryTerms, getSeoMeta, getSiteSettings } from "emdash";
 import { PortableText } from "emdash/ui";
-import { CommentForm, Comments } from "emdash/ui/comments";
 import Base from "../../layouts/Base.astro";
 import { getReadingStats } from "../../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../../utils/site-identity";
@@ -128,9 +127,4 @@ const longDate = postDate.toLocaleDateString("en-US", {
 			</nav>
 		)
 	}
-
-	<section class="blog-comments">
-		<Comments collection="posts" contentId={post.data.id} threaded />
-		<CommentForm collection="posts" contentId={post.data.id} />
-	</section>
 </Base>
