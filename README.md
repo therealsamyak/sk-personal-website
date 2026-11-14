@@ -81,6 +81,9 @@ pnpm run cf-deploy-website
 
 #### Blog
 
+Configure the deployment credentials and database fingerprint described in [Deploy the blog](docs/blog-operations.md).
+The deployment command applies EmDash migrations before uploading the Worker.
+
 ```bash
 pnpm run cf-deploy-blog
 ```
