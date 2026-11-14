@@ -147,7 +147,7 @@ export const ContactForm = () => {
           peakAlpha={0.65}
           swellAmount={0}
         >
-          <div ref={contactContentRef} className="relative grid p-6">
+          <div ref={contactContentRef} className="relative grid bg-card p-6">
             <div
               className="[grid-area:1/1] flex min-h-[300px] flex-col items-center justify-center gap-4"
               style={{ display: status === "success" ? "flex" : "none" }}
