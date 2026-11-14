@@ -15,7 +15,7 @@ import { Card } from "@/ui/card"
 import { Field, FieldError, FieldLabel } from "@/ui/field"
 import { Input } from "@/ui/input"
 import { Textarea } from "@/ui/textarea"
-import { ContactLoadingIndicator, ContactScannerFilter } from "./ContactLoadingIndicator"
+import { ContactLoadingIndicator } from "./ContactLoadingIndicator"
 
 const contactSuccessPalette = accentPair("#16899a", "#53bbc7")
 
@@ -133,7 +133,6 @@ export const ContactForm = () => {
         strategy="afterInteractive"
         onReady={renderTurnstileWidget}
       />
-      <ContactScannerFilter />
       <output className="sr-only" aria-live="polite">
         {status === "success" ? "Thanks for your message! I'll get back to you soon." : ""}
       </output>
@@ -184,14 +183,8 @@ export const ContactForm = () => {
               <div style={{ display: status === "submitting" ? "grid" : undefined }}>
                 {status === "submitting" && <ContactLoadingIndicator />}
                 <div
-                  className={status === "submitting" ? "form-scan-clip [grid-area:1/1]" : ""}
-                  style={
-                    status === "submitting"
-                      ? {
-                          backgroundColor: "var(--card)",
-                        }
-                      : undefined
-                  }
+                  className="[grid-area:1/1]"
+                  style={{ visibility: status === "submitting" ? "hidden" : undefined }}
                 >
                   <form
                     onSubmit={(event) => form.handleSubmit(submitContactMessage)(event)}
@@ -250,11 +243,6 @@ export const ContactForm = () => {
                 </div>
               </div>
             </div>
-            {status === "submitting" && (
-              <div className="scanner-overlay">
-                <div className="scanner-line" />
-              </div>
-            )}
           </div>
         </GlimmScope>
       </Card>
