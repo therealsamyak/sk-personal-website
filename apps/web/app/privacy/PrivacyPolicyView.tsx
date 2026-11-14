@@ -1,9 +1,11 @@
+import Link from "next/link"
+
 // Describe the website's hosting and cookieless Umami statistics in a short privacy notice.
 export function PrivacyPolicyView() {
   return (
     <article data-privacy-policy className="w-full">
-      <h1>Summary</h1>
-      <p className="text-sm text-muted-foreground">Last updated November 11, 2026.</p>
+      <h1>Privacy</h1>
+      <p className="text-sm text-muted-foreground">Last updated November 14, 2026.</p>
       <p>
         We respect your privacy. Your preferences are stored locally in your browser using Local
         Storage. This means your preferences do not sync between devices. We do not track you across
@@ -80,7 +82,7 @@ export function PrivacyPolicyView() {
       <h2>Questions</h2>
       <p>
         If you have any questions about this privacy policy or the data we process, you can reach us
-        at: <a href="mailto:therealsamyak@gmail.com">therealsamyak@gmail.com</a>.
+        through the <Link href="/contact">contact form</Link>.
       </p>
     </article>
   )

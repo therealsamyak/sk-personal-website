@@ -1,0 +1,128 @@
+---
+// Pressable 3D theme toggle button: sun in light mode, moon in dark mode, circular reveal on click.
+---
+
+<button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+	<svg class="theme-toggle-icon theme-toggle-sun" viewBox="0 0 24 24" aria-hidden="true">
+		<circle cx="12" cy="12" r="4"></circle>
+		<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+	</svg>
+	<svg class="theme-toggle-icon theme-toggle-moon" viewBox="0 0 24 24" aria-hidden="true">
+		<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+	</svg>
+</button>
+
+<script>
+	// Store the theme in the first-party `theme` cookie that the head script reads.
+	const root = document.documentElement;
+
+	const toggleBlogTheme = () => {
+		const theme = root.classList.toggle("dark") ? "dark" : "light";
+		const secure = location.protocol === "https:" ? "; Secure" : "";
+		document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax${secure}`;
+	};
+
+	// The client router swaps the header on each navigation, so bind the new button after every page load.
+	const bindThemeToggle = () => {
+		for (const button of document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")) {
+			button.addEventListener("click", () => {
+				const rect = button.getBoundingClientRect();
+				root.style.setProperty("--x", `${rect.left + rect.width / 2}px`);
+				root.style.setProperty("--y", `${rect.top + rect.height / 2}px`);
+
+				if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+					toggleBlogTheme();
+					return;
+				}
+
+				root.style.viewTransitionName = "theme-switch";
+				document.startViewTransition(toggleBlogTheme).finished.then(() => {
+					root.style.viewTransitionName = "";
+				});
+			});
+		}
+	};
+
+	document.addEventListener("astro:page-load", bindThemeToggle);
+</script>
+
+<style>
+	.theme-toggle {
+		--toggle-bg: #ffffff;
+		--toggle-hover: #f5f5f5;
+		--toggle-border: #dedede;
+		--toggle-shadow: #cfcfcf;
+		display: inline-grid;
+		place-items: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		padding: 0;
+		border: 1px solid var(--toggle-border);
+		border-radius: 0.6rem;
+		background: var(--toggle-bg);
+		color: inherit;
+		cursor: pointer;
+		transform: translateY(-4px);
+		box-shadow: 0 4px 0 var(--toggle-shadow);
+		transition:
+			transform 100ms ease-out,
+			box-shadow 100ms ease-out,
+			background-color 150ms ease-out;
+	}
+	:global(html.dark) .theme-toggle {
+		--toggle-bg: #1b1b1b;
+		--toggle-hover: #232323;
+		--toggle-border: #2e2e2e;
+		--toggle-shadow: #2e2e2e;
+	}
+	.theme-toggle:hover {
+		background: var(--toggle-hover);
+	}
+	.theme-toggle:active {
+		transform: translateY(0);
+		box-shadow: 0 0 0 var(--toggle-shadow);
+	}
+	.theme-toggle:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 3px;
+	}
+	.theme-toggle-icon {
+		grid-area: 1 / 1;
+		width: 1.05rem;
+		height: 1.05rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.75;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		transition:
+			scale 300ms ease-in-out,
+			rotate 300ms ease-in-out,
+			opacity 300ms ease-in-out;
+	}
+	.theme-toggle-sun {
+		color: #d97706;
+	}
+	.theme-toggle-moon {
+		color: #93c5fd;
+		scale: 0;
+		rotate: -90deg;
+		opacity: 0;
+	}
+	:global(html.dark) .theme-toggle-sun {
+		scale: 0;
+		rotate: 90deg;
+		opacity: 0;
+	}
+	:global(html.dark) .theme-toggle-moon {
+		scale: 1;
+		rotate: 0deg;
+		opacity: 1;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.theme-toggle,
+		.theme-toggle-icon {
+			transition: none;
+		}
+	}
+</style>
