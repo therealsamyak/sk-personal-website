@@ -22,7 +22,8 @@ export default defineConfig({
       auth: access({
         teamDomain: "skakatur.cloudflareaccess.com",
         audienceEnvVar: "CF_ACCESS_AUDIENCE",
-        autoProvision: false,
+        autoProvision: true,
+        defaultRole: 30,
       }),
       plugins: [formsPlugin()],
     }),
