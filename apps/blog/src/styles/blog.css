@@ -1,0 +1,309 @@
+/* Blog design: quiet sans-serif, posts grouped by year, light and dark themes. */
+
+:root {
+  --bg: #fcfcfc;
+  --fg: #171717;
+  --muted: #737373;
+  --faint: #a3a3a3;
+  --rule: #ececec;
+  --code-bg: #f3f3f3;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: light;
+}
+
+html.dark {
+  --bg: #0e0e0e;
+  --fg: #ededed;
+  --muted: #9a9a9a;
+  --faint: #5c5c5c;
+  --rule: #1f1f1f;
+  --code-bg: #181818;
+  color-scheme: dark;
+}
+
+html {
+  background: var(--bg);
+  /* Reserve the scrollbar space on every page so short pages do not shift sideways. */
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 44rem;
+  padding: 4rem 1.5rem 6rem;
+  color: var(--fg);
+  font: 15px/1.6 var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Header */
+
+.blog-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.blog-name {
+  font-weight: 500;
+}
+
+.blog-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  color: var(--muted);
+}
+
+.blog-nav a:hover {
+  color: var(--fg);
+}
+
+/* Underlined links: post titles, About links, and body text */
+
+.blog-titles a,
+.blog-links a,
+.blog-body a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--faint);
+}
+
+.blog-titles a:hover,
+.blog-links a:hover,
+.blog-body a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Post list grouped by year */
+
+.blog-year {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  border-top: 1px solid var(--rule);
+}
+
+.blog-year h2 {
+  margin: 0;
+  padding-top: 1rem;
+  font-size: inherit;
+  font-weight: 400;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.blog-titles {
+  list-style: none;
+  margin: 0;
+  padding: 0.85rem 0 1.25rem;
+}
+
+.blog-titles li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 0.2rem 0;
+}
+
+.blog-titles time {
+  flex: none;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.blog-empty {
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+}
+
+@media (max-width: 560px) {
+  .blog-year {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* About page links */
+
+.blog-links {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+/* Post page */
+
+.blog-post-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.blog-post-meta {
+  margin: 0 0 3rem;
+  color: var(--muted);
+}
+
+.blog-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.blog-pager a {
+  display: block;
+}
+
+.blog-pager small {
+  display: block;
+  color: var(--faint);
+}
+
+.blog-pager-older {
+  text-align: right;
+}
+
+/* Rendered Portable Text */
+
+.blog-body {
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.blog-body h1 {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.blog-body h2 {
+  margin: 2.75rem 0 0.75rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.blog-body h3 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.blog-body p,
+.blog-body ul,
+.blog-body ol {
+  margin: 0 0 1.25rem;
+}
+
+.blog-body ul,
+.blog-body ol {
+  padding-left: 1.25rem;
+}
+
+.blog-body li::marker {
+  color: var(--faint);
+}
+
+.blog-body blockquote {
+  margin: 2rem 0;
+  padding: 0;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.blog-body img {
+  max-width: 100%;
+  height: auto;
+}
+
+.blog-body code {
+  font-variant-numeric: normal;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.blog-body :not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+
+/* The `body.blog` prefix outranks the scoped styles of the EmDash code block. */
+body.blog .blog-body .emdash-code {
+  margin: 1.75rem 0;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+body.blog .blog-body .emdash-code-filename {
+  background: var(--code-bg);
+  color: var(--muted);
+  border-radius: 0;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+}
+
+body.blog .blog-body .emdash-code pre {
+  background: var(--code-bg);
+  border-radius: 0;
+}
+
+body.blog .blog-body .emdash-code code {
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.825rem;
+  line-height: 1.55;
+}
+
+/* Theme change: the new theme grows as a circle from the toggle button. */
+
+::view-transition-old(theme-switch),
+::view-transition-new(theme-switch) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(theme-switch) {
+  z-index: 0;
+}
+
+::view-transition-new(theme-switch) {
+  z-index: 1;
+  animation: blog-theme-reveal 0.44s ease-in-out forwards;
+}
+
+@keyframes blog-theme-reveal {
+  from {
+    clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
+    opacity: 0.7;
+  }
+  to {
+    clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
+    opacity: 1;
+  }
+}

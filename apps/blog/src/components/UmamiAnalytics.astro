@@ -1,10 +1,13 @@
 ---
-// Track every public blog page, including new posts, through the shared layout.
+// Track every public blog page, including client-router navigations, through the shared layout.
 ---
 
 <script>
-  import { loadUmamiAnalytics } from "../lib/umami-browser"
+  import { loadUmamiAnalytics, trackUmamiPageView } from "../lib/umami-browser"
   import { umamiAnalyticsConfig } from "../lib/umami-analytics"
 
-  if (umamiAnalyticsConfig) loadUmamiAnalytics(umamiAnalyticsConfig)
+  if (umamiAnalyticsConfig) {
+    loadUmamiAnalytics({ ...umamiAnalyticsConfig, manualPageviews: true })
+    document.addEventListener("astro:page-load", trackUmamiPageView)
+  }
 </script>

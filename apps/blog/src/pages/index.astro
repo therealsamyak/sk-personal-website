@@ -1,305 +1,39 @@
 ---
-import {
-	getEmDashCollection,
-	getTermsForEntries,
-	getSiteSettings,
-	getTaxonomyTermsWithCacheHint,
-} from "emdash";
-import { Image } from "emdash/ui";
+import { getEmDashCollection } from "emdash";
 import Base from "../layouts/Base.astro";
-import { getReadingStats } from "../utils/reading-time";
-import { resolveBlogSiteIdentity } from "../utils/site-identity";
 
-const categoryParam = Astro.url.searchParams.get("category");
-const [
-	{ data: categories, cacheHint: taxonomyCacheHint },
-	{ entries: allPosts, cacheHint },
-	siteSettings,
-] = await Promise.all([
-	getTaxonomyTermsWithCacheHint("category", { includeCounts: false }),
-	getEmDashCollection("posts", { orderBy: { published_at: "desc" } }),
-	getSiteSettings(),
-]);
-const activeTerm = categoryParam
-	? categories.find(
-			(t) => t.label.toLowerCase() === categoryParam.toLowerCase(),
-		)
-	: null;
-
-// EmDash hydrates entry terms with the collection; reuse those cached terms.
-const termsByPost = await getTermsForEntries(
-	"posts",
-	allPosts.map((post) => post.data.id),
-	"category",
-);
-const posts = activeTerm
-	? allPosts.filter((post) =>
-			termsByPost.get(post.data.id)?.some((term) => term.slug === activeTerm.slug),
-		)
-	: allPosts;
-const { siteTitle, siteTagline } = resolveBlogSiteIdentity(siteSettings);
-
-Astro.cache.set({
-	...cacheHint,
-	tags: [...(cacheHint.tags ?? []), ...(taxonomyCacheHint.tags ?? [])],
+const { entries: posts, cacheHint } = await getEmDashCollection("posts", {
+	orderBy: { published_at: "desc" },
 });
+Astro.cache.set(cacheHint);
 
-const sortedPosts = posts.toSorted((a, b) => {
-	const dateA = a.data.publishedAt?.getTime() ?? 0;
-	const dateB = b.data.publishedAt?.getTime() ?? 0;
-	return dateB - dateA;
-});
-
-const enrichedPosts = sortedPosts.map((post) => {
-	const terms = termsByPost.get(post.data.id) ?? [];
-	const bylines = post.data.bylines ?? [];
-	const { readingTime, wordCount } = getReadingStats(post.data.content);
-	return {
-		post,
-		categories: terms.map((t) => ({ slug: t.slug, label: t.label })),
-		bylines,
-		readTime: readingTime,
-		wordCount,
-	};
-});
-
-// Count only the posts already loaded for this request, including preview visibility.
-const countsBySlug = new Map<string, number>();
-for (const post of allPosts) {
-	const slugs = new Set((termsByPost.get(post.data.id) ?? []).map((term) => term.slug));
-	for (const slug of slugs) {
-		countsBySlug.set(slug, (countsBySlug.get(slug) ?? 0) + 1);
-	}
-}
-const categoryCounts = new Map<string, number>();
-categoryCounts.set("All", allPosts.length);
-for (const cat of categories) {
-	categoryCounts.set(cat.label, countsBySlug.get(cat.slug) ?? 0);
+// Group posts by publish year, newest first. Unpublished previews use their creation date.
+const postDate = (post: (typeof posts)[number]) => post.data.publishedAt ?? post.data.createdAt;
+const years = new Map<number, typeof posts>();
+for (const post of posts) {
+	const year = postDate(post).getUTCFullYear();
+	years.set(year, [...(years.get(year) ?? []), post]);
 }
 
-const [featured, ...rest] = enrichedPosts;
-const secondary = rest.slice(0, 2);
-const ledger = rest.slice(2);
-
-function fmtShort(date?: Date | null) {
-	if (!date) return "";
-	return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-}
-function fmtFull(date?: Date | null) {
-	if (!date) return "";
-	return date.toLocaleDateString("en-US", {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	});
-}
-
-function fmtWords(n: number) {
-	return n.toLocaleString();
-}
-
-function authorName(
-	bylines: Array<{ byline: { displayName: string } }>,
-): string {
-	if (bylines.length === 0) return "Staff";
-	return bylines
-		.slice(0, 2)
-		.map((c) => c.byline.displayName)
-		.join(", ");
-}
-
-function halftonePlate(kind: "accent" | "ink" | "soft", label: string, seed: number) {
-	const cls = kind === "accent" ? "halftone-accent" : kind === "ink" ? "halftone-ink" : "halftone-soft";
-	const stampCls = kind === "accent" ? "stamp-accent" : "stamp-solid";
-	const cx = 25 + ((seed * 37) % 50);
-	const cy = 30 + ((seed * 53) % 40);
-	return `
-		<div class="relative aspect-[16/9] overflow-hidden border-b border-border" style="background: var(--card)">
-			<div class="absolute inset-0 ${cls}"></div>
-			<div class="absolute mix-blend-multiply rounded-full"
-				style="left:${cx}%;top:${cy}%;width:60%;height:120%;transform:translate(-50%,-50%);
-				background:radial-gradient(circle, var(--${kind === "accent" ? "foreground" : "accent"}) 0%, transparent ${kind === "accent" ? "60" : "55"}%);
-				opacity:0.55;"></div>
-			<div class="absolute top-2 left-2"><span class="stamp ${stampCls}">${label}</span></div>
-			<div class="absolute bottom-2 right-2 mono text-[10px] tracking-[0.2em] uppercase opacity-70">
-				plate № ${(seed + 42).toString().padStart(3, "0")}
-			</div>
-		</div>
-	`;
-}
+const shortDate = (date: Date) =>
+	date.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 ---
 
-<Base title={siteTitle} description={siteTagline}>
-	{/* FILTER BAR */}
-	<section class="max-w-[1400px] mx-auto px-6 pt-5 pb-4 flex flex-wrap items-baseline justify-between gap-3 border-b border-border">
-		<div class="flex items-baseline gap-3 mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
-			<span><span style="color: var(--accent)">§</span> Front Page</span>
-			<span>·</span>
-			<span>Showing <span class="text-foreground">{enrichedPosts.length.toString().padStart(2, "0")}</span> / {allPosts.length.toString().padStart(2, "0")}</span>
-		</div>
-		<div class="flex gap-2 flex-wrap">
-			<a
-				href="/"
-				class="chip"
-				data-active={String(!categoryParam)}
-			>
-				All <span class="opacity-60 ml-1">{(categoryCounts.get("All") ?? 0).toString().padStart(2, "0")}</span>
-			</a>
-			{categories.map((cat) => (
-				<a
-					href={`/?category=${encodeURIComponent(cat.label)}`}
-					class="chip"
-					data-active={String(categoryParam?.toLowerCase() === cat.label.toLowerCase())}
-				>
-					{cat.label} <span class="opacity-60 ml-1">{(categoryCounts.get(cat.label) ?? 0).toString().padStart(2, "0")}</span>
-				</a>
-			))}
-		</div>
-	</section>
-
-	{/* EMPTY STATE */}
-	{enrichedPosts.length === 0 ? (
-		<section class="max-w-[1400px] mx-auto px-6 py-20 text-center">
-			<p class="display text-2xl font-semibold">
-				{categoryParam
-				? <>No dispatches filed under <span style="color: var(--accent)">{categoryParam}</span>.</>
-				: "No dispatches filed."
-			}
-			</p>
-		</section>
-	) : (
-		<>
-			{/* TILE GRID */}
-			<section class="max-w-[1400px] mx-auto px-6 py-6 grid grid-cols-12 gap-5">
-				{/* FEATURED TILE */}
-				{featured && (
-					<a
-						href={`/posts/${featured.post.id}`}
-						class="tile tile-accent col-span-12 lg:col-span-7 border-2 border-foreground bg-card flex flex-col"
-					>
-						{featured.post.data.featured_image ? (
-							<div class="relative aspect-[16/9] overflow-hidden border-b border-border">
-								<Image image={featured.post.data.featured_image} {...featured.post.edit.featured_image} />
-							</div>
-						) : (
-							<Fragment set:html={halftonePlate("accent", `Lead · ${featured.categories[0]?.label ?? "Dispatch"}`, 0)} />
-						)}
-						<div class="p-5 flex-1 flex flex-col">
-							<div class="flex items-baseline justify-between mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-3">
-								<span>{fmtFull(featured.post.data.publishedAt)}</span>
-								<span>{featured.readTime} min · {fmtWords(featured.wordCount)} w</span>
-							</div>
-							<h2
-								class="display mb-3"
-								style="font-size: clamp(1.85rem, 3.2vw, 2.75rem); font-weight: 700; line-height: 0.98; letter-spacing: -0.035em;"
-								{...featured.post.edit.title}
-							>
-								{featured.post.data.title}.
-							</h2>
-							{featured.post.data.excerpt && (
-								<p
-									class="serif text-base leading-[1.55] text-foreground/85 mb-3 max-w-[58ch]"
-									{...featured.post.edit.excerpt}
-								>
-									{featured.post.data.excerpt}
-								</p>
-							)}
-							<div class="mt-auto pt-3 border-t border-border flex items-center justify-between mono text-[11px] tracking-[0.22em] uppercase">
-								<span>By <span class="text-foreground">{authorName(featured.bylines)}</span></span>
-								<span style="color: var(--accent)">Read →</span>
-							</div>
-						</div>
-					</a>
-				)}
-
-				{/* SECONDARY TILES */}
-				<div class="col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5">
-					{secondary.map((item, i) => {
-						const kind = i % 2 === 0 ? "ink" : "soft";
-						return (
-							<a
-								href={`/posts/${item.post.id}`}
-								class="tile tile-accent border-2 border-foreground bg-card flex flex-col"
-							>
-								{item.post.data.featured_image ? (
-									<div class="relative aspect-[16/9] overflow-hidden border-b border-border">
-										<Image image={item.post.data.featured_image} {...item.post.edit.featured_image} />
-									</div>
-								) : (
-									<Fragment set:html={halftonePlate(kind, item.categories[0]?.label ?? "Dispatch", i + 1)} />
-								)}
-								<div class="p-4 flex-1 flex flex-col">
-									<div class="mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2 flex justify-between">
-										<span>№ 0{i + 2}</span>
-										<span>{fmtShort(item.post.data.publishedAt)} · {item.readTime} min</span>
-									</div>
-									<h3
-										class="display mb-1.5"
-										style="font-size: 1.3rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.025em;"
-										{...item.post.edit.title}
-									>
-										{item.post.data.title}.
-									</h3>
-									{item.post.data.excerpt && (
-										<p class="serif text-sm leading-snug text-muted-foreground line-clamp-2" {...item.post.edit.excerpt}>
-											{item.post.data.excerpt}
-										</p>
-									)}
-									<div class="mt-2 mono text-[10px] tracking-[0.22em] uppercase text-foreground/70">
-										By {authorName(item.bylines)}
-									</div>
-								</div>
-							</a>
-						);
-					})}
-				</div>
-			</section>
-
-			{/* LEDGER (rest of issue) */}
-			{ledger.length > 0 && (
-				<section class="max-w-[1400px] mx-auto px-6 py-6">
-					<div class="flex items-baseline justify-between border-y-2 border-foreground py-2 mb-1">
-						<h2 class="display" style="font-size: 1.4rem; font-weight: 700; letter-spacing: -0.03em;">
-							Also in this issue
-						</h2>
-						<span class="mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
-							{ledger.length.toString().padStart(2, "0")} more
-						</span>
-					</div>
-					<div class="hidden md:grid grid-cols-[40px_90px_120px_1fr_140px_60px_30px] gap-3 mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground py-2 border-b border-border">
-						<span>№</span><span>Date</span><span>Section</span><span>Title</span><span>By</span><span class="text-right">Min</span><span></span>
-					</div>
-					{ledger.map((item, i) => (
-						<a
-							href={`/posts/${item.post.id}`}
-							class="ledger-row grid grid-cols-[36px_1fr_30px] md:grid-cols-[40px_90px_120px_1fr_140px_60px_30px] gap-3 items-baseline py-3 px-1"
-						>
-							<span class="display text-foreground/40" style="font-size: 1rem; font-weight: 700;">
-								{(i + 4).toString().padStart(2, "0")}
-							</span>
-							<span class="mono text-[11px] tracking-wider uppercase text-muted-foreground hidden md:block">
-								{fmtShort(item.post.data.publishedAt)}
-							</span>
-							<span class="mono text-[10px] tracking-[0.2em] uppercase hidden md:block" style="color: var(--accent)">
-								{item.categories[0]?.label ?? ""}
-							</span>
-							<span class="display text-foreground" style="font-size: 1.1rem; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em;">
-								{item.post.data.title}.
-								<span class="md:hidden block mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground mt-1">
-									{item.categories[0]?.label ?? ""} · {fmtShort(item.post.data.publishedAt)} · {item.readTime} min · {authorName(item.bylines)}
-								</span>
-							</span>
-							<span class="mono text-[11px] tracking-wider uppercase text-foreground/80 hidden md:block">
-								{authorName(item.bylines)}
-							</span>
-							<span class="mono text-[11px] text-muted-foreground hidden md:block text-right">
-								{item.readTime}′
-							</span>
-							<span class="ledger-arrow text-foreground/50 text-right">→</span>
-						</a>
+<Base title="Writing">
+	{posts.length === 0 && <p class="blog-empty">No posts yet.</p>}
+	{
+		[...years].map(([year, yearPosts]) => (
+			<section class="blog-year">
+				<h2>{year}</h2>
+				<ul class="blog-titles">
+					{yearPosts.map((post) => (
+						<li>
+							<a href={`/posts/${post.id}`}>{post.data.title}</a>
+							<time datetime={postDate(post).toISOString()}>{shortDate(postDate(post))}</time>
+						</li>
 					))}
-				</section>
-			)}
-		</>
-	)}
+				</ul>
+			</section>
+		))
+	}
 </Base>

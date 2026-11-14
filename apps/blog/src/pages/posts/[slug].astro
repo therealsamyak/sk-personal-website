@@ -1,16 +1,6 @@
 ---
-import {
-	getEmDashEntry,
-	getEntryTerms,
-	getSeoMeta,
-	decodeSlug,
-	getSiteSettings,
-} from "emdash";
-import {
-	Image,
-	PortableText,
-} from "emdash/ui";
-import { Comments, CommentForm } from "emdash/ui/comments";
+import { decodeSlug, getEmDashCollection, getEmDashEntry, getEntryTerms, getSeoMeta, getSiteSettings } from "emdash";
+import { PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
 import { getReadingStats } from "../../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../../utils/site-identity";
@@ -27,16 +17,12 @@ if (!post) {
 	return Astro.redirect("/404");
 }
 
-Astro.cache.set(cacheHint);
-
-// Get featured image URL for OG fallback
+// Get featured image URL for the Open Graph image
 function getImageUrl(img: unknown): string | undefined {
 	if (!img || typeof img !== "object") return undefined;
 	const image = img as Record<string, unknown>;
 	if (typeof image.src === "string" && image.src) {
-		return image.src.startsWith("http")
-			? image.src
-			: `${Astro.url.origin}${image.src}`;
+		return image.src.startsWith("http") ? image.src : `${Astro.url.origin}${image.src}`;
 	}
 	const meta = image.meta as Record<string, unknown> | undefined;
 	const storageKey =
@@ -47,35 +33,54 @@ function getImageUrl(img: unknown): string | undefined {
 	}
 	return undefined;
 }
-const featuredImageUrl = getImageUrl(post.data.featured_image);
+
+// Newer and older neighbors come from two one-row range queries, not the full post list.
+const publishedAt = post.data.publishedAt?.toISOString();
+const neighborQuery = (direction: "newer" | "older") =>
+	publishedAt
+		? getEmDashCollection("posts", {
+				where: { published_at: direction === "newer" ? { gt: publishedAt } : { lt: publishedAt } },
+				orderBy: { published_at: direction === "newer" ? "asc" : "desc" },
+				limit: 1,
+			})
+		: null;
+
 // post.data.id is the database ULID; post.id is the slug.
-const [siteSettings, categories] = await Promise.all([
+const [siteSettings, categories, newerResult, olderResult] = await Promise.all([
 	getSiteSettings(),
 	getEntryTerms("posts", post.data.id, "category"),
+	neighborQuery("newer"),
+	neighborQuery("older"),
 ]);
-const { siteTitle } = resolveBlogSiteIdentity(siteSettings);
+const newer = newerResult?.entries[0];
+const older = olderResult?.entries[0];
 
-// Generate SEO meta from content
+Astro.cache.set({
+	...cacheHint,
+	tags: [
+		...(cacheHint.tags ?? []),
+		...(newerResult?.cacheHint.tags ?? []),
+		...(olderResult?.cacheHint.tags ?? []),
+	],
+});
+
+const { siteTitle } = resolveBlogSiteIdentity(siteSettings);
 const seo = getSeoMeta(post, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
 	path: `/posts/${slug}`,
-	defaultOgImage: featuredImageUrl,
+	defaultOgImage: getImageUrl(post.data.featured_image),
 });
 
 const category = categories[0];
-
-const authorName = (post.data.bylines ?? []).map((c: { byline: { displayName: string } }) => c.byline.displayName).join(", ") || "SK";
-
-const { readingTime, wordCount } = getReadingStats(post.data.content);
-const wordsFormatted = wordCount.toLocaleString("en-US");
-
-const publishDate =
-	post.data.publishedAt?.toLocaleDateString("en-US", {
-		year: "numeric",
-		month: "short",
-		day: "numeric",
-	}) ?? null;
+const { readingTime } = getReadingStats(post.data.content);
+const postDate = post.data.publishedAt ?? post.data.createdAt;
+const longDate = postDate.toLocaleDateString("en-US", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+	timeZone: "UTC",
+});
 ---
 
 <Base
@@ -90,183 +95,36 @@ const publishDate =
 	modifiedTime={post.data.updatedAt.toISOString()}
 	content={{ collection: "posts", id: post.data.id, slug }}
 >
-	<article class="min-h-screen">
-		{/* HEAD — dense, no wasted space */}
-		<header class="max-w-[1400px] mx-auto px-6 pt-5 pb-4 border-b-2 border-foreground">
-			<div class="flex flex-wrap items-baseline justify-between gap-2 mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-3">
-				<a href="/" class="acid-link text-foreground">← Front</a>
-				<span>
-					{category && <span style={{ color: "var(--accent)" }}>§ {category.label}</span>}
-					{category && " · "}
-					{publishDate}
-					{publishDate && " · "}
-					{readingTime} min · {wordsFormatted} words
-				</span>
-				<span>By <span class="text-foreground">{authorName}</span></span>
-			</div>
-
-			<h1
-				class="display"
-				style={{
-					fontSize: "clamp(2rem, 4.5vw, 3.75rem)",
-					fontWeight: 800,
-					lineHeight: 1.0,
-					letterSpacing: "-0.045em",
-				}}
-				{...post.edit.title}
-			>
-				{post.data.title}
-			</h1>
-		</header>
-
-		{/* Featured image */}
-		{
-			post.data.featured_image && (
-				<div class="max-w-[1400px] mx-auto px-6 py-6" {...post.edit.featured_image}>
-					<Image image={post.data.featured_image} />
-				</div>
-			)
-		}
-
-		{/* BODY — 12-col with marginalia */}
-		<div class="max-w-[1400px] mx-auto px-6 py-10 grid grid-cols-12 gap-6">
-			{/* Marginalia rail */}
-			<aside class="col-span-12 md:col-span-3 md:sticky md:top-32 self-start">
-				<div class="border-l-2 pl-4 space-y-4 mono text-[10px] tracking-[0.22em] uppercase" style={{ borderColor: "var(--accent)" }}>
-					{
-						category && (
-							<div>
-								<div class="text-muted-foreground">§ Filed</div>
-								<div style={{ color: "var(--accent)" }}>{category.label}</div>
-							</div>
-						)
-					}
-					{
-						publishDate && (
-							<div>
-								<div class="text-muted-foreground">§ Dateline</div>
-								<div class="text-foreground">{publishDate}</div>
-							</div>
-						)
-					}
-					<div>
-						<div class="text-muted-foreground">§ Length</div>
-						<div class="text-foreground">{wordsFormatted} words · {readingTime} min</div>
-					</div>
-					<div>
-						<div class="text-muted-foreground">§ Byline</div>
-						<div class="text-foreground">{authorName}</div>
-					</div>
-					<div class="pt-3 border-t border-border">
-						<div class="text-muted-foreground mb-2">§ Section index</div>
-						<ol id="toc-content" class="space-y-1 normal-case tracking-normal" style={{ fontSize: "11px" }}>
-							{/* Populated by client-side JS */}
-						</ol>
-					</div>
-				</div>
-			</aside>
-
-			{/* Body copy */}
-			<div class="col-span-12 md:col-span-9">
-				{
-					post.data.excerpt && (
-						<p class="serif text-lg leading-relaxed text-muted-foreground mb-8" {...post.edit.excerpt}>
-							{post.data.excerpt}
-						</p>
-					)
-				}
-
-				<div id="article-content" class="article-body max-w-[68ch]">
-					<PortableText value={post.data.content} />
-				</div>
-
-				{/* End of dispatch marker */}
-				<div class="mt-8 flex items-center gap-3 mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
-					<span class="w-2 h-2 inline-block" style={{ background: "var(--accent)" }} />
-					End of dispatch · {wordsFormatted} words
-				</div>
-
-				{/* Back to front link */}
-				<div class="mt-8 pt-4 border-t-2 border-foreground">
-					<a href="/" class="acid-link mono text-[11px] tracking-[0.22em] uppercase" style={{ color: "var(--accent)" }}>← Back to front</a>
-				</div>
-
-				{/* Comments */}
-				<div class="mt-16 pt-10 border-t border-border">
-					<Comments collection="posts" contentId={post.data.id} threaded />
-					<CommentForm collection="posts" contentId={post.data.id} />
-				</div>
-			</div>
+	<article>
+		<h1 class="blog-post-title" {...post.edit.title}>{post.data.title}</h1>
+		<p class="blog-post-meta">
+			<time datetime={postDate.toISOString()}>{longDate}</time> · {readingTime} min read{category && ` · ${category.label}`}
+		</p>
+		<div class="blog-body">
+			<PortableText value={post.data.content} />
 		</div>
 	</article>
 
-	<script>
-		// Build TOC from h2/h3 headings in article body
-		function buildToc() {
-			const content = document.getElementById("article-content");
-			const tocContainer = document.getElementById("toc-content");
-			if (!content || !tocContainer) return;
-
-			const headings = content.querySelectorAll("h2, h3");
-			if (headings.length === 0) return;
-
-			let index = 0;
-			headings.forEach((heading) => {
-				// Add ID if missing
-				if (!heading.id) {
-					heading.id = `section-${index}`;
-				}
-				index++;
-
-				const li = document.createElement("li");
-				const link = document.createElement("a");
-				link.href = `#${heading.id}`;
-				link.className = "toc-link";
-				const isH3 = heading.tagName === "H3";
-
-				const num = document.createElement("span");
-				num.className = "toc-num tabular-nums";
-				num.textContent = index.toString().padStart(2, "0");
-
-				const text = document.createElement("span");
-				text.className = "line-clamp-1";
-				if (isH3) text.style.paddingLeft = "0.75rem";
-				text.textContent = heading.textContent;
-
-				link.appendChild(num);
-				link.appendChild(text);
-				li.appendChild(link);
-				tocContainer.appendChild(li);
-			});
-
-			// Highlight current section on scroll
-			const observer = new IntersectionObserver(
-				(entries) => {
-					entries.forEach((entry) => {
-						const id = entry.target.id;
-						const link = tocContainer.querySelector(`a[href="#${id}"]`);
-						if (link) {
-							if (entry.isIntersecting) {
-								tocContainer
-									.querySelectorAll(".toc-link")
-									.forEach((l) => l.classList.remove("active"));
-								link.classList.add("active");
-							}
-						}
-					});
-				},
-				{ rootMargin: "-80px 0px -80% 0px" }
-			);
-
-			headings.forEach((heading) => observer.observe(heading));
-
-			// Add dropcap to first paragraph in article body
-			const firstP = content.querySelector("p");
-			if (firstP) {
-				firstP.classList.add("dropcap", "serif");
-			}
-		}
-
-		buildToc();
-	</script>
+	{
+		(newer || older) && (
+			<nav class="blog-pager" aria-label="More posts">
+				<div>
+					{newer && (
+						<a href={`/posts/${newer.id}`}>
+							<small>Newer</small>
+							{newer.data.title}
+						</a>
+					)}
+				</div>
+				<div class="blog-pager-older">
+					{older && (
+						<a href={`/posts/${older.id}`}>
+							<small>Older</small>
+							{older.data.title}
+						</a>
+					)}
+				</div>
+			</nav>
+		)
+	}
 </Base>
