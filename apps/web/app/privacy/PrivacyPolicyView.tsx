@@ -4,7 +4,7 @@ import Link from "next/link"
 export function PrivacyPolicyView() {
   return (
     <article data-privacy-policy className="w-full">
-      <h1>Summary</h1>
+      <h1>Privacy</h1>
       <p className="text-sm text-muted-foreground">Last updated November 14, 2026.</p>
       <p>
         We respect your privacy. Your preferences are stored locally in your browser using Local
