@@ -1,15 +1,15 @@
 import Image from "next/image"
 
-import { WorkExperienceCarousel } from "./WorkExperienceCarousel"
+import { WorkExperienceCards } from "./WorkExperienceCards"
 
 export const ExperienceSection = () => (
   <div className="mx-auto mt-12 max-w-6xl">
-    <div className="grid gap-8 md:grid-cols-2">
+    <div className="grid items-start gap-8 md:grid-cols-2">
       {/* Education Section */}
       <div className="flex flex-col gap-4">
         <h2 className="text-center font-semibold text-lg">Education</h2>
-        <div className="flex flex-1 flex-col gap-3">
-          <div className="flex-1 rounded-lg border p-4">
+        <div className="flex flex-col gap-3">
+          <div className="rounded-lg border p-4">
             <div className="flex items-center gap-4">
               <Image
                 src="https://upload.wikimedia.org/wikipedia/commons/0/0d/The_University_of_California_UCLA.svg"
@@ -28,7 +28,7 @@ export const ExperienceSection = () => (
               </div>
             </div>
           </div>
-          <div className="flex-1 rounded-lg border p-4">
+          <div className="rounded-lg border p-4">
             <div className="flex items-center gap-4">
               <Image
                 src="https://upload.wikimedia.org/wikipedia/en/5/51/UC_Riverside_seal.svg"
@@ -50,11 +50,7 @@ export const ExperienceSection = () => (
         </div>
       </div>
 
-      {/* Work Experience Section */}
-      <div className="flex flex-col gap-4">
-        <h2 className="text-center font-semibold text-lg">Work Experience</h2>
-        <WorkExperienceCarousel />
-      </div>
+      <WorkExperienceCards />
     </div>
   </div>
 )

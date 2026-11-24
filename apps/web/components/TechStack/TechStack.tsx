@@ -4,7 +4,7 @@ import { Card } from "@/ui/card"
 export const TechStack = () => (
   <div className="flex flex-wrap justify-center gap-6">
     {technologies.map((tech) => (
-      <Card key={tech.category} className="h-60 w-full p-6 sm:h-52 sm:w-80 lg:w-96">
+      <Card key={tech.category} className="min-h-60 w-full p-6 sm:min-h-52 sm:w-80 lg:w-96">
         <h2 className="mb-2 text-center font-semibold text-lg">{tech.category}</h2>
         <div className="flex flex-wrap justify-center gap-2">
           {tech.skills.map((skill) => (

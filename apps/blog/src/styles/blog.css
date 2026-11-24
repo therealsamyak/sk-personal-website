@@ -34,6 +34,7 @@ body {
   padding: 4rem 1.5rem 6rem;
   color: var(--fg);
   font: 15px/1.6 var(--font-sans);
+  overflow-wrap: anywhere;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -59,8 +60,9 @@ a {
 
 .blog-nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.5rem clamp(0.625rem, 3vw, 1.25rem);
   color: var(--muted);
 }
 
