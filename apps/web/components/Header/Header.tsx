@@ -32,7 +32,7 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="relative mx-auto flex h-14 w-full max-w-full items-center justify-between px-4 md:px-6">
+      <div className="relative mx-auto flex h-14 w-full max-w-full items-center justify-between gap-2 px-4 md:px-6">
         {/* Left: Logo/Profile */}
         <div className="flex shrink-0 items-center">
           {isSubPage && (
@@ -108,8 +108,7 @@ export const Header = () => {
           )}
         </div>
 
-        {/* Center: Nav (absolute center of the page, hidden on small) */}
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 font-medium text-sm sm:flex">
+        <nav className="hidden items-center gap-1 font-medium text-sm md:flex lg:gap-4 xl:absolute xl:left-1/2 xl:-translate-x-1/2 xl:gap-6">
           {navigation.map((item) => {
             const isActive = pathname === item.href
             return (
@@ -136,7 +135,7 @@ export const Header = () => {
         </nav>
 
         {/* Right: Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           {/* Mobile Menu Button - Only show on small screens */}
           <Button
             variant="ghost"
@@ -144,7 +143,7 @@ export const Header = () => {
             ref={mobileMenuButtonRef}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
-            className="sm:hidden"
+            className="md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -153,7 +152,7 @@ export const Header = () => {
 
           <ThemeToggle />
           {personalInfo.resumeUrl && (
-            <Button variant="default" asChild className="hidden cursor-pointer sm:inline-flex">
+            <Button variant="default" asChild className="hidden cursor-pointer md:inline-flex">
               <a href={personalInfo.resumeUrl} target="_blank" rel="noopener noreferrer">
                 Resume
               </a>
@@ -164,7 +163,10 @@ export const Header = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="border-t bg-background sm:hidden">
+        <div
+          id="mobile-navigation"
+          className="max-h-[calc(100dvh-3.5rem-1px)] overflow-y-auto border-t bg-background md:hidden"
+        >
           <div className="flex flex-col gap-3 px-4 py-3">
             {navigation.map((item) => {
               const isActive = pathname === item.href

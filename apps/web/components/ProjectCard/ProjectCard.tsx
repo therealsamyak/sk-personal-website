@@ -1,11 +1,13 @@
 "use client"
 
+import { X } from "lucide-react"
 import { Dialog as DialogPrimitive } from "radix-ui"
 import Image from "next/image"
 import Link from "next/link"
 import { siGithub } from "simple-icons"
 import type { Project } from "@/config/projects"
 import { getColorClasses, getTechColor } from "@/config/tech-stack"
+import { Button } from "@/ui/button"
 import { Card, CardContent, CardFooter } from "@/ui/card"
 import { Dialog, DialogTitle, DialogTrigger } from "@/ui/dialog"
 
@@ -22,7 +24,7 @@ export const ProjectCard = ({
   loading,
 }: ProjectCardProps) => {
   return (
-    <Card className="flex h-136 w-96 flex-col overflow-hidden sm:w-80 lg:w-96">
+    <Card className="min-h-136 w-full max-w-96 sm:w-80 lg:w-96">
       <Dialog>
         <DialogTrigger asChild>
           <button
@@ -42,22 +44,27 @@ export const ProjectCard = ({
         </DialogTrigger>
         <DialogPrimitive.Portal>
           <DialogPrimitive.Overlay className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80" />
-          <p className="fixed top-4 left-1/2 z-50 -translate-x-1/2 rounded-md bg-black/60 px-3 py-1 text-center font-bold text-base text-white backdrop-blur-sm">
-            Click outside to close
-          </p>
-          <DialogPrimitive.Content className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed top-[50%] left-[50%] z-50 w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] transition-opacity duration-200 data-[state=closed]:animate-out data-[state=open]:animate-in">
-            <DialogTitle>{title}</DialogTitle>
+          <DialogPrimitive.Content className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 -translate-y-1/2 flex-col gap-2 overflow-y-auto rounded-lg border bg-background p-3 transition-opacity duration-200 data-[state=closed]:animate-out data-[state=open]:animate-in">
+            <div className="flex items-center justify-between gap-2">
+              <DialogTitle className="leading-normal">{title}</DialogTitle>
+              <Button variant="ghost" size="icon" className="size-10" asChild>
+                <DialogPrimitive.Close aria-label="Close preview">
+                  <X />
+                </DialogPrimitive.Close>
+              </Button>
+            </div>
             <DialogPrimitive.Description className="sr-only">
-              Full-size preview image for {title}. Press Escape or click outside to close.
+              Full-size preview image for {title}.
             </DialogPrimitive.Description>
-            <div className="relative aspect-video w-full rounded-lg border-4 border-border">
+            <div className="relative aspect-video max-h-[calc(100dvh-6rem)] w-full shrink-0 rounded-md bg-muted">
               <Image
                 src={image || "/placeholder.svg"}
                 alt={title}
                 fill
                 sizes="(max-width: 768px) 100vw, 896px"
                 loading={loading}
-                className="rounded-lg object-cover"
+                className="rounded-md"
+                style={{ objectFit: "contain" }}
               />
             </div>
           </DialogPrimitive.Content>
@@ -67,7 +74,7 @@ export const ProjectCard = ({
         <CardContent className="flex-1 p-4 pb-1">
           <h3 className="mb-2 text-center font-semibold text-xl">{title}</h3>
           <p className="mb-3 text-center text-muted-foreground text-sm">{description}</p>
-          <div className="flex max-h-24 flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap justify-center gap-2">
             {tags.slice(0, 12).map((tag) => (
               <span
                 key={tag}
